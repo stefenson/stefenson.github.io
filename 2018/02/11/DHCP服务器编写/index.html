@@ -72,7 +72,7 @@
 
     
         <meta property="article:published_time" content="2月 11, 2018" />
-        <meta property="article:modified_time" content="2月 11, 2018" />
+        <meta property="article:modified_time" content="2月 12, 2018" />
     
 
     <!-- The Twitter Card protocol -->
@@ -113,7 +113,7 @@
     "headline": "DHCP服务器编写",
     "url": "http://yoursite.com/2018/02/11/DHCP服务器编写/index.html",
     "datePublished": "2月 11, 2018",
-    "dateModified": "2月 11, 2018",
+    "dateModified": "2月 12, 2018",
     "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
@@ -549,7 +549,7 @@
 <p>Option125:该字段为服务器向客户端提供的认证信息，有些情况下，客户端只希望收到指定的DHCP服务器消息，所以会要求DHCP服务器携带Option125，收到报文之后将信息与预先存储的信息进行比对，比对通过才接受服务器的答复。</p>
 <h3 id="其他一些注意事项和技巧："><a href="#其他一些注意事项和技巧：" class="headerlink" title="其他一些注意事项和技巧："></a>其他一些注意事项和技巧：</h3><ul>
 <li>NAK报文一般只在下列情况下发送<blockquote>
-<p>1.续租请求非法（租约过期、无法找到旧租约、请求的IP分配给了其他设备）<br>2.Giaddr为空</p>
+<p>1.续租请求非法（租约过期、无法找到租约、请求的IP分配给了其他设备、请求的地址不在地址池中、请求的地址与Offer的不一致）<br>2.Chaddr为空</p>
 </blockquote>
 </li>
 <li>DHCP服务器分配并记录IP的过程不是在Request时发生，而是在Offer时就已经发生，Request阶段只是确认客户端是否申请了该地址，申请了就开始对客户端的租期，否则清掉Offer阶段存储的信息。<br>换句话说，Mac-&gt;IP的映射在Offer阶段就已经记录，但是Offer阶段不会定义租约。</li>
