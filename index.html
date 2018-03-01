@@ -126,7 +126,7 @@
     <!-- Import CSS & jQuery -->
     
         <style id="css/material.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/material.min.css","/css/material.min.css?fJTiM/K1J3dWIruo3pxtAw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
-        <style id="css/style.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/style.min.css","/css/style.min.css?oCSEO3ST+aEypEwttTDI9g==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        <style id="css/style.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/style.min.css","/css/style.min.css?YyGpovJgtcK6d9SlUJx7JQ==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
         
             <style id="/css/fontawesome.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("/css/fontawesome.min.css","/css/fontawesome.min.css?oOeExMqUwnGwM437AgVb5g==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
         
@@ -253,6 +253,10 @@
 
     <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
     <style type="text/css">
+    .gitment-editor-tab
+    {
+        margin: 0px;
+    }
     .gitment-editor-main
     {
         background-color: white;
@@ -261,9 +265,25 @@
     {
         background-color: white;
     }
-    canvas
+    .gitment-editor-submit:enabled
     {
-         filter: blur(1px);
+        background-color: black;
+    }
+    .gitment-editor-submit:disabled
+    {
+        background-color: gray;
+    }
+    .post_entry-module
+    {
+        -webkit-box-shadow:0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    }
+    /* canvas
+    {
+        filter: blur(1px);
+    } */
+    .MathJax
+    {
+        outline: 0;
     }
     </style>
     
@@ -272,9 +292,9 @@
                 
                     <!-- Isolation Header -->
                     <header class="header">
-    <div class="header-wrapper" style="height: 300px">
+    <div class="header-wrapper">
         <!-- Header Copyright -->
-        <div class="header-copyright">
+        <div class="header-copyright" style="bottom: -100px">
             <div class="header-site">
                 ©&nbsp;
                 <script type="text/javascript">
@@ -332,7 +352,16 @@
                     </a>
                 </span>
             
-            
+            <span class="header-nav-item">
+                <a id="BackgroundSwitch" href="javascript:switchbg()" title="暂停背景">
+                    <span id="BackgroundSwitchTitle">暂停背景</span>
+                </a>
+            </span>
+            <span class="header-nav-item">
+                <a id="MouseTrack" href="javascript:mousetrack()" title="追踪鼠标">
+                    <span id="BackgroundSwitchTitle">追踪鼠标</span>
+                </a>
+            </span>
         </nav>
 
         <!-- Header SNS -->
@@ -411,22 +440,22 @@
     <div class="post_entry-content mdl-color-text--grey-600 mdl-card__supporting-text">
         <!-- Post Title -->
         <p class="post_entry-title">
-            <a href="/2018/02/11/DHCP服务器编写/">DHCP服务器编写</a>
+            <a href="/2018/02/26/AES加密/">AES加密</a>
         </p>
 
         <!-- Post Excerpt -->
         <p class="post_entry-excerpt">
             
-                DHCP协议（Dynamic Host Configuration Protocol）是一个网络层协议，主要用于给接入设备分配IP，是目前所有路由设...
+                
             
             &nbsp;&nbsp;&nbsp;
             <span>
-                <a href="/2018/02/11/DHCP服务器编写/" target="_self">阅读全文</a>
+                <a href="/2018/02/26/AES加密/" target="_self">阅读全文</a>
             </span>
         </p>
 
         <!-- Post Tags -->
-        <ul class="post_entry-tags-list"><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/DHCP/">DHCP</a></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/网络/">网络</a></li></ul>
+        <ul class="post_entry-tags-list"><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/AES/">AES</a></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/中国剩余定理/">中国剩余定理</a></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/加密/">加密</a></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/数论/">数论</a></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/欧拉函数/">欧拉函数</a></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/欧拉定理/">欧拉定理</a></li></ul>
     </div>
 
     <!-- Post_entry Footer -->
@@ -434,7 +463,7 @@
         <div class="post_entry-footer-border"></div>
         <div class="post_entry-footer-info">
             <div class="post_entry-footer-date">
-                2月 11, 2018
+                2月 26, 2018
             </div>
             <div class="post_entry-footer-comment">
                 
@@ -470,22 +499,24 @@
     <div class="post_entry-content mdl-color-text--grey-600 mdl-card__supporting-text">
         <!-- Post Title -->
         <p class="post_entry-title">
-            <a href="/2018/02/10/test/">test</a>
+            <a href="/2018/02/24/RSA加密/">RSA加密</a>
         </p>
 
         <!-- Post Excerpt -->
         <p class="post_entry-excerpt">
             
                 
+
+大家新年好呀！新的一年祝大家事业顺利，合家欢乐！新年刚过去，不知道大家都收了多少红包呀？反正我是...
             
             &nbsp;&nbsp;&nbsp;
             <span>
-                <a href="/2018/02/10/test/" target="_self">阅读全文</a>
+                <a href="/2018/02/24/RSA加密/" target="_self">阅读全文</a>
             </span>
         </p>
 
         <!-- Post Tags -->
-        
+        <ul class="post_entry-tags-list"><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/RSA/">RSA</a></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/中国剩余定理/">中国剩余定理</a></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/加密/">加密</a></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/数论/">数论</a></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/欧拉函数/">欧拉函数</a></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/欧拉定理/">欧拉定理</a></li></ul>
     </div>
 
     <!-- Post_entry Footer -->
@@ -493,7 +524,126 @@
         <div class="post_entry-footer-border"></div>
         <div class="post_entry-footer-info">
             <div class="post_entry-footer-date">
-                2月 10, 2018
+                2月 24, 2018
+            </div>
+            <div class="post_entry-footer-comment">
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            
+        
+    
+        
+            
+            
+                <!-- Isolation Thumbnail -->
+                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out"  style="background-color: rgba(255,255,255,0.6)">
+    <!-- Post_entry Header -->
+    
+        <!-- Post Header Info -->
+        <div class="post_entry-header_info without-thumbnail">
+            <!-- Author Avatar & Name -->
+            <img src="/img/avatar.png" class="avatar-img" width="44px" height="44px" alt="Stefenson Wang's avatar">
+            <span class="name-span">Stefenson Wang</span>
+        </div>
+
+        <!-- Null Thumbnail -->
+        <div class="post_thumbnail-null">
+    
+        </div>
+
+    <!-- Post_entry Content -->
+    <div class="post_entry-content mdl-color-text--grey-600 mdl-card__supporting-text">
+        <!-- Post Title -->
+        <p class="post_entry-title">
+            <a href="/2018/02/12/PPPoE服务器编写/">PPPoE服务器编写</a>
+        </p>
+
+        <!-- Post Excerpt -->
+        <p class="post_entry-excerpt">
+            
+                按照约定，今天简单说一下编写PPPoE服务器。
+PPPoE（Point-to-Point Protocol Over Ethernet...
+            
+            &nbsp;&nbsp;&nbsp;
+            <span>
+                <a href="/2018/02/12/PPPoE服务器编写/" target="_self">阅读全文</a>
+            </span>
+        </p>
+
+        <!-- Post Tags -->
+        <ul class="post_entry-tags-list"><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/PPPoE/">PPPoE</a></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/网络/">网络</a></li></ul>
+    </div>
+
+    <!-- Post_entry Footer -->
+    <div class="post_entry-footer">
+        <div class="post_entry-footer-border"></div>
+        <div class="post_entry-footer-info">
+            <div class="post_entry-footer-date">
+                2月 12, 2018
+            </div>
+            <div class="post_entry-footer-comment">
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            
+        
+    
+        
+            
+            
+                <!-- Isolation Thumbnail -->
+                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out"  style="background-color: rgba(255,255,255,0.6)">
+    <!-- Post_entry Header -->
+    
+        <!-- Post Header Info -->
+        <div class="post_entry-header_info without-thumbnail">
+            <!-- Author Avatar & Name -->
+            <img src="/img/avatar.png" class="avatar-img" width="44px" height="44px" alt="Stefenson Wang's avatar">
+            <span class="name-span">Stefenson Wang</span>
+        </div>
+
+        <!-- Null Thumbnail -->
+        <div class="post_thumbnail-null">
+    
+        </div>
+
+    <!-- Post_entry Content -->
+    <div class="post_entry-content mdl-color-text--grey-600 mdl-card__supporting-text">
+        <!-- Post Title -->
+        <p class="post_entry-title">
+            <a href="/2018/02/11/DHCP服务器编写/">DHCP服务器编写</a>
+        </p>
+
+        <!-- Post Excerpt -->
+        <p class="post_entry-excerpt">
+            
+                DHCP协议（Dynamic Host Configuration Protocol）是一个网络层协议，主要用于给接入设备分配IP，是目前所有路由设...
+            
+            &nbsp;&nbsp;&nbsp;
+            <span>
+                <a href="/2018/02/11/DHCP服务器编写/" target="_self">阅读全文</a>
+            </span>
+        </p>
+
+        <!-- Post Tags -->
+        <ul class="post_entry-tags-list"><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/DHCP/">DHCP</a></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/网络/">网络</a></li></ul>
+    </div>
+
+    <!-- Post_entry Footer -->
+    <div class="post_entry-footer">
+        <div class="post_entry-footer-border"></div>
+        <div class="post_entry-footer-info">
+            <div class="post_entry-footer-date">
+                2月 11, 2018
             </div>
             <div class="post_entry-footer-comment">
                 
@@ -624,7 +774,7 @@ console.log('\n %c © Material Theme | Version: 1.4.0 | https://github.com/viose
 </script>
 
                     <div id="container"></div>
-                    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+                    <script src="/js/gitment.browser.js"></script>
                     <script>
                         var p_id = ''
                         if (p_id == '')
@@ -642,7 +792,8 @@ console.log('\n %c © Material Theme | Version: 1.4.0 | https://github.com/viose
                     </script>
                 </main>
             </div>
-            <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+            <!-- <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script> -->
+            <script type="text/javascript" src="/js/nest.min.js"></script>
         </body>
     
 </html>
