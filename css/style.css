@@ -281,10 +281,12 @@ a {
 #post-content table tr {
     /*    display: table;*/
 
-    background-color: #fff;
+    /* background-color: #fff; */
+    background-color: rgba(255, 255, 255, 0.5);
 }
 #post-content table tr:nth-child(2n) {
-    background-color: #f8f8f8;
+    /* background-color: #f8f8f8; */
+    background-color: rgba(240, 240, 240, 0.5);
 }
 #post-content img {
     max-width: 100%;
