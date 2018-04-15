@@ -36,7 +36,7 @@
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="Stefenson Wang">
     <meta name="description" itemprop="description" content="">
-    <meta name="keywords" content=",加密,欧拉函数,数论,RSA,中国剩余定理,欧拉定理">
+    <meta name="keywords" content=",加密,数论,RSA,中国剩余定理,欧拉定理,欧拉函数">
 
     <!-- Site Verification -->
     
@@ -68,11 +68,11 @@
     <meta property="og:title" content="RSA加密 | Stefenson&#39;s Blog">
     <meta property="og:image" content="/img/favicon.png" />
     <meta property="og:description" content="">
-    <meta property="og:article:tag" content="加密"> <meta property="og:article:tag" content="欧拉函数"> <meta property="og:article:tag" content="数论"> <meta property="og:article:tag" content="RSA"> <meta property="og:article:tag" content="中国剩余定理"> <meta property="og:article:tag" content="欧拉定理"> 
+    <meta property="og:article:tag" content="加密"> <meta property="og:article:tag" content="数论"> <meta property="og:article:tag" content="RSA"> <meta property="og:article:tag" content="中国剩余定理"> <meta property="og:article:tag" content="欧拉定理"> <meta property="og:article:tag" content="欧拉函数"> 
 
     
         <meta property="article:published_time" content="2月 24, 2018" />
-        <meta property="article:modified_time" content="3月 01, 2018" />
+        <meta property="article:modified_time" content="3月 06, 2018" />
     
 
     <!-- The Twitter Card protocol -->
@@ -113,7 +113,7 @@
     "headline": "RSA加密",
     "url": "http://yoursite.com/2018/02/24/RSA加密/index.html",
     "datePublished": "2月 24, 2018",
-    "dateModified": "3月 01, 2018",
+    "dateModified": "3月 06, 2018",
     "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
@@ -135,7 +135,6 @@
 
     <!-- Import lsloader -->
     <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(key){try{localStorage.removeItem(key)}catch(e){}};lsloader.setLS=function(key,val){try{localStorage.setItem(key,val)}catch(e){}};lsloader.getLS=function(key){var val="";try{val=localStorage.getItem(key)}catch(e){val=""}return val};versionString="/*"+materialVersion+"*/";lsloader.clean=function(){try{var keys=[];for(var i=0;i<localStorage.length;i++){keys.push(localStorage.key(i))}keys.forEach(function(key){var data=lsloader.getLS(key);if(data&&data.indexOf(versionString)===-1){lsloader.removeLS(key)}})}catch(e){}};lsloader.clean();lsloader.load=function(jsname,jspath,cssonload){cssonload=cssonload||function(){};var code;code=this.getLS(jsname);if(code&&code.indexOf(versionString)===-1){this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}if(code){var versionNumber=code.split(versionString)[0];if(versionNumber!=jspath){console.log("reload:"+jspath);this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}code=code.split(versionString)[1];if(/\.js?.+$/.test(versionNumber)){this.jsRunSequence.push({name:jsname,code:code});this.runjs(jspath,jsname,code)}else{document.getElementById(jsname).appendChild(document.createTextNode(code));cssonload()}}else{this.requestResource(jsname,jspath,cssonload)}};lsloader.requestResource=function(name,path,cssonload){var that=this;if(/\.js?.+$/.test(path)){this.iojs(path,name,function(path,name,code){that.setLS(name,path+versionString+code);that.runjs(path,name,code)})}else if(/\.css?.+$/.test(path)){this.iocss(path,name,function(code){document.getElementById(name).appendChild(document.createTextNode(code));that.setLS(name,path+versionString+code)},cssonload)}};lsloader.iojs=function(path,jsname,callback){var that=this;that.jsRunSequence.push({name:jsname,code:""});try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(path,jsname,xhr.response);return}}that.jsfallback(path,jsname)}};xhr.send(null)}catch(e){that.jsfallback(path,jsname)}};lsloader.iocss=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.iofonts=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.runjs=function(path,name,code){if(!!name&&!!code){for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code=code}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var script=document.createElement("script");script.appendChild(document.createTextNode(this.jsRunSequence[0].code));script.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(script);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var that=this;var script=document.createElement("script");script.src=this.jsRunSequence[0].path;script.type="text/javascript";this.jsRunSequence[0].status="loading";script.onload=function(){that.jsRunSequence.shift();if(that.jsRunSequence.length>0){that.runjs()}};document.body.appendChild(script)}};lsloader.tagLoad=function(path,name){this.jsRunSequence.push({name:name,code:"",path:path,status:"failed"});this.runjs()};lsloader.jsfallback=function(path,name){if(!!this.jsnamemap[name]){return}else{this.jsnamemap[name]=name}for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code="";this.jsRunSequence[k].status="failed";this.jsRunSequence[k].path=path}}this.runjs()};lsloader.cssfallback=function(path,name,cssonload){if(!!this.cssnamemap[name]){return}else{this.cssnamemap[name]=1}var link=document.createElement("link");link.type="text/css";link.href=path;link.rel="stylesheet";link.onload=link.onerror=cssonload;var root=document.getElementsByTagName("script")[0];root.parentNode.insertBefore(link,root)};lsloader.runInlineScript=function(scriptId,codeId){var code=document.getElementById(codeId).innerText;this.jsRunSequence.push({name:scriptId,code:code});this.runjs()};lsloader.loadCombo=function(jslist){var updateList="";var requestingModules={};for(var k in jslist){var LS=this.getLS(jslist[k].name);if(!!LS){var version=LS.split(versionString)[0];var code=LS.split(versionString)[1]}else{var version=""}if(version==jslist[k].path){this.jsRunSequence.push({name:jslist[k].name,code:code,path:jslist[k].path})}else{this.jsRunSequence.push({name:jslist[k].name,code:null,path:jslist[k].path,status:"comboloading"});requestingModules[jslist[k].name]=true;updateList+=(updateList==""?"":";")+jslist[k].path}}var that=this;if(!!updateList){var xhr=new XMLHttpRequest;xhr.open("get",combo+updateList,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){that.runCombo(xhr.response,requestingModules);return}}else{for(var i in that.jsRunSequence){if(requestingModules[that.jsRunSequence[i].name]){that.jsRunSequence[i].status="failed"}}that.runjs()}}};xhr.send(null)}this.runjs()};lsloader.runCombo=function(comboCode,requestingModules){comboCode=comboCode.split("/*combojs*/");comboCode.shift();for(var k in this.jsRunSequence){if(!!requestingModules[this.jsRunSequence[k].name]&&!!comboCode[0]){this.jsRunSequence[k].status="comboJS";this.jsRunSequence[k].code=comboCode[0];this.setLS(this.jsRunSequence[k].name,this.jsRunSequence[k].path+versionString+comboCode[0]);comboCode.shift()}}this.runjs()}})();</script>
-
     <!-- Import CSS & jQuery -->
     
         <style id="css/material.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/material.min.css","/css/material.min.css?fJTiM/K1J3dWIruo3pxtAw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
@@ -254,7 +253,6 @@
 
         <script>lsloader.load("js/jquery.min.js","/js/jquery.min.js?ezyEvm8ST5CGfpA+kFFi1g==")</script>
     
-    
     <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
 
     <!-- Analytics -->
@@ -286,6 +284,10 @@
     {
         background-color: gray;
     }
+    .post_entry-tags-list-count
+    {
+        color: white;
+    }
     /* canvas
     {
         filter: blur(1px);
@@ -293,6 +295,29 @@
     .MathJax
     {
         outline: 0;
+    }
+    #post-content pre
+    {
+        font-family: "Consolas","Monaco";
+        background-color: rgba(0, 0, 0, 0);
+    }
+    #post-content table tr
+    {
+        background-color: rgba(0, 0, 0, 0);
+    }
+    .gutter
+    {
+        color: rgb(192, 192, 192);
+        background-color: rgba(17, 17, 31, 0.5);
+    }
+    .code
+    {
+        color: rgb(255, 240, 192);
+    }
+    figure
+    {
+        background-color: rgba(17, 17, 31, 0.5);
+        border-radius: 3px;
     }
     </style>
     
@@ -440,8 +465,10 @@
         <!-- Post Header Info -->
         <div class="post-header_info without-thumbnail">
             <!-- Author Avatar & Name -->
-            <img src="/img/avatar.png" class="avatar-img" width="44px" height="44px" alt="Stefenson Wang's avatar">
-            <span class="name-span">Stefenson Wang</span>
+            <a href="/about" style="text-decoration: none; color: #333">
+                <img src="/img/avatar.png" class="avatar-img" width="44px" height="44px" alt="Stefenson Wang's avatar">
+                <span class="name-span">Stefenson Wang</span>
+            </a>
         </div>
 
         <!-- Null Thumbnail -->
@@ -489,10 +516,14 @@
 <li>如果\(a\equiv b\;(mod\;n)\)，则\(a + kn\equiv b\;(mod\;n)\)</li>
 <li>如果\(a\equiv b\;(mod\;n)\)，\(b\equiv c\;(mod\;n)\)，则\(a\equiv c\;(mod\;n)\)</li>
 <li>如果\(a\equiv b\;(mod\;n)\)，则\(ax\equiv bx\;(mod\;n)\)</li>
+<li><strong> 如果\(ax\equiv bx\;(mod\;n)\)，且\(x,n\)互质，则\(a\equiv b\;(mod\;n)\) * </strong></li>
 <li>如果\(a\equiv b\;(mod\;n)\)，\(c\equiv d\;(mod\;n)\)，则\(a\pm c\equiv b\pm d\;(mod\;n)\)，\(ac\equiv bd\;(mod\;n)\)</li>
 <li>如果\(a\equiv b\;(mod\;n)\)，\(n=m_1 m_2 … m_n\)，则\(a\equiv b\;(mod\;m_1)\)，\(a\equiv b\;(mod\;m_2)…a\equiv b\;(mod\;m_n)\)</li>
 </ul>
-<p>其实还有很多性质，这里就不再一一列举。<br>上面这些性质证明过程都比较简单，这里简单说一下证明思路：\(a\equiv b\;(mod\;n)\)换一种表达方式就是\(a=kn + b\)，通过这个转换这些性质都能够得到证明。</p>
+<p>其实还有很多性质，这里就不再一一列举。<br>上面这些性质证明过程都比较简单，这里简单说一下证明思路：\(a\equiv b\;(mod\;n)\)换一种表达方式就是\(a=kn + b\)，通过这个转换这些性质都能够得到证明。<br>关于 * 标记的性质，这里需要解释一下：</p>
+<blockquote>
+<p>如果\(ax\equiv bx\;(mod\;n)\)，那么\(ax = kn + bx\)，则有\(a = \frac{kn}{x} + b\)，如果令结果还在整数范围内，那么\(kn\)需要为\(x\)的倍数，由于结论要求\(a\equiv b\;(mod\;n)\)，则有因子\(n\)不能被分解，所以\(k\)一定为\(x\)的倍数，要保证\(k\)为\(x\)的倍数，只有\(x\)与\(n\)互质的时候，所以要求\(x\)与\(n\)互质。</p>
+</blockquote>
 <p>模运算是RSA证明过程的基石，必须理解。</p>
 <h3 id="扩展欧几里得算法"><a href="#扩展欧几里得算法" class="headerlink" title="扩展欧几里得算法"></a>扩展欧几里得算法</h3><p>欧几里得算法即辗转相除法，求两个数最大公约数的算法，这里记求两数最大公约数的函数为\(gcd(x, y)\)。<br>扩展欧几里得算法描述为：两个整数\(a, b\)，必存在参数\(x, y\)使得\(ax + by = gcd(a, b)\)。</p>
 <p>扩展欧几里得算法其实就是欧几里得算法的逆过程，举例\(37\)和\(23\)：</p>
@@ -525,7 +556,7 @@
 </ol>
 <p><strong>证明：</strong><br>首先，\(M_i\)在模\(m_i\)上肯定存在模逆元\(t_i\)就不再证明了，\(t_iM_i\equiv 1\;(mod\;m_i)\)。<br>考察乘积\(a_it_iM_i\)<br>$$<br>a_it_iM_i\equiv a_i·1\equiv a_i\;(mod\;m_i) \\<br>a_it_iM_i\equiv 0\;(mod\;m_j) (i\neq j)<br>$$<br>所以关于\(x=a_1t_1M_1+a_2t_2M_2+…+a_nt_nM_n\)有\(x\equiv a_1t_1M_1+a_2t_2M_2+…+a_nt_nM_n\equiv a_it_iM_i+0\equiv a_i\;(mod\;m_i)\)。<br>所以\(x\)是关于方程组的一个解。<br>若\(x_1,x_2\)都是方程组的解，则根据模运算性质易得\(x_1-x_2\equiv 0\;(mod\;m_i)\)。<br>另\(X=x_1-x_2\)，则由于\(X\equiv 0\;(mod\;m_i)\)，所以\(X\)是所有\(m_i\)的公倍数。<br>又由于\(m_1,m_2…m_n\)两两互质，根据公倍数求解过程，\(m_1,m_2…m_n\)的最小公倍数为\(m_1m_2…m_n\)即\(M\)。<br>所以\(X\)只能是\(M\)的整数倍，即\(X=kM\)。<br>所以两个解之间相差\(kM\)。<br>所以通解为\(x=a_1t_1M_1+a_2t_2M_2+…+a_nt_nM_n+kM\)</p>
 <p>中国剩余定理在后面欧拉函数积性的证明里面会用到。</p>
-<h3 id="欧拉函数"><a href="#欧拉函数" class="headerlink" title="欧拉函数"></a>欧拉函数</h3><p>欧拉函数是小于\(n\)的正整数中与\(n\)互质的数的数目，计作\(\phi(n)\)。<br>比如：\(\phi(2)=1\)，\(\phi(4)=2\)，\(\phi(10)=4\)。<br>至于欧拉函数的计算方法这里不是讨论的重点，基础方法就是枚举小于\(n\)的所有正整数，找出其中与其互质的数并统计个数。<br>欧拉函数有如下性质：<br><strong>1. \(\phi(1)=1\)，\(\phi(2)=1\)，当\(n&gt;2\)时，\(\phi(n)\)一定为偶数。</strong><br><strong>2. \(\phi(p)=p-1\)，\(p\)为质数。</strong><br><strong>3. 若\(n=p^k\)，\(p\)为质数，则\(\phi(n)=\phi(p^k)=p^k-p^{k-1}\)。</strong><br><strong>证明</strong>：若\(n=p^k\)，\(p\)为质数，则不大于\(n\)且与\(n\)互质的数一定不是\(p\)的倍数且只能是这些数，不大于\(n\)的数有\(p^k\)个，其中\(p\)的倍数有\(p^{k-1}\)个\(\{p, 2p, 3p…p^{k-1}p\}\)，所以\(\phi(n)=\phi(p^k)=p^k-p^{k-1}\)。<br><strong>4. 若\(n=p_1p_2\)，且\(p_1,p_2\)互质，那么\(\phi(n)=\phi(p_1)\phi(p_2)\)，这个性质称为欧拉函数的积性。</strong><br><strong>证明</strong>：搜罗了好多资料，关于这条性质的证明非常复杂，大部分都要牵扯到环、域、剩余集这些概念，非常晦涩难懂，并且要钻研的资料会进一步增多，这里秉承浅显通俗的理念，找到了一个相对来说没那么头疼的证明，这里分享一下：<br>原文链接：<a href="http://blog.sina.com.cn/s/blog_455c7a600102vxpq.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_455c7a600102vxpq.html</a><br>构造一个矩阵：<br>$$<br>\begin{matrix}<br>1        &amp; 2        &amp; … &amp; r        &amp; … &amp; m \\<br>m+1      &amp; m+2      &amp; … &amp; m+r      &amp; … &amp; 2m \\<br>2m+1     &amp; 2m+2     &amp; … &amp; 2m+r     &amp; … &amp; 3m \\<br>\vdots   &amp; \vdots   &amp;     &amp; \vdots   &amp;     &amp; \vdots \\<br>(n-1)m+1 &amp; (n-1)m+2 &amp; … &amp; (n-1)m+r &amp; … &amp; mn<br>\end{matrix}<br>$$<br>矩阵中所有的数即不大于\(mn\)的所有正整数。<br>考察列：由于\(gcd(km+r,m)=gcd(r,m)\)，所以这些列每一个元素与\(m\)互质的条件为\(r\)与\(m\)互质。<br>这样的\(r\)有\(\phi(m)\)个，选中了矩阵\(\phi(m)\)列。<br>再考察这些列里面的元素：\(\{r, m+r, 2m+r…(n-1)m+r\}\)。<br>根据模运算的性质，这些数在模\(n\)上恰好取遍所有结果。</p>
+<h3 id="欧拉函数"><a href="#欧拉函数" class="headerlink" title="欧拉函数"></a>欧拉函数</h3><p>欧拉函数是小于\(n\)的正整数中与\(n\)互质的数的数目，计作\(\phi(n)\)。<br>比如：\(\phi(2)=1\)，\(\phi(4)=2\)，\(\phi(10)=4\)。<br>至于欧拉函数的计算方法这里不是讨论的重点，基础方法就是枚举小于\(n\)的所有正整数，找出其中与其互质的数并统计个数。<br>欧拉函数有如下性质：<br><strong>1. \(\phi(1)=1\)，\(\phi(2)=1\)，当\(n&gt;2\)时，\(\phi(n)\)一定为偶数。</strong><br><strong>2. \(\phi(p)=p-1\)，\(p\)为质数。</strong><br><strong>3. 若\(n=p^k\)，\(p\)为质数，则\(\phi(n)=\phi(p^k)=p^k-p^{k-1}\)。</strong><br><strong>证明</strong>：若\(n=p^k\)，\(p\)为质数，则不大于\(n\)且与\(n\)互质的数一定不是\(p\)的倍数且只能是这些数，不大于\(n\)的数有\(p^k\)个，其中\(p\)的倍数有\(p^{k-1}\)个\(\{p, 2p, 3p…p^{k-1}p\}\)，所以\(\phi(n)=\phi(p^k)=p^k-p^{k-1}\)。<br><strong>4. 若\(n=p_1p_2\)，且\(p_1,p_2\)互质，那么\(\phi(n)=\phi(p_1)\phi(p_2)\)，这个性质称为欧拉函数的积性。</strong><br><strong>证明</strong>：搜罗了好多资料，关于这条性质的证明非常复杂，大部分都要牵扯到环、域、剩余集这些概念，非常晦涩难懂，并且要钻研的资料会进一步增多，这里秉承浅显通俗的理念，找到了一个相对来说没那么头疼的证明，这里分享一下：<br>原文链接：<a href="http://blog.sina.com.cn/s/blog_455c7a600102vxpq.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_455c7a600102vxpq.html</a><br>构造一个矩阵：<br>$$<br>\begin{matrix}<br>1        &amp; 2        &amp; … &amp; r        &amp; … &amp; m \\<br>m+1      &amp; m+2      &amp; … &amp; m+r      &amp; … &amp; 2m \\<br>2m+1     &amp; 2m+2     &amp; … &amp; 2m+r     &amp; … &amp; 3m \\<br>\vdots   &amp; \vdots   &amp;     &amp; \vdots   &amp;     &amp; \vdots \\<br>(n-1)m+1 &amp; (n-1)m+2 &amp; … &amp; (n-1)m+r &amp; … &amp; mn<br>\end{matrix}<br>$$<br>矩阵中所有的数即不大于\(mn\)的所有正整数。<br>由于\(m,n\)互质，所以与\(mn\)互质的整数必与\(m\)和\(n\)互质。<br>考察列：由于\(gcd(km+r,m)=gcd(r,m)\)，所以这些列每一个元素与\(m\)互质的条件为\(r\)与\(m\)互质。<br>这样的\(r\)有\(\phi(m)\)个，选中了矩阵\(\phi(m)\)列。<br>再考察这些列里面的元素：\(\{r, m+r, 2m+r…(n-1)m+r\}\)。<br>根据模运算的性质，这些数在模\(n\)上恰好取遍所有结果。</p>
 <blockquote>
 <p><strong>展开来说一下</strong>：\(n\)的所有模构成集合\(N=\{0, 1, 2…n-1\}\)，由于\(m\)与\(n\)互质，所以\(mN\)中所有元素在模\(n\)上依旧取遍所有结果。</p>
 <blockquote>
@@ -533,7 +564,8 @@
 </blockquote>
 <p>然后\(mN+r\)相当于所有元素在数轴上平移相同单位，不难证明它们模循环移动了相同单位，依旧在模\(n\)上取遍所有结果，得证。</p>
 </blockquote>
-<p>而这些数中与\(n\)互质的数有\(\phi(n)\)个，所以总数有\(\phi(m)\phi(n)\)个，即\(\phi(mn)=\phi(m)\phi(n)\)，证明完毕。<br>其他的证明方法理解起来相对困难，这里给几个参考：<br>不使用中国剩余定理<a href="http://www.cnblogs.com/372465774y/archive/2012/10/16/2726282.html" target="_blank" rel="noopener">http://www.cnblogs.com/372465774y/archive/2012/10/16/2726282.html</a></p>
+<p>而这些数中与\(n\)互质的数有\(\phi(n)\)个，所以总数有\(\phi(m)\phi(n)\)个，即\(\phi(mn)=\phi(m)\phi(n)\)，证明完毕。</p>
+<p>其他的证明方法理解起来相对困难，这里给几个参考：<br>不使用中国剩余定理<a href="http://www.cnblogs.com/372465774y/archive/2012/10/16/2726282.html" target="_blank" rel="noopener">http://www.cnblogs.com/372465774y/archive/2012/10/16/2726282.html</a></p>
 <blockquote>
 <p>这篇文章后来想了一下，其实还是比较好理解的一篇，这里展开讲一下。<br>假设\(n,m\)互质，\(N\)为不大于\(n\)且与\(n\)互质的数组成的集合，\(M\)为不大于\(m\)且与\(m\)互质的数组成的集合，\(Z\)为不大于\(mn\)且与\(mn\)互质的数组成的集合。不难发现\(N\)元素有\(\phi(n)\)个，\(M\)元素有\(\phi(m)\)个，\(Z\)元素有\(\phi(mn)\)个。记\(M,N,Z\)中元素分别为\(m_{i},n_{i},z_{i}\)，那么我们要证明的这条定理只需要证明下面几个结论成立即可：</p>
 <blockquote>
@@ -548,7 +580,7 @@
 <p>这个写的很散，排版也不好<a href="https://www.cnblogs.com/Liisa/p/7228717.html" target="_blank" rel="noopener">https://www.cnblogs.com/Liisa/p/7228717.html</a><br>文库里面的<a href="https://wenku.baidu.com/view/4cf720a8284ac850ad02423c.html" target="_blank" rel="noopener">https://wenku.baidu.com/view/4cf720a8284ac850ad02423c.html</a><br>这个排版稍微好一点<a href="https://weilai5432.github.io/2015/07/29/欧拉函数+中国剩余定理/" target="_blank" rel="noopener">https://weilai5432.github.io/2015/07/29/欧拉函数+中国剩余定理/</a><br>这些证明归根结底是通过中国剩余定理，得到一个关于\(p_1\)的互质同余集与\(p_2\)的互质同余集到\(p_1p_2\)的互质同余集的一个映射关系，当取遍前两者所有元素进行一一配对之后恰好也取遍后者所有元素。<br>如果真的看不懂的话，那就记住这个结论吧……<br><strong>5. 任何整数都可以拆成若干质数的积，所以对于任意整数\(z\)有\(\phi(z)=\phi(p_1^{k_1}p_2^{k_2}…p_n^{k_n})=z(1-\frac{1}{p_1})(1-\frac{1}{p_2})…(1-\frac{1}{p_n})\)</strong><br><strong>证明</strong>：由于\(z=p_1^{k_1}p_2^{k_2}…p_n^{k_n}\)，并且任意两个质数都是互质关系。所以<br>$$\begin{align}<br>\phi(z)&amp;=\phi(p_1^{k_1})\phi(p_2^{k_2})…\phi(p_n^{k_n}) \\<br>       &amp;=p_1^{k_1}(1-\frac{1}{p_1})p_2^{k_2}(1-\frac{1}{p_2})…p_n^{k_n}(1-\frac{1}{p_n}) \\<br>       &amp;=p_1^{k_1}p_2^{k_2}…p_n^{k_n}(1-\frac{1}{p_1})(1-\frac{1}{p_2})…(1-\frac{1}{p_n}) \\<br>       &amp;=z(1-\frac{1}{p_1})(1-\frac{1}{p_2})…(1-\frac{1}{p_n})<br>\end{align}$$</p>
 <h3 id="欧拉定理"><a href="#欧拉定理" class="headerlink" title="欧拉定理"></a>欧拉定理</h3><p>欧拉定理内容：若\(n,a\)为正整数，并且\(n,a\)互质，则\(a^{\phi(n)}\equiv 1\;(mod\;n)\)<br><strong>证明</strong>：<br>将\([1,n]\)中与\(n\)互质的数按照从小到大顺序排列，这些数构成集合：\(\{x_1,x_2…x_{\phi(n)}\}\)。<br>考察这些数：\(m_1=ax_1,m_2=ax_2…m_{\phi(n)}=ax_{\phi(n)}\)<br>这些数有如下性质：<br><strong>(1)任意两个数模\(n\)不同余</strong><br>因为若\(m_j-m_i\equiv 0\;(mod\;n)\)，则\(a(x_j-x_i)=kn\)，由于\(x_j-x_i\)一定小于\(n\)不可能是\(n\)的倍数，\(n,a\)互质，所以等式不可能成立。所以任意两个数模\(n\)不同余<br><strong>(2)任意一个数模\(n\)，结果与\(n\)互质</strong><br>因为在\(ax_i\equiv t\;(mod\;n)\)，有\(ax_i=kn+t\)。<br>若\(gcd(t,n)=r\)，假设\(n=pr,t=qr\)，则\(ax_i=(kp+q)r\)。<br>说明\(m_i\)也是\(r\)的倍数，\(ax_i,n\)存在公约数\(r\)。<br>而\(gcd(a,n)=1,gcd(x_i,n)=1\)，所以\(ax_i,n\)的公约数不可能为\(r\)。<br>所以任意一个数模\(n\)，结果与\(n\)互质。<br>由(1)(2)可知，\(ax_1,ax_2…ax_{\phi(n)}\)一定一一对应同余于\(x_1,x_2…x_{\phi(n)}\)<br>则有：\(ax_1⋅ax_2⋅…⋅ax_{\phi(n)}\equiv x_1x_2…x_{\phi(n)}\;(mod\;n)\)。<br>则有：\(a^{\phi(n)}\equiv 1\;(mod\;n)\)，得证。</p>
 <p>到这里，RSA的基本原理中的重要定理<strong>欧拉定理</strong>算是从根源到表面完全探究了一遍，下面来看RSA自己的证明。</p>
-<h3 id="正篇：RSA算法的证明"><a href="#正篇：RSA算法的证明" class="headerlink" title="正篇：RSA算法的证明"></a>正篇：RSA算法的证明</h3><p>把上面RSA加密算法中出现的各个项目按照刚刚讲所有知识点再表达一遍：\(\phi(n)\)是欧拉函数，\(d,e\)是关于模\(\phi(n)\)的模逆元且\(e,\phi(n)\)互质。<br>再来看加密和解密的公式：<br>$$<br>Encode: S=D^e\;\%\;n \\<br>Decode: D=S^d\;\%\;n<br>$$<br>要证明解密过程的正确性，我们先将它们表示成我们刚刚熟悉的表达形式<br>$$<br>D^e\equiv S\;(mod\;n) \\<br>S^d\equiv D\;(mod\;n)<br>$$<br>加密公式换一种形式：<br>$$<br>D^e=kn+S \Rightarrow S=D^e-kn<br>$$<br>带入到解密式子中<br>$$<br>(D^e-kn)^d\equiv D\;(mod\;n) \Rightarrow D^{de}\equiv D\;(mod\;n)<br>$$<br>由于\(de\equiv 1\;(mod\;\phi(n))\)，所以\(de=t\phi(n) + 1\)。<br>因此问题转化为了证明\(D^{t\phi(n)}\equiv 1\;(mod\;n)\)成立。<br>分两种情况讨论<br><strong>(1)若\(D,n\)互质</strong><br>根据欧拉定理有\(D^{\phi(n)}\equiv 1\;(mod\;n)\)，因此\(D^{t\phi(n)}\equiv 1\;(mod\;n)\)成立。<br><strong>(2)若\(D,n\)不互质</strong><br>由于\(n=pq\)，\(p,q\)都是质数。<br>所以\(D\)一定是\(p\)或者\(q\)的倍数，并且由于\(D&lt;n\)，\(D\)不会为\(p，q\)的公倍数。<br>所以\(D=hp\)或者\(D=hq\)。<br>这里令\(D=hp\)，容易证明\(D,q\)一定互质。<br>则有：\(D^{\phi(q)}\equiv 1\;(mod\;q)\)。<br>所以：<br>$$<br>(D^{\phi(q)})^{t\phi(p)}\equiv 1\;(mod\;q) \\<br>\Rightarrow D^{t\phi(q)\phi(p)}\equiv 1\;(mod\;q) \\<br>\Rightarrow D^{t\phi(n) + 1}\equiv D\;(mod\;q) \\<br>\Rightarrow D^{de}\equiv D\;(mod\;q) \\<br>\Rightarrow D^{de}=rq + D<br>$$<br>根据假设，\(D\)为\(p\)的倍数，\(p,q\)互质，所以\(r\)为\(p\)的倍数，假设\(rq=spq=sn\)，则有<br>$$<br>D^{de}\equiv sn + D\equiv D\;(mod\;n)<br>$$<br>得证。</p>
+<h3 id="正篇：RSA算法的证明"><a href="#正篇：RSA算法的证明" class="headerlink" title="正篇：RSA算法的证明"></a>正篇：RSA算法的证明</h3><p>把上面RSA加密算法中出现的各个项目按照刚刚讲所有知识点再表达一遍：\(\phi(n)\)是欧拉函数，\(d,e\)是关于模\(\phi(n)\)的模逆元且\(e,\phi(n)\)互质。<br>再来看加密和解密的公式：<br>$$<br>Encode: S=D^e\;\%\;n \\<br>Decode: D=S^d\;\%\;n<br>$$<br>要证明解密过程的正确性，我们先将它们表示成我们刚刚熟悉的表达形式<br>$$<br>D^e\equiv S\;(mod\;n) \\<br>S^d\equiv D\;(mod\;n)<br>$$<br>加密公式换一种形式：<br>$$<br>D^e=kn+S \Rightarrow S=D^e-kn<br>$$<br>带入到解密式子中<br>$$<br>(D^e-kn)^d\equiv D\;(mod\;n) \Rightarrow D^{de}\equiv D\;(mod\;n)<br>$$<br>由于\(de\equiv 1\;(mod\;\phi(n))\)，所以\(de=t\phi(n) + 1\)。<br>因此问题转化为了证明\(D^{t\phi(n) + 1}\equiv D\;(mod\;n)\)成立。<br>分两种情况讨论<br><strong>(1)若\(D,n\)互质</strong><br>根据欧拉定理有\(D^{\phi(n)}\equiv 1\;(mod\;n)\)，因此\(D^{t\phi(n) + 1}\equiv D\;(mod\;n)\)成立。<br><strong>(2)若\(D,n\)不互质</strong><br>由于\(n=pq\)，\(p,q\)都是质数。<br>所以\(D\)一定是\(p\)或者\(q\)的倍数，并且由于\(D&lt;n\)，\(D\)不会为\(p，q\)的公倍数。<br>所以\(D=hp\)或者\(D=hq\)。<br>这里令\(D=hp\)，容易证明\(D,q\)一定互质。<br>则有：\(D^{\phi(q)}\equiv 1\;(mod\;q)\)。<br>所以：<br>$$<br>(D^{\phi(q)})^{t\phi(p)}\equiv 1\;(mod\;q) \\<br>\Rightarrow D^{t\phi(q)\phi(p)}\equiv 1\;(mod\;q) \\<br>\Rightarrow D^{t\phi(n) + 1}\equiv D\;(mod\;q) \\<br>\Rightarrow D^{de}\equiv D\;(mod\;q) \\<br>\Rightarrow D^{de}=rq + D<br>$$<br>根据假设，\(D\)为\(p\)的倍数，\(p,q\)互质，所以\(r\)为\(p\)的倍数，假设\(rq=spq=sn\)，则有<br>$$<br>D^{de}\equiv sn + D\equiv D\;(mod\;n)<br>$$<br>得证。</p>
 <h3 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h3><p>加密算法在安全领域里面是最重要的算法，RSA最为最早的非对称加密算法绝对是具有学习的价值的，后来发展的非对称加密算法或多或少都受到一点RSA算法的影响，或者是在RSA算法基础上的拓展（比如不用整数域改用圆锥曲线上的有限域等）。<br>RSA算法可靠吗？答案是在选取足够大的质数下是很可靠的。<br>我们考察一下RSA在加密信息传递过程的值，可发现只传递加密值\(S\)，\(n\)双方各保留一份，解密所需的私钥为\(d\)，\(d\)泄漏也就意味着泄密，那么有没有可能通过公钥\(e\)和\(n\)推出私钥\(d\)呢？这其实也就是加密的环节泄漏，解密环节是否可以被推知的问题。<br>RSA加密过程中，如果要得到私钥\(d\)，与私钥\(d\)有关的变量只有\(e,\phi(n)\)，\(de\equiv 1\;(mod\;\phi(n))\)。也就是要得到\(\phi(n)\)的值。<br>要计算\(\phi(n)\)，有两种方法，一种是枚举，显然在两个质数足够大的时候这个耗时是不现实的；一种是得知\(n\)算得时的两个质数\(p,q\)，利用欧拉函数性质计算，这样就需要对\(n\)进行因式分解。<br>如果将来发展出一种快速的因式分解方法，那么RSA加密可靠性将大大下降，然而事实是现阶段没有任何一种有效的因式分解方法，所以RSA在现阶段依旧是安全的。<br>目前针对RSA的因式分解，一个是在1999年分解的RSA-155 (512 bits)，花了五个月时间（约8000 MIPS年）和224 CPU hours在一台有3.2G中央内存的Cray C916计算机上完成。一个是在2009年12月12日分解的编号为RSA-768 (768 bits, 232 digits)。这一事件威胁了现通行的1024-bit密钥的安全性，普遍认为用户应尽快升级到2048-bit或以上。<br>所以在现阶段，RSA加密领域在1024位以上是相对安全的。<br>所以从这段描述中，你是不是发现了啥？没错，要实现现阶段可靠的RSA算法，你必须实现大数计算算法，因为现阶段的数据结构中达不到RSA计算要求的位数。<br>也可以说，现阶段实现可靠的RSA加密算法，其实就是实现一个大数运算算法。<br>当然Java有自带类可以帮助完成的，但是那样就感觉有点无聊了。<br>关于大数运算的逻辑，这里不在过多叙述，感兴趣的我这里有一个C#类，除了除法其他的都实现了，想要的可以联系我。</p>
 <p>OK，今天就先写到这里，Have a nice day～</p>
 
@@ -709,25 +741,53 @@ console.log('\n %c © Material Theme | Version: 1.4.0 | https://github.com/viose
 
                     <div id="container"></div>
                     <script src="/js/gitment.browser.js"></script>
+
+                    <div id="loadComment" class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out"  style="background-color: rgba(0, 47, 85, 0.5); min-height: 32px; margin-bottom: 0px;">
+                        <center style="margin-top: 6px;">
+                            <a href="javascript:loadComment()" title="加载评论" style="color: rgb(129, 248, 228); text-decoration: none;">
+                                <span id="BackgroundSwitchTitle">加载评论</span>
+                            </a>
+                        </center>
+                    </div>
+
                     <script>
-                        var p_id = 'RSA加密'
-                        if (p_id == '')
-                            p_id = 'home'
-                        var gitment = new Gitment({
-                            id: p_id,
-                            owner: 'stefenson',
-                            repo: 'blog_comment',
-                            oauth: {
-                                client_id: '11eae2a971d306a1da92',
-                                client_secret: '4ab3eb2e110d470092f71f89ad8126654048f609',
-                            },
-                        })
-                        gitment.render('container')
+                        function loadComment() {
+                            var p_id = 'RSA加密'
+                            if (p_id == '')
+                                p_id = 'home'
+                            var gitment = new Gitment({
+                                id: p_id,
+                                owner: 'stefenson',
+                                repo: 'blog_comment',
+                                oauth: {
+                                    client_id: '11eae2a971d306a1da92',
+                                    client_secret: '4ab3eb2e110d470092f71f89ad8126654048f609',
+                                },
+                            })
+                            gitment.render('container')
+
+                            var lc_btn = document.getElementById("loadComment");
+                            var m = document.getElementById("main");
+                            m.removeChild(lc_btn);
+                        }
                     </script>
                 </main>
             </div>
             <!-- <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script> -->
             <script type="text/javascript" src="/js/nest.min.js"></script>
+            <script>
+            (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/f5a96f80.js","daovoice")
+            daovoice('init', {
+                app_id: "f5a96f80"
+            });
+            daovoice('update');
+            </script>
+            <style>
+            #daodream-container .daodream-sheet-header
+            {
+                background-image: none;
+            }
+            </style>
         </body>
     
 </html>
