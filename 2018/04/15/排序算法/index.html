@@ -72,7 +72,7 @@
 
     
         <meta property="article:published_time" content="4月 15, 2018" />
-        <meta property="article:modified_time" content="4月 16, 2018" />
+        <meta property="article:modified_time" content="4月 17, 2018" />
     
 
     <!-- The Twitter Card protocol -->
@@ -113,7 +113,7 @@
     "headline": "排序算法",
     "url": "http://yoursite.com/2018/04/15/排序算法/index.html",
     "datePublished": "4月 15, 2018",
-    "dateModified": "4月 16, 2018",
+    "dateModified": "4月 17, 2018",
     "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
@@ -511,21 +511,21 @@
 <h3 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h3><p>这个简单一句话概括就是优化后的插入排序，插入的性能瓶颈主要就是交换次数过多，往往每插入一个数据都要交换好多次，希尔主要解决了交换次数过多的问题，先以大步长把数据进行插入排序，然后逐步缩小步长，直到步长变为1。这样做可以先以较少的代价把数据进行整理，将较大数据向后移以有效降低后面可能发生的交换次数，最后再以最基本的插入排序排列数据，此时数据已经接近有序也就几乎不会发生几次交换。</p>
 <p>希尔排序的关键是步长变化的选择，不同的步长变化时间复杂度会有很大区别。希尔第一次提出它的时候建议初始步长为数据的一半，然后每次再取一半，直到变成1，但是这个步长其实效率并不高，<a href="https://en.wikipedia.org/wiki/Shellsort" target="_blank" rel="noopener">Wiki</a>上面有多个希尔排序的步长可供选择，这里我选择了一个速度较快的5/11。</p>
 <p>算法演示：</p>
-<p><a href="/img/SORT_IMG/SS_DEMO.gif"><img src="/img/SORT_IMG/SS_DEMO.gif" alt="IS_Demo"></a></p>
+<p><a href="/img/SORT_IMG/SS_DEMO.gif"><img src="/img/SORT_IMG/SS_DEMO.gif" alt="SS_DEMO"></a></p>
 <p>最终数据访问和耗时结果为：</p>
-<p><a href="/img/SORT_IMG/SS_RESULT.png"><img src="/img/SORT_IMG/SS_RESULT.png" alt="IS_Result"></a></p>
+<p><a href="/img/SORT_IMG/SS_RESULT.png"><img src="/img/SORT_IMG/SS_RESULT.png" alt="SS_RESULT"></a></p>
 <h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><p>这个估计大家都不陌生，算法也不复杂，就跟水中气泡，大的肯定先到顶，小的后到顶道理是一样的，算法就是先从头到最后，发现后面元素比前面元素小就交换二者位置，这样最大的就到最后了，然后从头到倒数第一个重复刚刚的过程，以此类推直到头部。</p>
 <p>这个算法确实很美妙，而且有一定的实现复杂度www，所以被很多教材拿出来当入门教程，但是说实话，这个算法并不实用，因为电脑毕竟无法模拟出水泡那样的并行速度，所以他可以说是最慢的算法，没有之一。</p>
 <p>算法演示：</p>
-<p><a href="/img/SORT_IMG/BS_DEMO.gif"><img src="/img/SORT_IMG/BS_DEMO.gif" alt="IS_Demo"></a></p>
+<p><a href="/img/SORT_IMG/BS_DEMO.gif"><img src="/img/SORT_IMG/BS_DEMO.gif" alt="BS_DEMO"></a></p>
 <p>最终数据访问和耗时结果为：</p>
-<p><a href="/img/SORT_IMG/BS_RESULT.png"><img src="/img/SORT_IMG/BS_RESULT.png" alt="IS_Result"></a></p>
+<p><a href="/img/SORT_IMG/BS_RESULT.png"><img src="/img/SORT_IMG/BS_RESULT.png" alt="BS_RESULT"></a></p>
 <h3 id="鸡尾酒排序"><a href="#鸡尾酒排序" class="headerlink" title="鸡尾酒排序"></a>鸡尾酒排序</h3><p>听名字你可能不知道它是啥，其实简单点描述就是双向冒泡排序，同时筛选出最大和最小的元素然后向中间靠拢。</p>
 <p>但是跟冒泡排序一样，理想很美满，现实很骨感233。</p>
 <p>算法演示：</p>
-<p><a href="/img/SORT_IMG/DBS_DEMO.gif"><img src="/img/SORT_IMG/DBS_DEMO.gif" alt="IS_Demo"></a></p>
+<p><a href="/img/SORT_IMG/DBS_DEMO.gif"><img src="/img/SORT_IMG/DBS_DEMO.gif" alt="DBS_DEMO"></a></p>
 <p>最终数据访问和耗时结果为：</p>
-<p><a href="/img/SORT_IMG/DBS_RESULT.png"><img src="/img/SORT_IMG/DBS_RESULT.png" alt="IS_Result"></a></p>
+<p><a href="/img/SORT_IMG/DBS_RESULT.png"><img src="/img/SORT_IMG/DBS_RESULT.png" alt="DBS_RESULT"></a></p>
 <h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><p>归并也是比较常见的排序之一，归并有两种实现方式，一种是保持原数列归并，一种是另起一个数列归并，这里我实现的是后者。</p>
 <p>归并的思想也很简单，就是把两个有序队列合并成一个更大的队列，但是队列刚开始是无序的，所以最初是以一个到两个元素为开始，逐步合并，直到合并范围达到整个数组。</p>
 <p>归并往往以递归的方式进行实现，算法也比较简洁。</p>
@@ -537,25 +537,25 @@
 <p>快速排序算法简单描述就是从队列中选择一个元素为基准，然后把小于它的放到它左边，大于它的放到它右边，这时候队列被一分为二，然后左边的和右边的队列重复这个过程，直到最终需要排序的元素剩余一个。</p>
 <p><strong>这个算法真的很厉害！这个算法真的很厉害！这个算法真的很厉害！</strong>重要的事情要说三遍。</p>
 <p>算法演示：</p>
-<p><a href="/img/SORT_IMG/QS_DEMO.gif"><img src="/img/SORT_IMG/QS_DEMO.gif" alt="GS_Demo"></a></p>
+<p><a href="/img/SORT_IMG/QS_DEMO.gif"><img src="/img/SORT_IMG/QS_DEMO.gif" alt="QS_DEMO"></a></p>
 <p>最终数据访问和耗时结果为：</p>
-<p><a href="/img/SORT_IMG/QS_RESULT.png"><img src="/img/SORT_IMG/QS_RESULT.png" alt="GS_Result"></a></p>
+<p><a href="/img/SORT_IMG/QS_RESULT.png"><img src="/img/SORT_IMG/QS_RESULT.png" alt="QS_RESULT"></a></p>
 <h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><p>依旧是明星排序，这个排序应该是最漂亮的排序（个人观点）。</p>
 <p>这个排序大家应该都不陌生，由于队列和堆可以完美转换，所以就诞生了这么个排序算法（队列转换成堆请参阅完全二叉树的存储形式）。</p>
 <p>这个算法就是先建立大顶堆，然后把头元素与最后的元素交换并将其移除队列，然后重新调整堆为大顶堆，重复这个过程。</p>
 <p>堆排序主要是要实现建堆和调整堆的过程。</p>
 <p>算法演示：</p>
-<p><a href="/img/SORT_IMG/HS_DEMO.gif"><img src="/img/SORT_IMG/HS_DEMO.gif" alt="GS_Demo"></a></p>
+<p><a href="/img/SORT_IMG/HS_DEMO.gif"><img src="/img/SORT_IMG/HS_DEMO.gif" alt="HS_DEMO"></a></p>
 <p>最终数据访问和耗时结果为：</p>
-<p><a href="/img/SORT_IMG/HS_RESULT.png"><img src="/img/SORT_IMG/HS_RESULT.png" alt="GS_Result"></a></p>
+<p><a href="/img/SORT_IMG/HS_RESULT.png"><img src="/img/SORT_IMG/HS_RESULT.png" alt="HS_RESULT"></a></p>
 <h3 id="插旗排序"><a href="#插旗排序" class="headerlink" title="插旗排序"></a>插旗排序</h3><p>嗯……就跟他名字一样，这个排序就是往一堆格子里面插旗，很形象。</p>
 <p>算法简单描述：根据最小和最大的值，建立从最小到最大值的一系列格子，然后遍历队列，在访问到数据数值的位置上对数据进行进行计数（如数据为3就在格子3位置记录一次），最后读取所有格子，格子上对应的数字就是数据出现的次数，输出相应个数的数据即可。</p>
 <p>这个算法确实很快，但是缺点也很明显：首先要知道数据极值，其次很耗费空间。当你的数据差很大的时候，这个算法很可能吃光你的内存资源。</p>
 <p>算法最大的特点：<strong>数据无需进行相互比较。</strong></p>
 <p>算法演示：</p>
-<p><a href="/img/SORT_IMG/FS_DEMO.gif"><img src="/img/SORT_IMG/FS_DEMO.gif" alt="GS_Demo"></a></p>
+<p><a href="/img/SORT_IMG/FS_DEMO.gif"><img src="/img/SORT_IMG/FS_DEMO.gif" alt="FS_DEMO"></a></p>
 <p>最终数据访问和耗时结果为：</p>
-<p><a href="/img/SORT_IMG/FS_RESULT.png"><img src="/img/SORT_IMG/FS_RESULT.png" alt="GS_Result"></a></p>
+<p><a href="/img/SORT_IMG/FS_RESULT.png"><img src="/img/SORT_IMG/FS_RESULT.png" alt="FS_RESULT"></a></p>
 <h3 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h3><p>其实我感觉这个有点像优化过的插旗排序。</p>
 <p>基数排序有两种实现方式，一种是MSD，一种是LSD。</p>
 <p>LSD中，数据从地位开始，先以最低位hash值将数据分类（一般就是这位上的数值），然后按照顺序取出，然后升高一位重复刚刚的过程，直到最高位，这时候数据就变成有序的了。</p>
@@ -564,53 +564,54 @@
 <p>同样的，这个算法中<strong>数据无需进行相互比较。</strong></p>
 <p>算法演示：</p>
 <p>LSD:</p>
-<p><a href="/img/SORT_IMG/RS_DEMO.gif"><img src="/img/SORT_IMG/RS_DEMO.gif" alt="GS_Demo"></a></p>
+<p><a href="/img/SORT_IMG/RS_DEMO.gif"><img src="/img/SORT_IMG/RS_DEMO.gif" alt="RS_DEMO"></a></p>
 <p>MSD:</p>
-<p><a href="/img/SORT_IMG/RS1_DEMO.gif"><img src="/img/SORT_IMG/RS1_DEMO.gif" alt="GS_Demo"></a></p>
+<p><a href="/img/SORT_IMG/RS1_DEMO.gif"><img src="/img/SORT_IMG/RS1_DEMO.gif" alt="RS1_DEMO"></a></p>
 <p>最终数据访问和耗时结果为：</p>
 <p>LSD:</p>
-<p><a href="/img/SORT_IMG/RS_RESULT.png"><img src="/img/SORT_IMG/RS_RESULT.png" alt="GS_Result"></a></p>
+<p><a href="/img/SORT_IMG/RS_RESULT.png"><img src="/img/SORT_IMG/RS_RESULT.png" alt="RS_RESULT"></a></p>
 <p>MSD:</p>
-<p><a href="/img/SORT_IMG/RS1_RESULT.png"><img src="/img/SORT_IMG/RS1_RESULT.png" alt="GS_Result"></a></p>
+<p><a href="/img/SORT_IMG/RS1_RESULT.png"><img src="/img/SORT_IMG/RS1_RESULT.png" alt="RS1_RESULT"></a></p>
 <h3 id="双调排序"><a href="#双调排序" class="headerlink" title="双调排序"></a>双调排序</h3><p>这个排序在最近通用计算火热之后得到了很多人关注，因为这个算法很容易实现并行的通用计算。</p>
 <p>算法核心是双调归并。什么是双调呢？简单来说，一个队列中，如果先递减后递增或者先递增后递减，那么他就是一个双调队列。归并双调的过程也很简单，从递减序列和递增序列的第一个元素开始比较，将较小的放到前面较大的放到后面，直到递减/递增序列的最后一个，然后把数据从中间拆成前后两个队列重复这个过程，直到最后剩余两个数据比较，这时候序列就变得有序。</p>
 <p>双调的实现比较苛刻，数据量必须以二的幂为基准，否则无法构成双调序列，所以这种方法的缺点就是使用条件苛刻，虽然可以通过补全来应用到所有情况，但是补全的过程还会占用一定资源。</p>
 <p>实现方式一般还是采用递归实现，跟归并类似，不过目标不是两边有序而是左右构成双调，然后对双调进行合并。</p>
 <p><em>PS:双调排序并没有要求先减后增或者先增后减，两种形式都可以实现，你甚至可以把他们穿插到一起。</em></p>
 <p>算法演示：</p>
-<p><a href="/img/SORT_IMG/BNS_DEMO.gif"><img src="/img/SORT_IMG/BNS_DEMO.gif" alt="GS_Demo"></a></p>
+<p><a href="/img/SORT_IMG/BNS_DEMO.gif"><img src="/img/SORT_IMG/BNS_DEMO.gif" alt="BNS_DEMO"></a></p>
 <p>最终数据访问和耗时结果为：</p>
-<p><a href="/img/SORT_IMG/BNS_RESULT.png"><img src="/img/SORT_IMG/BNS_RESULT.png" alt="GS_Result"></a></p>
+<p><a href="/img/SORT_IMG/BNS_RESULT.png"><img src="/img/SORT_IMG/BNS_RESULT.png" alt="BNS_RESULT"></a></p>
 <h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><p>这么多算法，肯定你也听说过他们的时间复杂度，比如堆排序是O(n*log(n))，归并排序也是O(n*log(n))，但是这一简单的量级描述真的就说明他俩速度相当？</p>
 <p>所以下面我们就来看看这些算法的速度对比吧，结果或许会令你感到意外。</p>
 <p>这里所有的算法都以线程为单位同时开始，阈值为20s，超过者淘汰出去然后增大数据量继续比较。</p>
 <p>首先我们先来个少一点的数据：</p>
-<p><a href="/img/SORT_IMG/D8192.png"><img src="/img/SORT_IMG/D8192.png" alt="GS_Result"></a></p>
+<p><a href="/img/SORT_IMG/D8192.png"><img src="/img/SORT_IMG/D8192.png" alt="D8192"></a></p>
 <p>emmmmm……看来不够大家塞牙缝的，那好我们就来个大一点的：</p>
-<p><a href="/img/SORT_IMG/D65536.png"><img src="/img/SORT_IMG/D65536.png" alt="GS_Result"></a></p>
+<p><a href="/img/SORT_IMG/D65536.png"><img src="/img/SORT_IMG/D65536.png" alt="D65536"></a></p>
 <p>在数据量没上10w的时候，冒泡和鸡尾酒已经基本撑不住了，紧随其后的是选择排序和插入排序。</p>
 <p>那么我们进一步扩大数据：</p>
-<p><a href="/img/SORT_IMG/D131072.png"><img src="/img/SORT_IMG/D131072.png" alt="GS_Result"></a></p>
+<p><a href="/img/SORT_IMG/D131072.png"><img src="/img/SORT_IMG/D131072.png" alt="D131072"></a></p>
 <p>两个花瓶算法：冒泡和鸡尾酒已经很拖大家后腿了，其他人早早完成了任务然后在这里等了他们俩半天，然而还有两个目前也已经被淘汰，那就是在上一轮紧随其后的插入和选择。剩下的算法依然难分伯仲。</p>
 <p>下面我就直接上他们差距最大的数据量了：</p>
-<p><a href="/img/SORT_IMG/D16777216.png"><img src="/img/SORT_IMG/D16777216.png" alt="GS_Result"></a></p>
+<p><a href="/img/SORT_IMG/D16777216.png"><img src="/img/SORT_IMG/D16777216.png" alt="D16777216"></a></p>
 <p>堆排和双调同时出局，但是同样是O(n*log(n))的归并却依然坚挺，是不是有点意外？估计令你更意外的是遥遥领先的快速排序，真的神奇。而且本次结果也可以看出希尔已经力不从心了，它能坚持过下一轮吗？</p>
 <p>继续拉大数据量：</p>
-<p><a href="/img/SORT_IMG/D33554432.png"><img src="/img/SORT_IMG/D33554432.png" alt="GS_Result"></a></p>
+<p><a href="/img/SORT_IMG/D33554432.png"><img src="/img/SORT_IMG/D33554432.png" alt="D33554432"></a></p>
 <p>果然希尔被淘汰了，注意这里的希尔使用的是5/11步长变化，不一定是最优步长但是时间复杂度已经很低，也可能有其他表现不错的希尔步长，这里不再一一对比。</p>
 <p>剩下的排序算法们还能坚持多久呢？</p>
 <p>继续：</p>
-<p><a href="/img/SORT_IMG/D67108864.png"><img src="/img/SORT_IMG/D67108864.png" alt="GS_Result"></a></p>
+<p><a href="/img/SORT_IMG/D67108864.png"><img src="/img/SORT_IMG/D67108864.png" alt="D67108864"></a></p>
 <p>快排、基数（MSD）和归并出局，你是不是有点意外，快拍竟然在最终淘汰时表现都要好过基数的MSD形式，真的无敌……</p>
 <p>剩下的这俩估计也不需要比较了，胜负已分，插旗无疑是最快的。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>这样的对比或许你会对这些排序算法有了新的认识，并不是说所有O(n*log(n))性能就差不多，他们的差别其实很大，要根据使用场景合理选择这些排序算法。</p>
 <p>另外，快速排序作为没有使用额外空间的排序，在排序速度上面竟然表现不俗，这真的是很令人意外的，但是快排并不是无敌的，需要处理数据已经有序的特殊情况，可能会造成递归调用过深而溢出，同时也使得速度将为O(n^2)。</p>
 <p>希望本文对你有帮助，多谢阅读~</p>
 <h3 id="花絮"><a href="#花絮" class="headerlink" title="花絮"></a>花絮</h3><p>猴子排序？人家也不是不能用哦！</p>
-<p><a href="/img/SORT_IMG/BOGO_SUCC.png"><img src="/img/SORT_IMG/BOGO_SUCC.png" alt="GS_Result"></a></p>
+<p><a href="/img/SORT_IMG/BOGO_SUCC.png"><img src="/img/SORT_IMG/BOGO_SUCC.png" alt="BEGO_Success"></a></p>
 <p>然而你排13个数据就用了3s，当你要排14个数据时……</p>
-<p><a href="/img/SORT_IMG/BOGO_FAIL.png"><img src="/img/SORT_IMG/BOGO_FAIL.png" alt="GS_Result"></a></p>
+<p><a href="/img/SORT_IMG/BOGO_FAIL.png"><img src="/img/SORT_IMG/BOGO_FAIL.png" alt="BEGO_Fail"></a></p>
 <p>估计这辈子等不到了吧233……</p>
+<p><a href="/img/SORT_IMG/BOGO_DEMO.gif"><img src="/img/SORT_IMG/BOGO_DEMO.gif" alt="BEGO_Demo"></a></p>
 
         </div>
     
