@@ -72,7 +72,7 @@
 
     
         <meta property="article:published_time" content="2月 12, 2018" />
-        <meta property="article:modified_time" content="3月 06, 2018" />
+        <meta property="article:modified_time" content="6月 25, 2018" />
     
 
     <!-- The Twitter Card protocol -->
@@ -113,7 +113,7 @@
     "headline": "PPPoE服务器编写",
     "url": "http://yoursite.com/2018/02/12/PPPoE服务器编写/index.html",
     "datePublished": "2月 12, 2018",
-    "dateModified": "3月 06, 2018",
+    "dateModified": "6月 25, 2018",
     "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
@@ -871,7 +871,7 @@
 <h3 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h3><p>看完PPPoE协议的内容，是不是有种晕头转向的感觉？<br>确实DHCP协议与PPPoE协议比起来简直是小巫见大巫，毕竟链路层协议，复杂程度肯定是要上升的。<br>不过也不需要太敬畏它，PPPoE依旧只是一个协议，一个准则而已，有死板的地方，也有可以搞事的地方（喂）。<br>总的来看其实PPPoE协议就是一层一层展开的，理解了PPPoE协议其实你也就理解了网络分这么多层到底有什么意义了。<br>网络报文其实就是约定好的一层一层数据组装到一起，按照一定模式一定能够将其解开，这样的设计还方便了各部分只关注自己所需要关注的部分，省去了很多解析上的麻烦，只能感叹当年这些网络工程师的智慧。<br>这里面的很多策略都是可以自己发挥的地方，可以尝试一下设计一套自己的高效的策略。<br>设计PPPoE服务器最关键的地方就是学会链路层编程，理解网络报文这种层级关系，理解PPPoE协议中各个部分所需要遵循的规则（比如CHAP认证时的Challenge规则）。<br>由于PPPoE服务器在后期通信中依旧担当一个举足轻重的角色，所以PPPoE服务器对服务器要求很高，普通电脑性能不好的话是无法承担这个任务的，这就是为什么很少在PC平台下有PPPoE服务器软件的原因。<br>目前商用的PPPoE服务器都是各厂商自己设计好的一套解决方案，而不简单是一个软件，里面设计好的各个单元不同分工，这样才有能力承接PPPoE的所有工作。<br>所以我们设计PPPoE服务器并不是说要在普通PC上实现能用的PPPoE服务器，而是通过写PPPoE服务器的过程，理解链路层编程，理解网络分层结构，这才是最终目的。</p>
 <p>可以拓展的地方：不适用WinPcap，使用更底层的C完成PPPoE服务器编程，这样效率更高，说不定性能可以达到和一些PPPoE服务器持平。</p>
 <p>希望本文对你有所启发，Thanks for Reading！</p>
-<h3 id="相关文献"><a href="#相关文献" class="headerlink" title="相关文献"></a>相关文献</h3><p><a href="https://tools.ietf.org/html/rfc2516" target="_blank" rel="noopener">RFC2561(PPPoE)</a><br><a href="https://tools.ietf.org/html/rfc1661" target="_blank" rel="noopener">RFC1661(PPP)</a><br><a href="https://tools.ietf.org/html/rfc1570" target="_blank" rel="noopener">RFC1570(LCP Etensions)</a><br><a href="https://tools.ietf.org/html/rfc2484" target="_blank" rel="noopener">RFC2484(LCP Option)</a><br><a href="https://tools.ietf.org/html/rfc1334" target="_blank" rel="noopener">RFC1334(PAP)</a><br><a href="https://tools.ietf.org/html/rfc1994" target="_blank" rel="noopener">RFC1994(CHAP)</a><br><a href="https://tools.ietf.org/html/rfc2865" target="_blank" rel="noopener">RFC2865(RADIUS) 也是一种认证方式</a><br><a href="https://tools.ietf.org/html/rfc1332" target="_blank" rel="noopener">RFC1332(IPCP)</a><br><a href="https://tools.ietf.org/html/rfc1877" target="_blank" rel="noopener">RFC1877(IPCP DNS)</a></p>
+<h3 id="相关文献"><a href="#相关文献" class="headerlink" title="相关文献"></a>相关文献</h3><p><a href="https://tools.ietf.org/html/rfc2516" target="_blank" rel="noopener">RFC2561(PPPoE)</a><br><a href="https://tools.ietf.org/html/rfc1661" target="_blank" rel="noopener">RFC1661(PPP)</a><br><a href="https://tools.ietf.org/html/rfc1570" target="_blank" rel="noopener">RFC1570(LCP Etensions)</a><br><a href="https://tools.ietf.org/html/rfc2484" target="_blank" rel="noopener">RFC2484(LCP Option)</a><br><a href="https://tools.ietf.org/html/rfc1334" target="_blank" rel="noopener">RFC1334(PAP)</a><br><a href="https://tools.ietf.org/html/rfc1994" target="_blank" rel="noopener">RFC1994(CHAP)</a><br><a href="https://tools.ietf.org/html/rfc2865" target="_blank" rel="noopener">RFC2865(RADIUS)</a><br><a href="https://tools.ietf.org/html/rfc1332" target="_blank" rel="noopener">RFC1332(IPCP)</a><br><a href="https://tools.ietf.org/html/rfc1877" target="_blank" rel="noopener">RFC1877(IPCP DNS)</a></p>
 
         </div>
     
