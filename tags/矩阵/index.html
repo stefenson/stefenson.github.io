@@ -231,60 +231,75 @@
 
     <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
     <style type="text/css">
-    .gitment-editor-tab
-    {
+    /*重新定义gitment样式*/
+    .gitment-editor-tab {
         margin: 0px;
     }
-    .gitment-editor-main
-    {
+    .gitment-editor-main {
         background-color: white;
     }
-    .gitment-comment-main
-    {
+    .gitment-comment-main {
         background-color: white;
     }
-    .gitment-editor-submit:enabled
-    {
+    .gitment-editor-submit:enabled {
         background-color: black;
     }
-    .gitment-editor-submit:disabled
-    {
+    .gitment-editor-submit:disabled {
         background-color: gray;
     }
-    .post_entry-tags-list-count
-    {
-        color: white;
-    }
-    /* canvas
-    {
-        filter: blur(1px);
-    } */
-    .MathJax
-    {
+
+    /*重新定义MathJax样式，去掉框线*/
+    .MathJax {
         outline: 0;
     }
-    #post-content pre
-    {
-        font-family: "Consolas","Monaco";
-        background-color: rgba(0, 0, 0, 0);
-    }
-    #post-content table tr
-    {
-        background-color: rgba(0, 0, 0, 0);
-    }
-    .gutter
-    {
-        color: rgb(192, 192, 192);
-        background-color: rgba(17, 17, 31, 0.5);
-    }
-    .code
-    {
+
+    /*重新定义代码块样式*/
+    #post-content pre {
         color: rgb(255, 240, 192);
+        background-color: rgba(17, 17, 31, 1);
+        /* border-radius: 3px; */
     }
-    figure
-    {
-        background-color: rgba(17, 17, 31, 0.5);
+    #post-content pre code {
+        font-family: "Consolas","Monaco";
+    }
+
+    /*重新定义表格样式*/
+    #post-content table td {
+        border: 1px solid rgb(156, 156, 156);
+    }
+    #post-content table th {
+        color: white;
+        background-color: rgba(128, 128, 128, 0.5);
+        border: 1px solid rgb(156, 156, 156);
+    }
+
+    /*重新定义头部Tags标签样式*/
+    #scheme-Isolation .post_entry-tags-head-list {
+        padding: 0;
+        margin: 0;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-item {
+        list-style: none;
+        float: left;
+        font-size: 11px;
+        border: 1px solid #c2c2c2;
+        letter-spacing: 1px;
         border-radius: 3px;
+        padding-right: 6px;
+        padding-left: 8px;
+        margin-top: 8px;
+        margin-right: 8px;
+        text-align: center;
+        -webkit-appearance: none;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-count {
+        margin-left: 2px;
+        color: #BBBBBB;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-item a {
+        text-decoration: none;
+        color: white;
+        font-weight: 500;
     }
     </style>
     
@@ -425,11 +440,77 @@
             <div class="post_entry-footer-border" style="height: 1px;"></div>
         </div>
         <div class="post_entry-footer" style="padding-bottom: 36px;">
-                            <ul class="post_entry-tags-list"><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/AES/">AES</a><span class="post_entry-tags-list-count">1</span></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/AVL树/">AVL树</a><span class="post_entry-tags-list-count">1</span></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/DHCP/">DHCP</a><span class="post_entry-tags-list-count">1</span></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/PPPoE/">PPPoE</a><span class="post_entry-tags-list-count">1</span></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/RSA/">RSA</a><span class="post_entry-tags-list-count">1</span></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/中国剩余定理/">中国剩余定理</a><span class="post_entry-tags-list-count">1</span></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/二叉查找树/">二叉查找树</a><span class="post_entry-tags-list-count">1</span></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/二叉树/">二叉树</a><span class="post_entry-tags-list-count">1</span></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/伽罗华域/">伽罗华域</a><span class="post_entry-tags-list-count">1</span></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/加密/">加密</a><span class="post_entry-tags-list-count">2</span></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/排序/">排序</a><span class="post_entry-tags-list-count">1</span></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/数论/">数论</a><span class="post_entry-tags-list-count">2</span></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/欧拉函数/">欧拉函数</a><span class="post_entry-tags-list-count">1</span></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/欧拉定理/">欧拉定理</a><span class="post_entry-tags-list-count">1</span></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/矩阵/">矩阵</a><span class="post_entry-tags-list-count">1</span></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/红黑树/">红黑树</a><span class="post_entry-tags-list-count">1</span></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/网络/">网络</a><span class="post_entry-tags-list-count">2</span></li></ul>
+                            <ul class="post_entry-tags-head-list"><li class="post_entry-tags-head-list-item"><a class="post_entry-tags-head-list-link" href="/tags/AES/">AES</a><span class="post_entry-tags-head-list-count">1</span></li><li class="post_entry-tags-head-list-item"><a class="post_entry-tags-head-list-link" href="/tags/AVL树/">AVL树</a><span class="post_entry-tags-head-list-count">1</span></li><li class="post_entry-tags-head-list-item"><a class="post_entry-tags-head-list-link" href="/tags/DHCP/">DHCP</a><span class="post_entry-tags-head-list-count">1</span></li><li class="post_entry-tags-head-list-item"><a class="post_entry-tags-head-list-link" href="/tags/MD5/">MD5</a><span class="post_entry-tags-head-list-count">1</span></li><li class="post_entry-tags-head-list-item"><a class="post_entry-tags-head-list-link" href="/tags/PPPoE/">PPPoE</a><span class="post_entry-tags-head-list-count">1</span></li><li class="post_entry-tags-head-list-item"><a class="post_entry-tags-head-list-link" href="/tags/RSA/">RSA</a><span class="post_entry-tags-head-list-count">1</span></li><li class="post_entry-tags-head-list-item"><a class="post_entry-tags-head-list-link" href="/tags/SHA1/">SHA1</a><span class="post_entry-tags-head-list-count">1</span></li><li class="post_entry-tags-head-list-item"><a class="post_entry-tags-head-list-link" href="/tags/hash算法/">hash算法</a><span class="post_entry-tags-head-list-count">1</span></li><li class="post_entry-tags-head-list-item"><a class="post_entry-tags-head-list-link" href="/tags/中国剩余定理/">中国剩余定理</a><span class="post_entry-tags-head-list-count">1</span></li><li class="post_entry-tags-head-list-item"><a class="post_entry-tags-head-list-link" href="/tags/二叉查找树/">二叉查找树</a><span class="post_entry-tags-head-list-count">1</span></li><li class="post_entry-tags-head-list-item"><a class="post_entry-tags-head-list-link" href="/tags/二叉树/">二叉树</a><span class="post_entry-tags-head-list-count">1</span></li><li class="post_entry-tags-head-list-item"><a class="post_entry-tags-head-list-link" href="/tags/伽罗华域/">伽罗华域</a><span class="post_entry-tags-head-list-count">1</span></li><li class="post_entry-tags-head-list-item"><a class="post_entry-tags-head-list-link" href="/tags/加密/">加密</a><span class="post_entry-tags-head-list-count">2</span></li><li class="post_entry-tags-head-list-item"><a class="post_entry-tags-head-list-link" href="/tags/排序/">排序</a><span class="post_entry-tags-head-list-count">1</span></li><li class="post_entry-tags-head-list-item"><a class="post_entry-tags-head-list-link" href="/tags/数论/">数论</a><span class="post_entry-tags-head-list-count">2</span></li><li class="post_entry-tags-head-list-item"><a class="post_entry-tags-head-list-link" href="/tags/欧拉函数/">欧拉函数</a><span class="post_entry-tags-head-list-count">1</span></li><li class="post_entry-tags-head-list-item"><a class="post_entry-tags-head-list-link" href="/tags/欧拉定理/">欧拉定理</a><span class="post_entry-tags-head-list-count">1</span></li><li class="post_entry-tags-head-list-item"><a class="post_entry-tags-head-list-link" href="/tags/矩阵/">矩阵</a><span class="post_entry-tags-head-list-count">2</span></li><li class="post_entry-tags-head-list-item"><a class="post_entry-tags-head-list-link" href="/tags/红黑树/">红黑树</a><span class="post_entry-tags-head-list-count">1</span></li><li class="post_entry-tags-head-list-item"><a class="post_entry-tags-head-list-link" href="/tags/网络/">网络</a><span class="post_entry-tags-head-list-count">2</span></li></ul>
             
         </div>
     </div>
     <!-- Normal Post -->
+    
+        
+            
+            
+                <!-- Isolation Thumbnail -->
+                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out"  style="background-color: rgba(255,255,255,0.6)">
+    <!-- Post_entry Header -->
+    
+        <!-- Post Header Info -->
+        <div class="post_entry-header_info without-thumbnail">
+            <!-- Author Avatar & Name -->
+            <a href="/about" style="text-decoration: none; color: #333">
+                <img src="/img/avatar.png" class="avatar-img" width="44px" height="44px" alt="Stefenson Wang's avatar">
+                <span class="name-span">Stefenson Wang</span>
+            </a>
+        </div>
+
+        <!-- Null Thumbnail -->
+        <div class="post_thumbnail-null">
+    
+        </div>
+    
+    <!-- Post_entry Content -->
+    <div class="post_entry-content mdl-color-text--grey-600 mdl-card__supporting-text" style="padding-top: 24px; padding-bottom: 0px;">
+        <div class="post_entry-footer-border" style="height: 1px;"></div>
+        <!-- Post Title -->
+        <p class="post_entry-title" style="margin-bottom: 6px; margin-top: 6px;">
+            <a href="/2018/10/03/有限集内MD5-SHA1可逆吗——MD5、SHA1算法/">有限集内MD5/SHA1可逆吗——MD5、SHA1算法</a>
+        </p>
+
+        <div class="post_entry-footer-info">
+            <div class="post_entry-footer-comment">
+                
+                
+            </div>
+        </div>
+
+        <!-- Post Excerpt -->
+        <p class="post_entry-excerpt" style="margin-bottom: 24px; padding-left: 8px;">
+            
+                今天讲一讲hash算法。
+hash算法不可逆，大家都知道，因为这是一个一对多的问题，一个MD5/SHA1值理论上是可以对应多个原始数据的，所以MD5/SHA1是无法还原出原始信息的。
+但是，如果我指定范围，你能通过MD5/SHA1倒推出原始数据吗？
+举个例子：定义一个hash算法，取值在255下的模，这样的hash值也是不能直接反推数据的，但是...
+            
+            &nbsp;&nbsp;&nbsp;
+            <span>
+                <a href="/2018/10/03/有限集内MD5-SHA1可逆吗——MD5、SHA1算法/" target="_self">阅读全文</a>
+            </span>
+        </p>
+
+        <p class="post_entry-footer-date" style="margin-bottom: 0px; margin-top: 0px; float: right;">
+            10月 03, 2018
+        </p>
+        <div class="post_entry-footer-border" style="margin-top: 48px; height: 1px;"></div>
+    </div>
+
+    <!-- Post_entry Footer -->
+    <div class="post_entry-footer" style="padding-bottom: 36px;">
+        <!-- Post Tags -->
+        <ul class="post_entry-tags-list"><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/MD5/">MD5</a></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/SHA1/">SHA1</a></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/hash算法/">hash算法</a></li><li class="post_entry-tags-list-item"><a class="post_entry-tags-list-link" href="/tags/矩阵/">矩阵</a></li></ul>
+    </div>
+</div>
+
+            
+        
     
         
             

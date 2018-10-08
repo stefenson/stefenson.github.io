@@ -264,60 +264,75 @@
 
     <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
     <style type="text/css">
-    .gitment-editor-tab
-    {
+    /*重新定义gitment样式*/
+    .gitment-editor-tab {
         margin: 0px;
     }
-    .gitment-editor-main
-    {
+    .gitment-editor-main {
         background-color: white;
     }
-    .gitment-comment-main
-    {
+    .gitment-comment-main {
         background-color: white;
     }
-    .gitment-editor-submit:enabled
-    {
+    .gitment-editor-submit:enabled {
         background-color: black;
     }
-    .gitment-editor-submit:disabled
-    {
+    .gitment-editor-submit:disabled {
         background-color: gray;
     }
-    .post_entry-tags-list-count
-    {
-        color: white;
-    }
-    /* canvas
-    {
-        filter: blur(1px);
-    } */
-    .MathJax
-    {
+
+    /*重新定义MathJax样式，去掉框线*/
+    .MathJax {
         outline: 0;
     }
-    #post-content pre
-    {
-        font-family: "Consolas","Monaco";
-        background-color: rgba(0, 0, 0, 0);
-    }
-    #post-content table tr
-    {
-        background-color: rgba(0, 0, 0, 0);
-    }
-    .gutter
-    {
-        color: rgb(192, 192, 192);
-        background-color: rgba(17, 17, 31, 0.5);
-    }
-    .code
-    {
+
+    /*重新定义代码块样式*/
+    #post-content pre {
         color: rgb(255, 240, 192);
+        background-color: rgba(17, 17, 31, 1);
+        /* border-radius: 3px; */
     }
-    figure
-    {
-        background-color: rgba(17, 17, 31, 0.5);
+    #post-content pre code {
+        font-family: "Consolas","Monaco";
+    }
+
+    /*重新定义表格样式*/
+    #post-content table td {
+        border: 1px solid rgb(156, 156, 156);
+    }
+    #post-content table th {
+        color: white;
+        background-color: rgba(128, 128, 128, 0.5);
+        border: 1px solid rgb(156, 156, 156);
+    }
+
+    /*重新定义头部Tags标签样式*/
+    #scheme-Isolation .post_entry-tags-head-list {
+        padding: 0;
+        margin: 0;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-item {
+        list-style: none;
+        float: left;
+        font-size: 11px;
+        border: 1px solid #c2c2c2;
+        letter-spacing: 1px;
         border-radius: 3px;
+        padding-right: 6px;
+        padding-left: 8px;
+        margin-top: 8px;
+        margin-right: 8px;
+        text-align: center;
+        -webkit-appearance: none;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-count {
+        margin-left: 2px;
+        color: #BBBBBB;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-item a {
+        text-decoration: none;
+        color: white;
+        font-weight: 500;
     }
     </style>
     
@@ -505,7 +520,10 @@
 <h3 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h3><p>广播是一种特殊的UDP报文，所有子网设备都可以收到UDP广播报文，不需要网络分发设备支持。</p>
 <p>发送广播与普通的UDP报文一样，都有一个明确的目标，不过目标的IP是一个特殊的值。</p>
 <p>一般来说，某个子网的广播地址可以用下面方法计算：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">       IP: <span class="number">10.85</span>.172.36</span><br><span class="line">  NetMask: <span class="number">255.255</span>.254.0</span><br><span class="line">Broadcast: <span class="number">10.85</span>.172.36 &amp; (<span class="number">255.255</span>.254.0) | !(<span class="number">255.255</span>.254.0) = <span class="number">10.85</span>.173.255</span><br></pre></td></tr></table></figure>
+<pre><code class="Java">       IP: 10.85.172.36
+  NetMask: 255.255.254.0
+Broadcast: 10.85.172.36 &amp; (255.255.254.0) | !(255.255.254.0) = 10.85.173.255
+</code></pre>
 <p>PS: NetMask 为子网掩码，! 为按位取反（取补码），计算在字节层面进行</p>
 <p>换句话说，广播地址 = 自己的IP &amp; 子网掩码 | 子网掩码补码<br>也可以理解为网段中的最大IP。</p>
 <p>广播有一个通用地址是 255.255.255.255 ，DHCP服务器中一般使用该地址作为广播目标。</p>

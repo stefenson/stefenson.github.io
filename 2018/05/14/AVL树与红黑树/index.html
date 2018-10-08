@@ -264,60 +264,75 @@
 
     <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
     <style type="text/css">
-    .gitment-editor-tab
-    {
+    /*重新定义gitment样式*/
+    .gitment-editor-tab {
         margin: 0px;
     }
-    .gitment-editor-main
-    {
+    .gitment-editor-main {
         background-color: white;
     }
-    .gitment-comment-main
-    {
+    .gitment-comment-main {
         background-color: white;
     }
-    .gitment-editor-submit:enabled
-    {
+    .gitment-editor-submit:enabled {
         background-color: black;
     }
-    .gitment-editor-submit:disabled
-    {
+    .gitment-editor-submit:disabled {
         background-color: gray;
     }
-    .post_entry-tags-list-count
-    {
-        color: white;
-    }
-    /* canvas
-    {
-        filter: blur(1px);
-    } */
-    .MathJax
-    {
+
+    /*重新定义MathJax样式，去掉框线*/
+    .MathJax {
         outline: 0;
     }
-    #post-content pre
-    {
-        font-family: "Consolas","Monaco";
-        background-color: rgba(0, 0, 0, 0);
-    }
-    #post-content table tr
-    {
-        background-color: rgba(0, 0, 0, 0);
-    }
-    .gutter
-    {
-        color: rgb(192, 192, 192);
-        background-color: rgba(17, 17, 31, 0.5);
-    }
-    .code
-    {
+
+    /*重新定义代码块样式*/
+    #post-content pre {
         color: rgb(255, 240, 192);
+        background-color: rgba(17, 17, 31, 1);
+        /* border-radius: 3px; */
     }
-    figure
-    {
-        background-color: rgba(17, 17, 31, 0.5);
+    #post-content pre code {
+        font-family: "Consolas","Monaco";
+    }
+
+    /*重新定义表格样式*/
+    #post-content table td {
+        border: 1px solid rgb(156, 156, 156);
+    }
+    #post-content table th {
+        color: white;
+        background-color: rgba(128, 128, 128, 0.5);
+        border: 1px solid rgb(156, 156, 156);
+    }
+
+    /*重新定义头部Tags标签样式*/
+    #scheme-Isolation .post_entry-tags-head-list {
+        padding: 0;
+        margin: 0;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-item {
+        list-style: none;
+        float: left;
+        font-size: 11px;
+        border: 1px solid #c2c2c2;
+        letter-spacing: 1px;
         border-radius: 3px;
+        padding-right: 6px;
+        padding-left: 8px;
+        margin-top: 8px;
+        margin-right: 8px;
+        text-align: center;
+        -webkit-appearance: none;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-count {
+        margin-left: 2px;
+        color: #BBBBBB;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-item a {
+        text-decoration: none;
+        color: white;
+        font-weight: 500;
     }
     </style>
     
@@ -584,6 +599,15 @@
             <!-- Post Prev & Next Nav -->
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     <!-- Prev Nav -->
+    
+        <a href="/2018/10/03/有限集内MD5-SHA1可逆吗——MD5、SHA1算法/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!-- 新篇 -->
+            有限集内MD5/SHA1可逆吗——MD5、SHA1算法
+        </a>
     
 
     <!-- Section Spacer -->
