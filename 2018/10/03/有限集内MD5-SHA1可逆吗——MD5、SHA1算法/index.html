@@ -72,7 +72,7 @@
 
     
         <meta property="article:published_time" content="10月 03, 2018" />
-        <meta property="article:modified_time" content="10月 09, 2018" />
+        <meta property="article:modified_time" content="10月 10, 2018" />
     
 
     <!-- The Twitter Card protocol -->
@@ -113,7 +113,7 @@
     "headline": "有限集内MD5/SHA1可逆吗——MD5、SHA1算法",
     "url": "http://yoursite.com/2018/10/03/有限集内MD5-SHA1可逆吗——MD5、SHA1算法/index.html",
     "datePublished": "10月 03, 2018",
-    "dateModified": "10月 09, 2018",
+    "dateModified": "10月 10, 2018",
     "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
@@ -367,6 +367,8 @@
                 <br>友情链接：
                 <br>某可爱的司机的博客 <a href="https://blog.chionlab.moe" class="footer-develop-a">Chion82的未来道具研究所</a>
                 <br>某可爱的日天的博客 <a href="https://sunskyxh.github.io" class="footer-develop-a">香鸡鸡的小窝</a>
+                <br>某可爱的miruku博客 <a href="https://mirukuchan.github.io" class="footer-develop-a">世界尽头的百货公司</a>
+                <br>某可爱的钟叔的博客 <a href="https://kurumichann.github.io" class="footer-develop-a">kurumi's blog(miruku?)</a>
             </div>
         </div>
 
@@ -680,8 +682,8 @@ int32_t f2(b, c, d) { return b ^ c ^ d; }
 int32_t f3(b, c, d) { return (b &amp; c) | (b &amp; d) | (c &amp; d); }
 int32_t f4(b, c, d) { return b ^ c ^ d; }
 </code></pre>
-<p>处理数据的时候第一步于MD5一样，先把数据补齐，补齐方法于MD5一致不再赘述。</p>
-<p>在最后64 bits 上SHA1于MD5处理方式不同，但是也是填入数据的长度，不同的地方是不按照小端字节序填，而是按照原始形态填入。<br>依旧用MD5中的例子举例：</p>
+<p>处理数据的时候第一步与MD5一样，先把数据补齐，补齐方法与MD5一致不再赘述。</p>
+<p>在最后64 bits 上SHA1与MD5处理方式不同，但是也是填入数据的长度，不同的地方是不按照小端字节序填，而是按照原始形态填入。<br>依旧用MD5中的例子举例：</p>
 <pre><code class="c">原始数据为字符串“abc”，长度为24 bits（3 bytes）
 最后64 bits 为：0x00000000 00000018
 
@@ -745,7 +747,7 @@ H4 = 0xC3D2E1F0
 
 Result = 0x67452301 EFCDAB89 98BADCFE 10325476 C3D2E1F0
 </code></pre>
-<p>SHA1依旧要注意字节存储的问题，于MD5不同，SHA1只按照数据原始形态来，所以说存储的时候使用的脚标顺序就是数据的组织顺序，不需要颠倒。</p>
+<p>SHA1依旧要注意字节存储的问题，与MD5不同，SHA1只按照数据原始形态来，所以说存储的时候使用的脚标顺序就是数据的组织顺序，不需要颠倒。</p>
 <p>以上就是SHA1，比MD5要简单很多。</p>
 <h3 id="有限集可逆？"><a href="#有限集可逆？" class="headerlink" title="有限集可逆？"></a>有限集可逆？</h3><p>好了重点来了，有限集中MD5/SHA1是否可逆呢？</p>
 <p>假设我们知道了数据只有1字节（0～255），这样数据只会处理一轮，结果对应的数据，由于是跟初始幻数计算而来，所以由结果和初始幻数可以得到最后一轮的结果。</p>
@@ -793,14 +795,14 @@ Result = 0x67452301 EFCDAB89 98BADCFE 10325476 C3D2E1F0
 ℵ(A5) = D6
 ℵ(M[0]) = A5
 </code></pre>
-<p>共有16个方程，但是未知数有13个，显然是能解出来的。<br><!-- 但是别忘了，我们只是假设A、B、C、D已知，FF轮最终的A，B，C，D其实我们是不知道的，相当于是17个未知数，显然不可解。 --><br>其实如果把MD5的整个过程全部使用多元方程组表示出来，我们最终会得到64个方程，61个未知量，这个方程组是<strong>可解的</strong>……<br>是不是很神奇？（位运算原则上于普通运算没有严格不同，依旧可以使用数学方法推算）<br>如果扩大有限集的范围到1~2字节时，此时会将未知数增加到62个（数据长度我们无法确定了），方程还是可解的。<br>直到扩大有限集的范围到1~12字节时，未知数数量才增加到65个，方程组开始不可解。<br>也就是说在限定集字节大小变化小于12字节浮动的时候我们是可以通过结果反推的。<br><strong>※ 当然这里也只是数学理论证明，解题过程中应该跟这个结论有出入，但是可以肯定的是在某些情况下方程组是有固定解的。</strong></p>
+<p>共有16个方程，但是未知数有13个，显然是能解出来的。<br><!-- 但是别忘了，我们只是假设A、B、C、D已知，FF轮最终的A，B，C，D其实我们是不知道的，相当于是17个未知数，显然不可解。 --><br>其实如果把MD5的整个过程全部使用多元方程组表示出来，我们最终会得到64个方程，61个未知量，这个方程组是<strong>可解的</strong>……<br>是不是很神奇？（位运算原则上与普通运算没有严格不同，依旧可以使用数学方法推算）<br>如果扩大有限集的范围到1~2字节时，此时会将未知数增加到62个（数据长度我们无法确定了），方程还是可解的。<br>直到扩大有限集的范围到1~12字节时，未知数数量才增加到65个，方程组开始不可解。<br>也就是说在限定集字节大小变化小于12字节浮动的时候我们是可以通过结果反推的。<br><strong>※ 当然这里也只是数学理论证明，解题过程中应该跟这个结论有出入，但是可以肯定的是在某些情况下方程组是有固定解的。</strong></p>
 <p>那么SHA1呢？<br>这里我直接下结论了，不再过多赘述，有兴趣的可以思考一下这个问题。<br>很遗憾的是，就算限定数据为1个字节的数据，SHA1依旧在原始数据中就会引入一堆未知量，W[0~79]中，除了W[1~15]可知，其他的几乎全部未知，未知量不难推算，应该有58个。<br>整理出来的方程组中，主要是跟E的值有关，为了求数据，我们会引入E80~E6，也就是说我们一共有75+58=133个未知数，而我们的方程组只有80个，这显然是不可解的（理论不可解）。</p>
 <p>所以说，MD5不是当年被Diss……确实现在来看是不安全的，SHA1相对来说还算安全，但是目前来看SHA1貌似也有一种快速攻击方法，这里就不展开细说了，毕竟也没怎么了解过。</p>
 <h3 id="写到最后"><a href="#写到最后" class="headerlink" title="写到最后"></a>写到最后</h3><p>MD5在实现中要确认大小端字节序，这个跟普通编程思路有点不太一样，需要时刻注意，SHA1则没有这个要求。</p>
 <p>不同的哈希算法对数据长度要求是不一样的，MD5不要求数据长度，SHA家族中：SHA-0、SHA-1、SHA-224和SHA-256限制长度2^64-1，SHA-384、SHA-512限制长度为2^128-1，SHA-3无限制。</p>
 <p>PS：其实我感觉MD5当年应该是一个失败的加密算法设计才对www，设计出来发现哎呀有时候咋解不出来，索性变成了哈希算法233。</p>
 <p>今天就到这里了。</p>
-<h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><p>如果你要尝试实现MD5和SHA1的化我这里给几个临界校验值供参考：</p>
+<h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><p>如果你要尝试实现MD5和SHA1的话我这里给几个临界校验值供参考：</p>
 <pre><code class="c">MD5(&quot;&quot;)  = 0xD41D8CD9 8F00B204 E9800998 ECF8427E
 MD5(&quot;a&quot;) = 0x0CC175B9 C0F1B6A8 31C399E2 69772661
 MD5(&quot;01234567890123456789012345678901234567890123456789012345&quot;)
@@ -833,6 +835,15 @@ SHA1(&quot;01234567890123456789012345678901234567890123456789012345&quot;)
             <!-- Post Prev & Next Nav -->
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     <!-- Prev Nav -->
+    
+        <a href="/2018/10/09/无损文件压缩/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!-- 新篇 -->
+            无损文件压缩
+        </a>
     
 
     <!-- Section Spacer -->
