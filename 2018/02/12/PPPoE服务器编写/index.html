@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?cf6db1de52b3cb4093686c920c8e3f7e";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
 <html style="display: none;" lang="zh">
     <head>
     <meta charset="utf-8">
@@ -72,7 +81,7 @@
 
     
         <meta property="article:published_time" content="2月 12, 2018" />
-        <meta property="article:modified_time" content="6月 25, 2018" />
+        <meta property="article:modified_time" content="4月 05, 2019" />
     
 
     <!-- The Twitter Card protocol -->
@@ -113,7 +122,7 @@
     "headline": "PPPoE服务器编写",
     "url": "http://yoursite.com/2018/02/12/PPPoE服务器编写/index.html",
     "datePublished": "2月 12, 2018",
-    "dateModified": "6月 25, 2018",
+    "dateModified": "4月 05, 2019",
     "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
@@ -787,7 +796,7 @@
 <p>LCP Discussion过程可能会来回多次，反复确认双方配置（Request–NAK–Request–Reject–Request–…)，如果在多次Configuration依旧无法协商完成只能LCP Terminate Request结束这个短暂的邂逅了。虽然这种情况一般很少见，但也不排除，相当于两个人谈一场交易，结果怎么也谈不拢，那交易肯定也没法进行，再死皮赖脸的协商怕不是要打一架了。</p>
 <p><em> 其实这个过程看起来就跟两个人在进行一场协商一样的不是吗www？</em><br><em> 用自然语言表述这个过程可以编这么一个对话 </em></p>
 <blockquote>
-<p>A：请求：我可接收最大重量为1484的包裹，暗号7A908B06，请确认。<br>B：OK我方收到，已知阁下可接收最大重量为1484的包裹，答复暗号7A908B06。<br>B：另外我方最大可接受重量为1400的包裹，认证方式编码C023，暗号7A908B07，请确认。<br>A：哈？你现在还在用C023认证？你不怕泄密吗？回绝（Reject）认证方式编码C023，你得换一个，答复暗号7A908B07。<br>B：真是事多……重新请求：我方最大可接受重量为1400的包裹，认证方式编码C223+05，暗号7A908B08，请确认。<br>A：等等，1400最大重量太小了吧，我这边接受不了，拒绝（NAK），你得把配置换成这样：最大可接受重量为1450的包裹，认证方式编码C223+05，答复暗号7A908B08。<br>B：(MMP……)行行行，再次请求：我方最大可接受重量为1450的包裹，认证方式编码C223+05，暗号7A908B09，这回可以了吧？<br>A：OK我方收到，你们最大可接受重量为1450的包裹，认证方式编码C223+05，答复暗号7A908B09，已确认。</p>
+<p>A：请求：我可接收最大重量为1484的包裹，暗号7A908B06，请确认。<br>B：OK我方收到，已知阁下可接收最大重量为1484的包裹，答复暗号7A908B06。<br>B：另外我方最大可接受重量为1400的包裹，认证方式编码C023，暗号7A908B07，请确认。<br>A：哈？你现在还在用C023认证？你不怕泄密吗？回绝（Reject）认证方式编码C023，你得换一个，答复暗号7A908B07。<br>B：真是事多……重新请求：我方最大可接受重量为1400的包裹，认证方式编码C223+05，暗号7A908B08，请确认。<br>A：等等，1400最大重量太小了吧，我这边接受不了，拒绝（NAK），你得把配置换成这样：最大可接受重量为1450的包裹，认证方式编码C223+05，答复暗号7A908B08。<br>B：(MMP……)行行行，再次请求：我方最大可接受重量为1450的包裹，认证方式编码C223+05，暗号7A908B09，这回可以了吧？<br>A：……<br>B：……喂？<br>A：……啊，不好意思，我这边刚刚有点事没听清，你再说一遍？<br>B：你大爷……时间到了，老子不伺候了！再见！<br>——用户 B 断开连接——<br>A：？？？？？？</p>
 </blockquote>
 <h3 id="Auth（认证）"><a href="#Auth（认证）" class="headerlink" title="Auth（认证）"></a>Auth（认证）</h3><p>LCP协商之后接下来就是认证了。<br>由于认证的方式是在LCP阶段确认的，所以这里根据不同的认证方式有两种数据组织方式</p>
 <h4 id="PAP"><a href="#PAP" class="headerlink" title="PAP"></a>PAP</h4><p>PAP阶段Code取值有</p>
