@@ -497,8 +497,7 @@
             <p class="post-title">
                 PPPoE服务器编写
             </p>
-            <p>按照约定，今天简单说一下编写PPPoE服务器。</p>
-<p>PPPoE（Point-to-Point Protocol Over Ethernet）协议是一个以太网上的点对点协议，是将点对点协议（PPP）封装在以太网（Ethernet）框架中的一种网络隧道协议。<br>它是一个链路层协议，如果要想自己实现一个PPPoE服务器需要了解链路层编程的相关知识。<br>网络五层架构中：应用——传输——网络——链路——物理。链路层属于比较靠底层的一层，所以难度还是有的。编程的时候相当于是直接与网卡打交道，编写难度比较高。</p>
+            <p>PPPoE（Point-to-Point Protocol Over Ethernet）协议是一个以太网上的点对点协议，是将点对点协议（PPP）封装在以太网（Ethernet）框架中的一种网络隧道协议。<br>它是一个链路层协议，如果要想自己实现一个PPPoE服务器需要了解链路层编程的相关知识。<br>网络五层架构中：应用——传输——网络——链路——物理。链路层属于比较靠底层的一层，所以难度还是有的。编程的时候相当于是直接与网卡打交道，编写难度比较高。</p>
 <p>这里在Windows中，我比较推荐 <a href="https://www.winpcap.org" target="_blank" rel="noopener">WinPcap</a> 进行编程，虽然Windows中也有面向网卡的编程，但是一般只有C的接口，并且相关资料匮乏，往往还需要与各个型号的网卡打交道，所以推荐使用WinPcap，接口统一并且易于掌握，只是有些时候速度不太理想。<br>使用WinPcap，你甚至可以发送一个一字节的报文（虽然他毫无意义）！在WinPcap里，TCP/IP报文头将不再是限制！你甚至不会被链路层默认封装头限制！报文里的每一个字节全部由你自由定制！WinPcap！你值得拥有！</p>
 <p>咳咳，扯远了（感觉跟打了个广告一样……）下面说回PPPoE编程。</p>
 <h3 id="PPPoE工作流程"><a href="#PPPoE工作流程" class="headerlink" title="PPPoE工作流程"></a>PPPoE工作流程</h3><p><img src="/img/PPPoE_PROC.png" alt="PPPoE流程"><br>上面的图是一个PPPoE完整的工作流程（点击可查看大图）。<br>双向箭头的地方表示顺序可以互换，任何一方都可以发起，没有严格要求谁先发起。</p>
