@@ -81,7 +81,7 @@
 
     
         <meta property="article:published_time" content="10月 03, 2018">
-        <meta property="article:modified_time" content="7月 08, 2020">
+        <meta property="article:modified_time" content="7月 09, 2020">
     
 
     <!-- The Twitter Card protocol -->
@@ -122,7 +122,7 @@
     "headline": "有限集内MD5/SHA1可逆吗——MD5、SHA1算法",
     "url": "http://yoursite.com/2018/10/03/有限集内MD5-SHA1可逆吗——MD5、SHA1算法/index.html",
     "datePublished": "10月 03, 2018",
-    "dateModified": "7月 08, 2020",
+    "dateModified": "7月 09, 2020",
     "description": "",
     "mainEntityOfPage": {
         "@type": "WebPage",
@@ -503,10 +503,6 @@
 <p>举个例子：定义一个hash算法，取值在255下的模，这样的hash值也是不能直接反推数据的，但是如果我说我数据就是在1～255之间的值，那我给定一个hash值，无疑你是能得到原始数据的。</p>
 <p>但是MD5/SHA1呢？</p>
 <p>这里容我先卖个关子，今天主要是先介绍MD5/SHA1算法，最后我们会讨论这个问题。</p>
-<p><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css"></p>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>  
-
 <h3 id="散列算法"><a href="#散列算法" class="headerlink" title="散列算法"></a>散列算法</h3><p>在了解MD5、SHA1之前，我们先了解一下什么是散列算法。</p>
 <p>散列算法，或者叫哈希函数，主要是一种通过计算得出数据特征值的算法，算法主要是在字典结构中使用，通过哈希算法算得数据的哈希值可以快速查找数据是否存在或者提取数据。</p>
 <p>后来人们发现，这些特征值其实也是数据的一种特有性质或者属性，而且当你的算法比较完备的时候，不同数据的特征值几乎不可能存在重复的，就跟人的指纹一样，指纹可能会有相似的，但是指纹到目前为止还可以作为重要的断案依据。所以，为什么不使用散列算法为这些数据建立特征值呢？于是便诞生了安全领域的散列算法，又叫做安全散列算法。</p>
@@ -806,6 +802,9 @@ SHA1(&quot;a&quot;) = 0x86F7E437 FAA5A7FC E15D1DDC B9EAEAEA 377667B8
 SHA1(&quot;01234567890123456789012345678901234567890123456789012345&quot;)
     = 0x0A40B8FB DAAFB7C2 9651618A C15D27E7 72287130
 </code></pre>
+<p><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css"></p>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>  
 
         </div>
     
