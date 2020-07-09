@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?cf6db1de52b3cb4093686c920c8e3f7e";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<html style="display: none;" lang="zh">
+    <head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.4.0 -->
+    <script>window.materialVersion = "1.4.0"</script>
+
+    <!-- Title -->
+    
+    <title>
+        
+            AVL树与红黑树 | 
+        
+        Stefenson&#39;s Blog
+    </title>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="Stefenson Wang">
+    <meta name="description" itemprop="description" content>
+    <meta name="keywords" content=",二叉树,二叉查找树,红黑树,AVL树">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" sizes="192x192" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+
+    <!--iOS -->
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Stefenson&#39;s Blog">
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://yoursite.com">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="AVL树与红黑树 | Stefenson&#39;s Blog">
+    <meta property="og:image" content="/img/favicon.png">
+    <meta property="og:description" content>
+    <meta property="og:article:tag" content="二叉树"> <meta property="og:article:tag" content="二叉查找树"> <meta property="og:article:tag" content="红黑树"> <meta property="og:article:tag" content="AVL树"> 
+
+    
+        <meta property="article:published_time" content="5月 14, 2018">
+        <meta property="article:modified_time" content="7月 09, 2020">
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:title" content="AVL树与红黑树 | Stefenson&#39;s Blog">
+    <meta name="twitter:description" content>
+    <meta name="twitter:image" content="/img/favicon.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="http://yoursite.com">
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="http://yoursite.com/2018/05/14/AVL树与红黑树/index.html">
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Stefenson&#39;s Blog",
+        "logo": "/img/favicon.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Stefenson Wang",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/favicon.png"
+        },
+        "description": "一个渣渣程序员的笔记"
+    },
+    "headline": "AVL树与红黑树",
+    "url": "http://yoursite.com/2018/05/14/AVL树与红黑树/index.html",
+    "datePublished": "5月 14, 2018",
+    "dateModified": "7月 09, 2020",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://yoursite.com"
+    }
+}
+</script>
+
+
+    
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(key){try{localStorage.removeItem(key)}catch(e){}};lsloader.setLS=function(key,val){try{localStorage.setItem(key,val)}catch(e){}};lsloader.getLS=function(key){var val="";try{val=localStorage.getItem(key)}catch(e){val=""}return val};versionString="/*"+materialVersion+"*/";lsloader.clean=function(){try{var keys=[];for(var i=0;i<localStorage.length;i++){keys.push(localStorage.key(i))}keys.forEach(function(key){var data=lsloader.getLS(key);if(data&&data.indexOf(versionString)===-1){lsloader.removeLS(key)}})}catch(e){}};lsloader.clean();lsloader.load=function(jsname,jspath,cssonload){cssonload=cssonload||function(){};var code;code=this.getLS(jsname);if(code&&code.indexOf(versionString)===-1){this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}if(code){var versionNumber=code.split(versionString)[0];if(versionNumber!=jspath){console.log("reload:"+jspath);this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}code=code.split(versionString)[1];if(/\.js?.+$/.test(versionNumber)){this.jsRunSequence.push({name:jsname,code:code});this.runjs(jspath,jsname,code)}else{document.getElementById(jsname).appendChild(document.createTextNode(code));cssonload()}}else{this.requestResource(jsname,jspath,cssonload)}};lsloader.requestResource=function(name,path,cssonload){var that=this;if(/\.js?.+$/.test(path)){this.iojs(path,name,function(path,name,code){that.setLS(name,path+versionString+code);that.runjs(path,name,code)})}else if(/\.css?.+$/.test(path)){this.iocss(path,name,function(code){document.getElementById(name).appendChild(document.createTextNode(code));that.setLS(name,path+versionString+code)},cssonload)}};lsloader.iojs=function(path,jsname,callback){var that=this;that.jsRunSequence.push({name:jsname,code:""});try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(path,jsname,xhr.response);return}}that.jsfallback(path,jsname)}};xhr.send(null)}catch(e){that.jsfallback(path,jsname)}};lsloader.iocss=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.iofonts=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.runjs=function(path,name,code){if(!!name&&!!code){for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code=code}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var script=document.createElement("script");script.appendChild(document.createTextNode(this.jsRunSequence[0].code));script.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(script);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var that=this;var script=document.createElement("script");script.src=this.jsRunSequence[0].path;script.type="text/javascript";this.jsRunSequence[0].status="loading";script.onload=function(){that.jsRunSequence.shift();if(that.jsRunSequence.length>0){that.runjs()}};document.body.appendChild(script)}};lsloader.tagLoad=function(path,name){this.jsRunSequence.push({name:name,code:"",path:path,status:"failed"});this.runjs()};lsloader.jsfallback=function(path,name){if(!!this.jsnamemap[name]){return}else{this.jsnamemap[name]=name}for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code="";this.jsRunSequence[k].status="failed";this.jsRunSequence[k].path=path}}this.runjs()};lsloader.cssfallback=function(path,name,cssonload){if(!!this.cssnamemap[name]){return}else{this.cssnamemap[name]=1}var link=document.createElement("link");link.type="text/css";link.href=path;link.rel="stylesheet";link.onload=link.onerror=cssonload;var root=document.getElementsByTagName("script")[0];root.parentNode.insertBefore(link,root)};lsloader.runInlineScript=function(scriptId,codeId){var code=document.getElementById(codeId).innerText;this.jsRunSequence.push({name:scriptId,code:code});this.runjs()};lsloader.loadCombo=function(jslist){var updateList="";var requestingModules={};for(var k in jslist){var LS=this.getLS(jslist[k].name);if(!!LS){var version=LS.split(versionString)[0];var code=LS.split(versionString)[1]}else{var version=""}if(version==jslist[k].path){this.jsRunSequence.push({name:jslist[k].name,code:code,path:jslist[k].path})}else{this.jsRunSequence.push({name:jslist[k].name,code:null,path:jslist[k].path,status:"comboloading"});requestingModules[jslist[k].name]=true;updateList+=(updateList==""?"":";")+jslist[k].path}}var that=this;if(!!updateList){var xhr=new XMLHttpRequest;xhr.open("get",combo+updateList,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){that.runCombo(xhr.response,requestingModules);return}}else{for(var i in that.jsRunSequence){if(requestingModules[that.jsRunSequence[i].name]){that.jsRunSequence[i].status="failed"}}that.runjs()}}};xhr.send(null)}this.runjs()};lsloader.runCombo=function(comboCode,requestingModules){comboCode=comboCode.split("/*combojs*/");comboCode.shift();for(var k in this.jsRunSequence){if(!!requestingModules[this.jsRunSequence[k].name]&&!!comboCode[0]){this.jsRunSequence[k].status="comboJS";this.jsRunSequence[k].code=comboCode[0];this.setLS(this.jsRunSequence[k].name,this.jsRunSequence[k].path+versionString+comboCode[0]);comboCode.shift()}}this.runjs()}})();</script>
+    <!-- Import CSS & jQuery -->
+    
+        <style id="css/material.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/material.min.css","/css/material.min.css?fJTiM/K1J3dWIruo3pxtAw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        <style id="css/style.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/style.min.css","/css/style.min.css?hslYKgKmx9IuZcHTcpHD1Q==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        
+            <style id="/css/fontawesome.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("/css/fontawesome.min.css","/css/fontawesome.min.css?JpVQUwzBJ7aqWjWSWn3mzg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        
+        
+        <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-color: #F5F5F5;
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+        <script>lsloader.load("js/jquery.min.js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==")</script>
+    
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Analytics -->
+    
+
+    <!-- Custom Head -->
+    
+</head>
+
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <style type="text/css">
+    /*重新定义gitment样式*/
+    .gitment-editor-tab {
+        margin: 0px;
+    }
+    .gitment-editor-main {
+        background-color: white;
+    }
+    .gitment-comment-main {
+        background-color: white;
+    }
+    .gitment-editor-submit:enabled {
+        background-color: black;
+    }
+    .gitment-editor-submit:disabled {
+        background-color: gray;
+    }
+
+    /*重新定义MathJax样式，去掉框线*/
+    .MathJax {
+        outline: 0;
+    }
+
+    /*重新定义代码块样式*/
+    #post-content pre {
+        color: rgb(255, 240, 192);
+        background-color: rgba(17, 17, 31, 1);
+        /* border-radius: 3px; */
+    }
+    #post-content pre code {
+        font-family: "Consolas","Monaco";
+    }
+
+    /*重新定义表格样式*/
+    #post-content table td {
+        border: 1px solid rgb(156, 156, 156);
+    }
+    #post-content table th {
+        color: white;
+        background-color: rgba(128, 128, 128, 0.5);
+        border: 1px solid rgb(156, 156, 156);
+    }
+
+    /*重新定义头部Tags标签样式*/
+    #scheme-Isolation .post_entry-tags-head-list {
+        padding: 0;
+        margin: 0;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-item {
+        list-style: none;
+        float: left;
+        font-size: 11px;
+        border: 1px solid #c2c2c2;
+        letter-spacing: 1px;
+        border-radius: 3px;
+        padding-right: 6px;
+        padding-left: 8px;
+        margin-top: 8px;
+        margin-right: 8px;
+        text-align: center;
+        -webkit-appearance: none;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-count {
+        margin-left: 2px;
+        color: #BBBBBB;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-item a {
+        text-decoration: none;
+        color: white;
+        font-weight: 500;
+    }
+    </style>
+    
+        <body id="scheme-Isolation" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+                    <!-- Isolation Header -->
+                    <header class="header">
+    <div class="header-wrapper">
+        <!-- Header Copyright -->
+        <div class="header-copyright" style="bottom: -100px">
+            <div class="header-site">
+                ©&nbsp;
+                <script type="text/javascript">
+                    var fd = new Date();
+                    document.write(fd.getFullYear());
+                </script>
+                &nbsp;Stefenson's Blog
+            </div>
+            <!--
+            I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+            It will not impact the appearance and can give developers a lot of support :)
+
+            很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+            它不会影响美观并可以给开发者很大的支持。 :)
+            -->
+            <div>
+                Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a>
+                <br>
+                Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a>
+                <br>
+                <br>友情链接：
+                <br>某可爱的司机的博客 <a href="https://blog.chionlab.moe" class="footer-develop-a">Chion82的未来道具研究所</a>
+                <br>某可爱的日天的博客 <a href="https://sunskyxh.github.io" class="footer-develop-a">香鸡鸡的小窝</a>
+                <br>某可爱的miruku博客 <a href="https://mirukuchan.github.io" class="footer-develop-a">世界尽头的百货公司</a>
+                <br>某可爱的钟叔的博客 <a href="https://kurumichann.github.io" class="footer-develop-a">kurumi's blog(miruku?)</a>
+            </div>
+        </div>
+
+        <!-- Header Title -->
+        <span class="header-title header-item">
+            <a href="/" title="Stefenson&#39;s Blog">
+                Stefenson&#39;s Blog
+            </a>
+        </span>
+
+        <p class="header-slogan header-item">
+        
+            
+                一个渣渣程序员的笔记
+            
+        
+        </p>
+
+        <!-- Header Nav -->
+        <nav class="header-nav header-item">
+            <span class="header-nav-item">
+                <a href="/" title="Home">
+                    <span>主页</span>
+                </a>
+            </span>
+
+            <!-- Pages  -->
+            
+                <span class="header-nav-item">
+                    <a href="/about" title="About">
+                        <span>About</span>
+                    </a>
+                </span>
+            
+                <span class="header-nav-item">
+                    <a href="/game" title="Game &amp; Demo">
+                        <span>Game &amp; Demo</span>
+                    </a>
+                </span>
+            
+            <span class="header-nav-item">
+                <a id="BackgroundSwitch" href="javascript:switchbg()" title="暂停背景">
+                    <span id="BackgroundSwitchTitle">暂停背景</span>
+                </a>
+            </span>
+            <span class="header-nav-item">
+                <a id="MouseTrack" href="javascript:mousetrack()" title="追踪鼠标">
+                    <span id="BackgroundSwitchTitle">追踪鼠标</span>
+                </a>
+            </span>
+        </nav>
+
+        <!-- Header SNS -->
+        <div class="header-item header-sns_list">
+    <!-- Twitter -->
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Telegram -->
+    
+</div>
+
+    </div>
+</header>
+
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+
+                    <!-- Post TOC -->
+
+    
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col" style="background-color: rgba(255,255,255,0.6)">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+
+
+    <!-- Isolation Post Header -->
+    <!-- Post thumbnail -->
+    
+        <!-- Post Header Info -->
+        <div class="post-header_info without-thumbnail">
+            <!-- Author Avatar & Name -->
+            <a href="/about" style="text-decoration: none; color: #333">
+                <img src="/img/avatar.png" class="avatar-img" width="44px" height="44px" alt="Stefenson Wang's avatar">
+                <span class="name-span">Stefenson Wang</span>
+            </a>
+        </div>
+
+        <!-- Null Thumbnail -->
+        <div class="post_thumbnail-null">
+    
+        </div>
+
+
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+
+    
+        <div class="post-content_wrapper">
+            <p class="post-title">
+                AVL树与红黑树
+            </p>
+            <p>二叉树是一种很经典的数据结构，利用这种结构，我们可以构造出一个快速的数据查询结构，原理就是利用二叉树每个节点都有两个孩子这一性质，我们让每个树节点的左右孩子性质一样，比如左树都比父节点小，右树都比父节点大，这样的结构中我们从根查找一个数据的速度会加快很多，过程就是比当前值大就去右树找，比当前值小就去左树找。这种树我们叫做二叉排序树，它其实就是一个排序好的队列的二分查找过程的具像化结构。</p>
+<p>这是一种很理想的数据存储结构，然而当任由数据随意顺序存储和插入的时候，有时候会出现很尴尬的结果：</p>
+<p>举个例子：<br>数据插入顺序：1→2→3→4→5→6<br>如果对数据不进行刻意安排，那么数据最终呈现形式将是：<br><img src="/img/AVL_RBTree/FAIL_TREE.png" alt="Fail Tree"><br>是的，这是一个瘸了的二叉树，它其实就是一个简单链表，完全没有二叉树应有的样子。</p>
+<p>AVL树和红黑树就是为了防止数据插入或删除的时候树的性能下降而产生的一种算法，或者说一种带有限制条件的二叉树结构，它们正式分类的名字叫做“<strong>自平衡二叉树</strong>”，下面我们就来介绍一下它们。</p>
+<h3 id="树的旋转"><a href="#树的旋转" class="headerlink" title="树的旋转"></a>树的旋转</h3><p>讲AVL跟红黑树之前，我们先来复习一下大学时被我们遗忘的知识：<strong>树的旋转</strong>。</p>
+<p>一图胜千言：<br><img src="/img/AVL_RBTree/TREE_ROTE.png" alt="Tree Rote"><br>其实这里只是写的形象一点而已，为什么把孩子拉高之后多出来的那个节点要接在以前的父节点上呢？</p>
+<p>这里我们要理解一下树旋转本来的设计理念，树旋转最终保证的是节点的相互位置不变，比如上图中第一棵树刚开始如果使用中序遍历，得到的是：BADCE，再经过旋转之后最终的结果中序遍历结果还是BADCE，而中序遍历又是二叉排序树的排序结果遍历方法，所以这么做可以保证树的中序遍历结果不变，也就保证了二叉排序树的性质不变。</p>
+<h3 id="二叉排序树的插入和删除"><a href="#二叉排序树的插入和删除" class="headerlink" title="二叉排序树的插入和删除"></a>二叉排序树的插入和删除</h3><p>在插入操作中，由于二叉排序树的性质，节点加入树中是必须遵守左小右大（或左大右小），所以二叉排序树的插入节点也需要安插在适合的位置。</p>
+<p>但是树这种结构，如果你在半山腰插入一个元素，整个过程将影响一票节点，效率会降低很多，并且不好处理，这时候我们往往选择把节点插入在最后一层一个原本为空的位置上。</p>
+<p>举个例子：<br>在下面树中插入一个新的节点4。<br><img src="/img/AVL_RBTree/INSERT_EXM.png" alt="Insert Example"><br>我们并不会在3和5之间插入节点4，具体插入过程是：</p>
+<ol>
+<li>从根5开始寻找，4比5小所以去左子树。</li>
+<li>新子树的根为3，4比3大所以去右子树。</li>
+<li>新子树根是空的，找到了要插入的位置，插入4。</li>
+</ol>
+<p>最终插入后的效果是：<br><img src="/img/AVL_RBTree/INSERT_EXM_RESULT.png" alt="Insert Example"></p>
+<p>删除操作跟插入一样，如果半山腰删除一个元素，第一是情况复杂不好处理，修改很多指针指向性能较差，所以删除我们也需要特殊处理，将结果往底层没有子孙的节点挪。</p>
+<p>挪的方法就是找到要删除节点左子树的最右节点，或者右子树的最左节点。</p>
+<p>举个例子：<br>在下面树中删除节点5。<br><img src="/img/AVL_RBTree/DELETE_EXM.png" alt="Delete Example"><br>我们用右子树的最左节点替换，过程是：</p>
+<ol>
+<li>去到5的右子树。</li>
+<li>从子树根向左遍历至最深，找到节点6，交换5和6。</li>
+<li>当前节点右子树不是空的，继续去右子树找最左节点，找到7，交换5和7。</li>
+<li>该节点没有孩子，删除节点5。</li>
+</ol>
+<p>过程图：<br><img src="/img/AVL_RBTree/DELETE_EXM_RESULT.png" alt="Delete Example"></p>
+<p>下面的AVL树和红黑树的插入删除也是采用这种方法处理，这样处理优势就是易于对插入和删除的情况做处理，因为都是对叶子节点的操作。</p>
+<h3 id="AVL树"><a href="#AVL树" class="headerlink" title="AVL树"></a>AVL树</h3><p>从难易度考虑，我们首先来说一下AVL树。<br>AVL树得名于它的发明者G. M. Adelson-Velsky和E. M. Landis，他们在1962年的论文《An algorithm for the organization of information》中发表了它。</p>
+<p>AVL树是一种自平衡二叉树，它的平衡原则其实很简单，左右子树深度差不超过1。为了保证AVL树的基本性质不变，每次插入或删除节点之后，如果发现树的平衡原则被打破，就要通过树的左右旋转重新调整树回到正确的平衡状态上。</p>
+<p>所以说AVL树在存储的时候，除了基本树节点存储所需要携带的数据和左右子树的节点外，另外需要存储的是左右子树的高度（或者他们的高度差，但是高度差的维护并不比高度的维护简单），一旦发现左右子树高度差超过1就需要进行平衡调整。</p>
+<p>所以AVL树的平衡调整分为如下几种情况：<br><img src="/img/AVL_RBTree/AVL_REMAKE.png" alt="AVL Remake"><br>简单来说，孩子和孙子方向一致（都是左或者都是右），那么就简单一次旋转就能整理好，如果方向不一致（一左一右），先在孩子节点上把孙子节点转到同一方向上，然后再在父节点上按照刚刚方向一致的情况处理。</p>
+<p>注意这么做之后，这棵子树的高度会发生变化，所以要在子树根（也就是刚刚的父节点）上回溯调用，在子树的父节点上重新分析，看刚刚的调整有没有在其他位置打破平衡原则，或者更新子树的父节点相关的数据。</p>
+<p>那么一次插入/删除一共要平衡多少次呢？</p>
+<p>这里大部分教材里面写的AVL树性能瓶颈就是每次平衡几乎都要回溯到根结点，我也基本同意这种看法。但是AVL树其实并不是每次都要回溯到根的，比如下面这个过程，注意看左右子树高度值变化：<br><img src="/img/AVL_RBTree/AVL_DEMO1.png" alt="AVL Demo"></p>
+<p>可以发现这时候，H节点的插入，除了C、D、H三个节点存在子树高度或者位置的变化，其他的节点并没有发生任何变化。所以AVL树的数据插入或删除的时间是根据树当前形态来的，不是很稳定。</p>
+<h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3><p>红黑树是一种自平衡二叉查找树，它是在1972年由鲁道夫·贝尔发明的，当时称之为”对称二叉B树”，它现代的名字是在Leo J. Guibas和Robert Sedgewick于1978年写的一篇论文中获得的。</p>
+<p>红黑树可以理解为为了插入和删除效率而牺牲部分性能的AVL树，在AVL树中，插入删除的时间不稳定造成树插入删除的效率不稳定，红黑树则可以避免这种情况的发生。</p>
+<p>红黑树的基本性质如下：</p>
+<ol>
+<li>根节点是黑的</li>
+<li>每个叶子结点（红黑树的空节点才是叶子结点）是黑的</li>
+<li>每个红节点的两个子节点是黑的（从根到叶子的每条路径不会出现连续两个红节点）</li>
+<li>从任意节点到其叶子节点的路径中，每个路径的黑节点数目相等。</li>
+</ol>
+<p>红黑树其实是2-3-4树的二叉树表现，可以理解为红黑树与2-3-4树是等价的，他们的等价关系如下图所示：<br><img src="/img/AVL_RBTree/2-3-4_RBTREE.png" alt="RBTree 2-3-4Tree"></p>
+<p>根据红黑树的性质，插入或删除节点之后都需要对树进行性质复原操作（树的旋转）。<br>与AVL树不同，红黑树的性质复原分为插入和删除两个大类，我们先来说插入操作。</p>
+<h4 id="红黑树插入"><a href="#红黑树插入" class="headerlink" title="红黑树插入"></a>红黑树插入</h4><p>红黑树默认插入一个新节点的颜色是红色，因为红节点不会影响路径中黑节点的数目，至少不会违反性质4，那么插入红节点之后会影响的就只剩下性质1和3了（出现两个红节点连在一起的情况）。<br>这里为了简化说明，我将所有红黑树插入后要调整的情形和处理操作列出来，并配上操作原因说明和分析方便大家加深理解。</p>
+<p><strong>说明：下面节点名字做如下简化——N为要分析的节点、F为其父节点、U为其叔节点、G为其祖父节点。</strong><br><span style="color: blue;"><em>PS：为了简化，图示中所有的插入默认是左侧，如果插入到右侧，镜像化操作即可。</em></span><br><span style="color: red;"><strong>注意：记好N一定是红的。</strong></span></p>
+<p>Case 1：N为根，该情况只要把N变为黑色就行，所有分支黑节点数量都增加1，无任何副作用。<br>Case 2：F为黑，这种情况下无需处理，因为黑节点数量没有增加，也没用红-红相邻的情况产生。<br>Case 3：F为红，U为红（G肯定是黑的）把F和U涂黑，G涂红，这样在G、F、U、N范围内已经恢复了红黑树的性质，但是重新上色之后，G的父节点可能是红的或者G有可能是根，所以需要把G作为新的要分析的节点重新分析。<br><img src="/img/AVL_RBTree/RBTREE_CASE3.png" alt="RBTree Case3"><br>Case 4：F为红，U为黑（G肯定是黑的）且F与N的相对位置一致（都是左/右孩子），这种情况我们把F往G方向上旋转，然后把F涂黑G涂红，操作之后该部分已经恢复性质，并且通过F节点的所有分支的黑节点的数目相比之前G在该位置的时候所有分支的黑色节点数目保持不变，黑节点数目没有增减，整理完成。<br><img src="/img/AVL_RBTree/RBTREE_CASE4.png" alt="RBTree Case4"><br>Case 5：F为红，U为黑（G肯定是黑的）且F与N的相对位置相反（一左一右），这种情况我们把N往F方向旋转，旋转之后N和F还是相连的两个红节点，所以这时候要把F作为新的要分析的节点重新分析（其实就是回到了Case 4）。<br><img src="/img/AVL_RBTree/RBTREE_CASE5.png" alt="RBTree Case5"><br>以上就是所有插入的情况。<br>插入过程的调整主要思想就是把红节点往根移动，通过局部调整让红节点不断接近根节点，局部调整完之后查看对局外的影响，并在影响的位置继续调整。<br>插入操作的情况分类也比较简单：</p>
+<ol>
+<li>是不是根分为了1/2、3、4、5</li>
+<li>Case 2、3、4、5以F是不是红细分为2/3、4、5</li>
+<li>Case 3、4、5以U是不是红继续细分为3/4、5</li>
+<li>Case 4、5以F和N相对位置是否一致分为4/5</li>
+</ol>
+<p>插入的整理操作定义为一个方法，整理过程递归调用该方法即可。</p>
+<p>介绍完插入操作，接下来说明删除操作。</p>
+<h4 id="红黑树删除"><a href="#红黑树删除" class="headerlink" title="红黑树删除"></a>红黑树删除</h4><p>红黑树的删除操作要比插入操作复杂的多，由于删除的节点颜色不确定，亲戚节点状态也不确定，所以情况相比起插入来说要分的更多。<br>这里我也把删除的所有情形和处理操作列出来，并在每个操作中详细讲解操作的具体原因说明和分析。</p>
+<p><strong>说明：下面节点名字做如下简化——N为要分析的节点、P为其父节点、S为其兄节点、X/Y为其侄节点。</strong><br><span style="color: blue;"><em>PS：为了简化，图示中所有的删除默认是右侧，如果删除对象是左侧，镜像化操作即可。</em></span><br><span style="color: red;"><strong>注意：不要对N进行黑节点计数，N位置黑节点数目永远少1。</strong></span></p>
+<p>Case 1：要删除的节点（N）为红色，直接删除，黑节点数目没有改变，删除中也不会出现红-红相连的情况。<br>Case 2：要删除的节点为根，直接删，复位整棵树为空。<br>Case 3：N是黑的，S是红的，把S往P方向旋转，然后把P染红，S染黑，这样之后，过S不过P的路径黑节点数目没有变化，但是从P来看，N所在的区域还是没有回归性质，过N的路径黑节点数目依旧比其他路径少1，所以要继续以N分析。<br><img src="/img/AVL_RBTree/RBTREE_DEL_CASE3.png" alt="RBTree Delete Case3"><br>Case 4：N为黑，S为黑，与S相对位置一样（都为左或右孩子）的孩子颜色为红，这时候把S往P方向上旋转，并且把S的颜色改为P的颜色，然后把P涂黑，把与S相对位置相同的节点涂黑，此时新的右侧子树中P、N都是黑的，但是N不计数，所以与以前只有N在的时候黑节点数目相比没有变化，S另一侧黑节点被S的儿子代替，黑节点数目也没有变化，所以调整完成。<br><img src="/img/AVL_RBTree/RBTREE_DEL_CASE4.png" alt="RBTree Delete Case4"><br>Case 5：N为黑，S为黑，与S相对位置相反的孩子为红，这时候把与S相对位置相反的红色孩子往S方向旋转，并且把它染黑，S染红，这么做保证了S这边黑节点数目没有变化，但是树整体状态依旧存在问题，所以需要继续分析N（其实回到了情况4）。<br><img src="/img/AVL_RBTree/RBTREE_DEL_CASE5.png" alt="RBTree Delete Case5"><br><span style="color: blue;"><em>PS：如果4、5情况同时出现（两个孩子都是红的），优先以情况4处理，因为按照情况5处理会出现两个红节点相连的情况，这并不是我们想要的。</em></span></p>
+<p>Case 6：N为黑，S为黑，S的孩子都是黑的，P是红的，这时候只要把S改红，P改黑红黑树的性质就恢复了，原理就是过P的黑色节点数目都加了1，以前的N节点路径上的黑色节点计数挪到了P，而S那边路径上也刚好少了一个黑色节点，所以过P的黑色节点数目与原来保持一致，整理完成。<br><img src="/img/AVL_RBTree/RBTREE_DEL_CASE6.png" alt="RBTree Delete Case6"><br>Case 7：N为黑，S为黑，S的孩子都是黑，P是黑的，这时候把S改为红，这么做之后在P范围内来看已经平衡了，S侧和N侧都少了一个黑节点，但是过P的所有路径黑节点数目也全部减少了1，所以应该把P当作新的要分析的节点重新分析，除非P是根。<br><img src="/img/AVL_RBTree/RBTREE_DEL_CASE7.png" alt="RBTree Delete Case7"><br>以上就是所有删除的情况，注意保存要删除的节点，所有调整完成之后删除要删除的节点。<br>删除过程很复杂，当时刚接触这个东西的时候也是无从下手，不过后来捋清之后情况逐渐明朗了，它们按照情况1～7可以这么划分：</p>
+<ol>
+<li>N是不是红的分为1/2、3、4、5、6、7</li>
+<li>Case 2、3、4、5、6、7以N是不是根分为2/3、4、5、6、7</li>
+<li>Case 3、4、5、6、7以S是不是红的分为3/4、5、6、7</li>
+<li>Case 4、5、6、7以S子节点是否有红的分为4、5/6、7</li>
+<li>Case 4、5以S子节点中红节点与S的相对位置是否一致区分为4/5</li>
+<li>Case 6、7以P是否为红色区分为6/7</li>
+</ol>
+<p>删除方法也整理为一个方法，整理过程中递归调用它。</p>
+<p>以上就是红黑树的全部内容。</p>
+<h3 id="二者对比"><a href="#二者对比" class="headerlink" title="二者对比"></a>二者对比</h3><p>这里我自写了一个程序，程序大致如下：<br><img src="/img/AVL_RBTree/AVLTREE.png" alt="AVLTree"></p>
+<p><img src="/img/AVL_RBTree/RBTREE.png" alt="RBTree"><br>不过我当时测试的时候只是测试了二者插入的速度，有兴趣的可以联系我要一下代码进行更多测试，这里简单放一个二者插入相同数量数据（100w个）的总时间对比截图：<br>AVL树耗时：<br><img src="/img/AVL_RBTree/AVL_TOTAL_TIME.png" alt="AVL Total Time"><br>红黑树耗时：<br><img src="/img/AVL_RBTree/RB_TOTAL_TIME.png" alt="RB Total Time"><br>我个人的理解：AVL树结构要优于红黑树，因为它左右子树相差永远不超过1，但是付出的代价就是每次调整的效率。而红黑树克服了AVL树整理时间过长的问题，但是红黑树的结构有时候也可能会比AVL树差很多，极端情况下有可能会出现树差超过10。简单举个例子：<br><img src="/img/AVL_RBTree/BAD_RBTREE.png" alt="Bad RBTree"><br>可以想象，如果一侧全为黑，另一侧黑红相间，如果数据到达一定量之后，左右高度差将会非常的大，其他文章所谓红黑树相差不超过2、3层的说法是完全靠不住的。<br>这样其实也给我们在设计红黑树的时候提了个醒，在设计红黑树的删除时，不能一直盯着一个方向删除，这样很容易造成一侧子树红节点数量迅速下降，进一步导致两侧高度差拉大。</p>
+<p>AVL树也是有优化空间的，具体优化思路文章中已经说明，有兴趣的可以自己研究一下。</p>
+<p>感谢阅读，下次见～</p>
+
+        </div>
+    
+</div>
+
+
+                
+                    <!-- Paradox Post Info -->
+                    
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2018/10/03/有限集内MD5-SHA1可逆吗——MD5、SHA1算法/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!-- 新篇 -->
+            有限集内MD5/SHA1可逆吗——MD5、SHA1算法
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2018/04/15/排序算法/" id="post_nav-older" class="next-content">
+            <!-- 旧篇 -->
+            排序算法
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+</footer>
+
+
+                    <!-- Import File -->
+
+
+    <script>lsloader.load("js/lazyload.min.js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==")</script>
+    <script>lsloader.load("js/js.min.js","/js/js.min.js?oAl/+lvaqTFV31JXTmbrNA==")</script>
+
+
+
+    <script>lsloader.load("js/nprogress.js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==")</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Window Load-->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+</script>
+
+<!-- MathJax Load-->
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Bing Background -->
+
+
+<script>
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.4.0 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                    <div id="container"></div>
+                    <script src="/js/gitment.browser.js"></script>
+
+                    <div id="loadComment" class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out"  style="background-color: rgba(0, 47, 85, 0.5); min-height: 32px; margin-bottom: 0px;">
+                        <center style="margin-top: 6px;">
+                            <a href="javascript:loadComment()" title="加载评论" style="color: rgb(129, 248, 228); text-decoration: none;">
+                                <span id="BackgroundSwitchTitle">加载评论</span>
+                            </a>
+                        </center>
+                    </div>
+
+                    <script>
+                        function loadComment() {
+                            var p_id = 'AVL树与红黑树'
+                            if (p_id == '')
+                                p_id = 'home'
+                            var gitment = new Gitment({
+                                id: p_id,
+                                owner: 'stefenson',
+                                repo: 'blog_comment',
+                                oauth: {
+                                    client_id: '11eae2a971d306a1da92',
+                                    client_secret: '4ab3eb2e110d470092f71f89ad8126654048f609',
+                                },
+                            })
+                            gitment.render('container')
+
+                            var lc_btn = document.getElementById("loadComment");
+                            var m = document.getElementById("main");
+                            m.removeChild(lc_btn);
+                        }
+                    </script>
+                </main>
+            </div>
+            <!-- <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script> -->
+            <script type="text/javascript" src="/js/nest.min.js"></script>
+            <script type="text/javascript" src="/js/image-zoom.js"></script>
+            <script> setUpZoomImgToDiv('post-content'); </script>
+            <script>
+            (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/f5a96f80.js","daovoice")
+            daovoice('init', {
+                app_id: "f5a96f80"
+            });
+            daovoice('update');
+            </script>
+            <style>
+            #daodream-container .daodream-sheet-header
+            {
+                background-image: none;
+            }
+            </style>
+        </body>
+    
+</html>

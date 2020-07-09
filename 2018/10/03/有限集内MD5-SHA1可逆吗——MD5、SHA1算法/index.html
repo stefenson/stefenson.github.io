@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?cf6db1de52b3cb4093686c920c8e3f7e";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<html style="display: none;" lang="zh">
+    <head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.4.0 -->
+    <script>window.materialVersion = "1.4.0"</script>
+
+    <!-- Title -->
+    
+    <title>
+        
+            有限集内MD5/SHA1可逆吗——MD5、SHA1算法 | 
+        
+        Stefenson&#39;s Blog
+    </title>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="Stefenson Wang">
+    <meta name="description" itemprop="description" content>
+    <meta name="keywords" content=",矩阵,hash算法,MD5,SHA1">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" sizes="192x192" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+
+    <!--iOS -->
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Stefenson&#39;s Blog">
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://yoursite.com">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="有限集内MD5/SHA1可逆吗——MD5、SHA1算法 | Stefenson&#39;s Blog">
+    <meta property="og:image" content="/img/favicon.png">
+    <meta property="og:description" content>
+    <meta property="og:article:tag" content="矩阵"> <meta property="og:article:tag" content="hash算法"> <meta property="og:article:tag" content="MD5"> <meta property="og:article:tag" content="SHA1"> 
+
+    
+        <meta property="article:published_time" content="10月 03, 2018">
+        <meta property="article:modified_time" content="7月 08, 2020">
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:title" content="有限集内MD5/SHA1可逆吗——MD5、SHA1算法 | Stefenson&#39;s Blog">
+    <meta name="twitter:description" content>
+    <meta name="twitter:image" content="/img/favicon.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="http://yoursite.com">
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="http://yoursite.com/2018/10/03/有限集内MD5-SHA1可逆吗——MD5、SHA1算法/index.html">
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Stefenson&#39;s Blog",
+        "logo": "/img/favicon.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Stefenson Wang",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/favicon.png"
+        },
+        "description": "一个渣渣程序员的笔记"
+    },
+    "headline": "有限集内MD5/SHA1可逆吗——MD5、SHA1算法",
+    "url": "http://yoursite.com/2018/10/03/有限集内MD5-SHA1可逆吗——MD5、SHA1算法/index.html",
+    "datePublished": "10月 03, 2018",
+    "dateModified": "7月 08, 2020",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://yoursite.com"
+    }
+}
+</script>
+
+
+    
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(key){try{localStorage.removeItem(key)}catch(e){}};lsloader.setLS=function(key,val){try{localStorage.setItem(key,val)}catch(e){}};lsloader.getLS=function(key){var val="";try{val=localStorage.getItem(key)}catch(e){val=""}return val};versionString="/*"+materialVersion+"*/";lsloader.clean=function(){try{var keys=[];for(var i=0;i<localStorage.length;i++){keys.push(localStorage.key(i))}keys.forEach(function(key){var data=lsloader.getLS(key);if(data&&data.indexOf(versionString)===-1){lsloader.removeLS(key)}})}catch(e){}};lsloader.clean();lsloader.load=function(jsname,jspath,cssonload){cssonload=cssonload||function(){};var code;code=this.getLS(jsname);if(code&&code.indexOf(versionString)===-1){this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}if(code){var versionNumber=code.split(versionString)[0];if(versionNumber!=jspath){console.log("reload:"+jspath);this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}code=code.split(versionString)[1];if(/\.js?.+$/.test(versionNumber)){this.jsRunSequence.push({name:jsname,code:code});this.runjs(jspath,jsname,code)}else{document.getElementById(jsname).appendChild(document.createTextNode(code));cssonload()}}else{this.requestResource(jsname,jspath,cssonload)}};lsloader.requestResource=function(name,path,cssonload){var that=this;if(/\.js?.+$/.test(path)){this.iojs(path,name,function(path,name,code){that.setLS(name,path+versionString+code);that.runjs(path,name,code)})}else if(/\.css?.+$/.test(path)){this.iocss(path,name,function(code){document.getElementById(name).appendChild(document.createTextNode(code));that.setLS(name,path+versionString+code)},cssonload)}};lsloader.iojs=function(path,jsname,callback){var that=this;that.jsRunSequence.push({name:jsname,code:""});try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(path,jsname,xhr.response);return}}that.jsfallback(path,jsname)}};xhr.send(null)}catch(e){that.jsfallback(path,jsname)}};lsloader.iocss=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.iofonts=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.runjs=function(path,name,code){if(!!name&&!!code){for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code=code}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var script=document.createElement("script");script.appendChild(document.createTextNode(this.jsRunSequence[0].code));script.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(script);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var that=this;var script=document.createElement("script");script.src=this.jsRunSequence[0].path;script.type="text/javascript";this.jsRunSequence[0].status="loading";script.onload=function(){that.jsRunSequence.shift();if(that.jsRunSequence.length>0){that.runjs()}};document.body.appendChild(script)}};lsloader.tagLoad=function(path,name){this.jsRunSequence.push({name:name,code:"",path:path,status:"failed"});this.runjs()};lsloader.jsfallback=function(path,name){if(!!this.jsnamemap[name]){return}else{this.jsnamemap[name]=name}for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code="";this.jsRunSequence[k].status="failed";this.jsRunSequence[k].path=path}}this.runjs()};lsloader.cssfallback=function(path,name,cssonload){if(!!this.cssnamemap[name]){return}else{this.cssnamemap[name]=1}var link=document.createElement("link");link.type="text/css";link.href=path;link.rel="stylesheet";link.onload=link.onerror=cssonload;var root=document.getElementsByTagName("script")[0];root.parentNode.insertBefore(link,root)};lsloader.runInlineScript=function(scriptId,codeId){var code=document.getElementById(codeId).innerText;this.jsRunSequence.push({name:scriptId,code:code});this.runjs()};lsloader.loadCombo=function(jslist){var updateList="";var requestingModules={};for(var k in jslist){var LS=this.getLS(jslist[k].name);if(!!LS){var version=LS.split(versionString)[0];var code=LS.split(versionString)[1]}else{var version=""}if(version==jslist[k].path){this.jsRunSequence.push({name:jslist[k].name,code:code,path:jslist[k].path})}else{this.jsRunSequence.push({name:jslist[k].name,code:null,path:jslist[k].path,status:"comboloading"});requestingModules[jslist[k].name]=true;updateList+=(updateList==""?"":";")+jslist[k].path}}var that=this;if(!!updateList){var xhr=new XMLHttpRequest;xhr.open("get",combo+updateList,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){that.runCombo(xhr.response,requestingModules);return}}else{for(var i in that.jsRunSequence){if(requestingModules[that.jsRunSequence[i].name]){that.jsRunSequence[i].status="failed"}}that.runjs()}}};xhr.send(null)}this.runjs()};lsloader.runCombo=function(comboCode,requestingModules){comboCode=comboCode.split("/*combojs*/");comboCode.shift();for(var k in this.jsRunSequence){if(!!requestingModules[this.jsRunSequence[k].name]&&!!comboCode[0]){this.jsRunSequence[k].status="comboJS";this.jsRunSequence[k].code=comboCode[0];this.setLS(this.jsRunSequence[k].name,this.jsRunSequence[k].path+versionString+comboCode[0]);comboCode.shift()}}this.runjs()}})();</script>
+    <!-- Import CSS & jQuery -->
+    
+        <style id="css/material.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/material.min.css","/css/material.min.css?fJTiM/K1J3dWIruo3pxtAw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        <style id="css/style.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/style.min.css","/css/style.min.css?hslYKgKmx9IuZcHTcpHD1Q==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        
+            <style id="/css/fontawesome.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("/css/fontawesome.min.css","/css/fontawesome.min.css?JpVQUwzBJ7aqWjWSWn3mzg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        
+        
+        <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-color: #F5F5F5;
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+        <script>lsloader.load("js/jquery.min.js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==")</script>
+    
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Analytics -->
+    
+
+    <!-- Custom Head -->
+    
+</head>
+
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <style type="text/css">
+    /*重新定义gitment样式*/
+    .gitment-editor-tab {
+        margin: 0px;
+    }
+    .gitment-editor-main {
+        background-color: white;
+    }
+    .gitment-comment-main {
+        background-color: white;
+    }
+    .gitment-editor-submit:enabled {
+        background-color: black;
+    }
+    .gitment-editor-submit:disabled {
+        background-color: gray;
+    }
+
+    /*重新定义MathJax样式，去掉框线*/
+    .MathJax {
+        outline: 0;
+    }
+
+    /*重新定义代码块样式*/
+    #post-content pre {
+        color: rgb(255, 240, 192);
+        background-color: rgba(17, 17, 31, 1);
+        /* border-radius: 3px; */
+    }
+    #post-content pre code {
+        font-family: "Consolas","Monaco";
+    }
+
+    /*重新定义表格样式*/
+    #post-content table td {
+        border: 1px solid rgb(156, 156, 156);
+    }
+    #post-content table th {
+        color: white;
+        background-color: rgba(128, 128, 128, 0.5);
+        border: 1px solid rgb(156, 156, 156);
+    }
+
+    /*重新定义头部Tags标签样式*/
+    #scheme-Isolation .post_entry-tags-head-list {
+        padding: 0;
+        margin: 0;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-item {
+        list-style: none;
+        float: left;
+        font-size: 11px;
+        border: 1px solid #c2c2c2;
+        letter-spacing: 1px;
+        border-radius: 3px;
+        padding-right: 6px;
+        padding-left: 8px;
+        margin-top: 8px;
+        margin-right: 8px;
+        text-align: center;
+        -webkit-appearance: none;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-count {
+        margin-left: 2px;
+        color: #BBBBBB;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-item a {
+        text-decoration: none;
+        color: white;
+        font-weight: 500;
+    }
+    </style>
+    
+        <body id="scheme-Isolation" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+                    <!-- Isolation Header -->
+                    <header class="header">
+    <div class="header-wrapper">
+        <!-- Header Copyright -->
+        <div class="header-copyright" style="bottom: -100px">
+            <div class="header-site">
+                ©&nbsp;
+                <script type="text/javascript">
+                    var fd = new Date();
+                    document.write(fd.getFullYear());
+                </script>
+                &nbsp;Stefenson's Blog
+            </div>
+            <!--
+            I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+            It will not impact the appearance and can give developers a lot of support :)
+
+            很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+            它不会影响美观并可以给开发者很大的支持。 :)
+            -->
+            <div>
+                Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a>
+                <br>
+                Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a>
+                <br>
+                <br>友情链接：
+                <br>某可爱的司机的博客 <a href="https://blog.chionlab.moe" class="footer-develop-a">Chion82的未来道具研究所</a>
+                <br>某可爱的日天的博客 <a href="https://sunskyxh.github.io" class="footer-develop-a">香鸡鸡的小窝</a>
+                <br>某可爱的miruku博客 <a href="https://mirukuchan.github.io" class="footer-develop-a">世界尽头的百货公司</a>
+                <br>某可爱的钟叔的博客 <a href="https://kurumichann.github.io" class="footer-develop-a">kurumi's blog(miruku?)</a>
+            </div>
+        </div>
+
+        <!-- Header Title -->
+        <span class="header-title header-item">
+            <a href="/" title="Stefenson&#39;s Blog">
+                Stefenson&#39;s Blog
+            </a>
+        </span>
+
+        <p class="header-slogan header-item">
+        
+            
+                一个渣渣程序员的笔记
+            
+        
+        </p>
+
+        <!-- Header Nav -->
+        <nav class="header-nav header-item">
+            <span class="header-nav-item">
+                <a href="/" title="Home">
+                    <span>主页</span>
+                </a>
+            </span>
+
+            <!-- Pages  -->
+            
+                <span class="header-nav-item">
+                    <a href="/about" title="About">
+                        <span>About</span>
+                    </a>
+                </span>
+            
+                <span class="header-nav-item">
+                    <a href="/game" title="Game &amp; Demo">
+                        <span>Game &amp; Demo</span>
+                    </a>
+                </span>
+            
+            <span class="header-nav-item">
+                <a id="BackgroundSwitch" href="javascript:switchbg()" title="暂停背景">
+                    <span id="BackgroundSwitchTitle">暂停背景</span>
+                </a>
+            </span>
+            <span class="header-nav-item">
+                <a id="MouseTrack" href="javascript:mousetrack()" title="追踪鼠标">
+                    <span id="BackgroundSwitchTitle">追踪鼠标</span>
+                </a>
+            </span>
+        </nav>
+
+        <!-- Header SNS -->
+        <div class="header-item header-sns_list">
+    <!-- Twitter -->
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Telegram -->
+    
+</div>
+
+    </div>
+</header>
+
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+
+                    <!-- Post TOC -->
+
+    
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col" style="background-color: rgba(255,255,255,0.6)">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+
+
+    <!-- Isolation Post Header -->
+    <!-- Post thumbnail -->
+    
+        <!-- Post Header Info -->
+        <div class="post-header_info without-thumbnail">
+            <!-- Author Avatar & Name -->
+            <a href="/about" style="text-decoration: none; color: #333">
+                <img src="/img/avatar.png" class="avatar-img" width="44px" height="44px" alt="Stefenson Wang's avatar">
+                <span class="name-span">Stefenson Wang</span>
+            </a>
+        </div>
+
+        <!-- Null Thumbnail -->
+        <div class="post_thumbnail-null">
+    
+        </div>
+
+
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+
+    
+        <div class="post-content_wrapper">
+            <p class="post-title">
+                有限集内MD5/SHA1可逆吗——MD5、SHA1算法
+            </p>
+            <p>今天讲一讲hash算法。</p>
+<p>hash算法不可逆，大家都知道，因为这是一个一对多的问题，一个MD5/SHA1值理论上是可以对应多个原始数据的，所以MD5/SHA1是无法还原出原始信息的。</p>
+<p>但是，如果我指定范围，你能通过MD5/SHA1倒推出原始数据吗？</p>
+<p>举个例子：定义一个hash算法，取值在255下的模，这样的hash值也是不能直接反推数据的，但是如果我说我数据就是在1～255之间的值，那我给定一个hash值，无疑你是能得到原始数据的。</p>
+<p>但是MD5/SHA1呢？</p>
+<p>这里容我先卖个关子，今天主要是先介绍MD5/SHA1算法，最后我们会讨论这个问题。</p>
+<p><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css"></p>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>  
+
+<h3 id="散列算法"><a href="#散列算法" class="headerlink" title="散列算法"></a>散列算法</h3><p>在了解MD5、SHA1之前，我们先了解一下什么是散列算法。</p>
+<p>散列算法，或者叫哈希函数，主要是一种通过计算得出数据特征值的算法，算法主要是在字典结构中使用，通过哈希算法算得数据的哈希值可以快速查找数据是否存在或者提取数据。</p>
+<p>后来人们发现，这些特征值其实也是数据的一种特有性质或者属性，而且当你的算法比较完备的时候，不同数据的特征值几乎不可能存在重复的，就跟人的指纹一样，指纹可能会有相似的，但是指纹到目前为止还可以作为重要的断案依据。所以，为什么不使用散列算法为这些数据建立特征值呢？于是便诞生了安全领域的散列算法，又叫做安全散列算法。</p>
+<p>安全领域的散列算法主要就是通过一些比较快的处理方式，可以快速计算出数据的哈希值，然后使用该值进行数据确认，安全传输确认等工作。</p>
+<p>举个简单的例子：一个用户在某个网站下载了一个软件的安装镜像文件，他为了确认这个软件的安装程序是否是真的安装镜像，防止是伪造的病毒或者特洛伊木马，他就可以去访问软件官网确认一下安装包的镜像MD5值是多少，然后跟下载回来的镜像MD5值做比对（大部分软件巨头的软件都提供他们的镜像MD5校验），如果MD5值不同就说明被动过手脚。如果还不放心他可以继续比对二者的SHA1、SHA-256之类的哈希值。</p>
+<p>安全的散列算法现在已经广泛应用于安全登录、安全认证、安全访问等领域，它与加密算法不同，只提供数据特征值，过程单向，大部分情况推出原始数据是不可能的……好像绕回来了。总之先不管这些，散列算法大部分都是不可逆的。</p>
+<p>但是它跟加密算法又有千丝万缕的联系，有些甚至是加密算法的一个子集，通过加密算法修改几个步骤、添加一些输出它就摇身一变变成了散列算法。</p>
+<p>所以我苦苦追查了好久MD5/SHA1的历史由来，到底是怎么发展来的，换一种说法是当时是从什么加密算法变种设计而来的，很遗憾的是算法的真正发展历史已经不可考，只知道MD5经历过MD2→MD3→MD4→MD5几个阶段，SHA1则是在MD5的基础上修改而来，其他的信息少的可怜，已经不知道发明这算法的人当初是怎么把它们设计出来的了……</p>
+<p>当下流行的安全领域散列算法主要是两个派系：MD2/3/4/5系列和SHA系列，接下来主要介绍两者的主要代表：MD5和SHA1。</p>
+<h3 id="MD5算法"><a href="#MD5算法" class="headerlink" title="MD5算法"></a>MD5算法</h3><p>如上面所说MD5算法经历了怎样的设计目前已经不可考，所以下面直接说明MD5的算法流程：</p>
+<p>MD5首先定义了如下几个函数：</p>
+<pre><code class="c">int32_t F(a, b, c) { return (a &amp; b) | ((~a) &amp; c); }
+int32_t G(a, b, c) { return (a &amp; c) | (b &amp; (~c)); }
+int32_t H(a, b, c) { return a ^ b ^ c; }
+int32_t I(a, b, c) { return b ^ (a | (~c)); }
+
+&amp; 按位与
+| 按位或
+^ 按位异或
+~ 取补码
+</code></pre>
+<p>由这四个函数延伸出如下几个函数：</p>
+<pre><code class="c">void FF(a, b, c, d, M, s, t) { a = b + (a + F(b, c, d) + M + t) &lt;&lt; s; }
+void GG(a, b, c, d, M, s, t) { a = b + (a + G(b, c, d) + M + t) &lt;&lt; s; }
+void HH(a, b, c, d, M, s, t) { a = b + (a + H(b, c, d) + M + t) &lt;&lt; s; }
+void II(a, b, c, d, M, s, t) { a = b + (a + I(b, c, d) + M + t) &lt;&lt; s; }
+
+&lt;&lt; 循环左移，举例：0x01001100 &lt;&lt; 5 = 0x10001001
+</code></pre>
+<p>MD5在开始处理数据之前会先对数据进行补齐，使数据变成 N * 512 + 448 bits 的形式。如果数据原始长度在512上的模刚好是448也需要补齐，补齐方法是在原始数据后面跟上一位1和若干个0，举例：</p>
+<pre><code class="c">原始数据：0x7AD2 
+二进制：0x01111011 11010010
+原数据长度：16 bits
+需补齐长度：448 - 16 = 432
+
+补齐之后：0x7AD28000 0x00000000 ...省略12个0x00000000
+二进制：0x01111011 11010010 10000000 00000000 ...省略416个0
+</code></pre>
+<p>算法的初始状态MD5定义了四个幻数：</p>
+<pre><code class="c">A = 0x01234567
+B = 0x89ABCDEF
+C = 0xFEDCBA98
+D = 0x76543210
+</code></pre>
+<p>幻数以小端字节序存储（内存地址由低到高）<br>而编程中我们的变量存储方式是大端字节序（内存地址从高到低）<br>所以编程时我们定义的幻数应该是：</p>
+<pre><code class="c">A = 0x67452301
+B = 0xEFCDAB89
+C = 0x98BADCFE
+D = 0x10325476
+</code></pre>
+<p>数据处理按照块进行，每块大小为512 bits（64 bytes）。<br>这里你会发现如果按照刚刚的补齐，数据原始长度在512的模不是0，缺少的64 bits 怎么办？这里并不是MD5把这64 bits 忘记了，而是定义了他们的特殊作用。MD5最后64 bits的作用是存储原始数据长度，长度也是以小端字节序存储。<br>最后64 bits处理举例：</p>
+<pre><code class="c">原始数据为字符串“abc”，长度为24 bits（3 bytes）
+最后64 bits 为：0x18000000 00000000
+
+原始数据为264 bits（33 bytes）
+最后64 bits 为：0x08010000 00000000
+
+原始数据长度超过64 bits 可存储的大小，取其低64位。
+换一种说法就是按照长度的小端字节序存储，存满为止。
+</code></pre>
+<p>数据和初始幻数定义完毕之后，下面就是对数据的处理。<br>MD5对每块数据做4轮处理，每轮进行16次运算，每轮都将数据分为16个分组，每组32 bits（4 bytes），每块数据处理开始时继承上一轮处理完毕之后的A、B、C、D作为初始值，最开始的一块数据使用的就是4个初始幻数。<br>假设M[j]表示第i个分组的数据，每轮的操作如下：</p>
+<pre><code class="c">// 第一轮
+for (i = 0; i &lt; 16; i++) {
+    switch (i % 4) {
+        case 0:
+            FF(A, B, C, D, M[i], 7, t[i]);
+            break;
+        case 1:
+            FF(D, A, B, C, M[i], 12, t[i]);
+            break;
+        case 2:
+            FF(C, D, A, B, M[i], 17, t[i]);
+            break;
+        case 3:
+            FF(B, C, D, A, M[i], 22, t[i]);
+            break;
+    }
+}
+// 第二轮
+for (i = 0; i &lt; 16; i++) {
+    switch (i % 4) {
+        case 0:
+            GG(A, B, C, D, M[i * 5 + 1] % 16, 5, t[i + 16]);
+            break;
+        case 1:
+            GG(D, A, B, C, M[i * 5 + 1] % 16, 9, t[i + 16]);
+            break;
+        case 2:
+            GG(C, D, A, B, M[i * 5 + 1] % 16, 14, t[i + 16]);
+            break;
+        case 3:
+            GG(B, C, D, A, M[i * 5 + 1] % 16, 20, t[i + 16]);
+            break;
+    }
+}
+// 第三轮
+for (i = 0; i &lt; 16; i++) {
+    switch (i % 4) {
+        case 0:
+            HH(A, B, C, D, M[(i * 3 + 5) % 16], 4, t[i + 32]);
+            break;
+        case 1:
+            HH(D, A, B, C, M[(i * 3 + 5) % 16], 11, t[i + 32]);
+            break;
+        case 2:
+            HH(C, D, A, B, M[(i * 3 + 5) % 16], 16, t[i + 32]);
+            break;
+        case 3:
+            HH(B, C, D, A, M[(i * 3 + 5) % 16], 23, t[i + 32]);
+            break;
+    }
+}
+// 第四轮
+for (i = 0; i &lt; 16; i++) {
+    switch (i % 4) {
+        case 0:
+            II(A, B, C, D, M[i * 7 % 16], 6, t[i + 48]);
+            break;
+        case 1:
+            II(D, A, B, C, M[i * 7 % 16], 10, t[i + 48]);
+            break;
+        case 2:
+            II(C, D, A, B, M[i * 7 % 16], 15, t[i + 48]);
+            break;
+        case 3:
+            II(B, C, D, A, M[i * 7 % 16], 21, t[i + 48]);
+            break;
+    }
+}
+</code></pre>
+<p>别忙，我知道你肯定会问这个t[i]是个什么鬼东西。<br>MD5中对t[i]的定义是：</p>
+<pre><code class="c">t[i] = (int32_t)(pow(2, 32) * abs(sin(i + 1)));
+</code></pre>
+<p>也就是说t[i]就是2的32次方乘以sin(i + 1)的绝对值取整数的部分。</p>
+<p>四轮全部完成之后，加上初始的A、B、C、D即得到本块数据的处理结果。</p>
+<pre><code class="c">A = A + A0
+B = B + B0
+C = C + C0
+D = D + D0
+</code></pre>
+<p>如果还有其他数据块剩余，使用这块的结果作为初始值继续处理后续的数据块，直到没有数据块剩余。</p>
+<p>完全处理完所有数据块之后，A、B、C、D按照小端字节序排列输出就是MD5的结果。顺序按照A→B→C→D。<br>举例：</p>
+<pre><code class="c">A = 0x67452301
+B = 0xEFCDAB89
+C = 0x98BADCFE
+D = 0x10325476
+
+Result = 0x01234567 89ABCDEF FEDCBA98 76543210
+</code></pre>
+<p>我估计你会被这个大小端字节序搞得很头晕，我也一样=。=，我当时实现MD5的时候关于大小端排列的问题也是经过好几次错误的尝试，最后才完全掌握了这个。</p>
+<p>简单总结MD5中的大小端问题：</p>
+<ul>
+<li>定义幻数时由于编译中数字按照大端字节序存储，而给的幻数则按照小断字节序定义，所以要将幻数的存储转化为大端存储。</li>
+<li>长度存储也是按照小端字节序存储的，也是跟编程时候相反，存长度应该从长度数据的最后一个字节开始一个一个填进去，填满64 bits 为止。</li>
+<li>在处理的数据的时候我们一般是一个一个字节存储的，由于MD5将数据按小端存储看待，所以处理的时候为了保持一致，我们应该把脚标大的放在前面（因为存数据的时候也被当作小端存储扔进去的），脚标小的放在后面。</li>
+<li>t[i]不需要变化。</li>
+<li>结果的输出中要按照A→B→C→D的顺序按照小端字节序输出，因为开始处理的时候我们就把他们反了过来，结果还要反回去。</li>
+</ul>
+<p>以上就是MD5算法。</p>
+<h3 id="SHA1算法"><a href="#SHA1算法" class="headerlink" title="SHA1算法"></a>SHA1算法</h3><p>SHA家族是由MDx家族发展而来，可以理解为MDx的一个改进版本。</p>
+<p>SHA定义了如下几个变换函数：</p>
+<pre><code class="c">int32_t f1(b, c, d) { return (b &amp; c) | ((~b) &amp; d); }
+int32_t f2(b, c, d) { return b ^ c ^ d; }
+int32_t f3(b, c, d) { return (b &amp; c) | (b &amp; d) | (c &amp; d); }
+int32_t f4(b, c, d) { return b ^ c ^ d; }
+</code></pre>
+<p>处理数据的时候第一步与MD5一样，先把数据补齐，补齐方法与MD5一致不再赘述。</p>
+<p>在最后64 bits 上SHA1与MD5处理方式不同，但是也是填入数据的长度，不同的地方是不按照小端字节序填，而是按照原始形态填入。<br>依旧用MD5中的例子举例：</p>
+<pre><code class="c">原始数据为字符串“abc”，长度为24 bits（3 bytes）
+最后64 bits 为：0x00000000 00000018
+
+原始数据为264 bits（33 bytes）
+最后64 bits 为：0x00000000 00000108
+
+原始数据长度超过64 bits 可存储的大小，该数据无法处理。
+</code></pre>
+<p>从这里你会发现，SHA1对数据长度是有限制的，当数据长度位数超过2的64次方减1时无法使用SHA1进行散列值运算。</p>
+<p>SHA1在初始处理状态下定义了几个如下几个幻数：</p>
+<pre><code class="c">A = 0x67452301
+B = 0xEFCDAB89
+C = 0x98BADCFE
+D = 0x10325476
+E = 0xC3D2E1F0
+</code></pre>
+<p>处理过程中，数据也是按照512 bits（64 bytes）分块，每块数据分成16个分组，每组4 bytes。<br>处理开始前先申请80个长度为4 bytes 的缓冲区，记每块缓冲区为W[i]，第0～15分组使用当前块数据填充，后面16～79分组按照如下方式填充：</p>
+<pre><code class="c">W[i] = (W[i - 3] ^ W[i - 8] ^ W[i - 14] ^ W[i - 16]) &lt;&lt; 1
+
+&lt;&lt; 表示循环左移
+</code></pre>
+<p>缓冲区建立完毕开始处理数据，申请五个初始值H0~H5，H0～H5继承上一块数据处理的结果，如果是最初的数据块使用初始的五个幻数。<br>令A=H0，B=H1，C=H2，D=H3，E=H4<br>然后执行下面的处理：</p>
+<pre><code class="c">for (i = 0; i &lt; 80; i++) {
+    if (i &gt;= 0 &amp;&amp; i &lt;= 19) {
+        TEMP = (A &lt;&lt; 5) + f1(B, C, D) + E + W[i] + K[i / 20];
+    } else if (i &gt;= 20 &amp;&amp; i &lt;= 39) {
+        TEMP = (A &lt;&lt; 5) + f2(B, C, D) + E + W[i] + K[i / 20];
+    } else if (i &gt;= 40 &amp;&amp; i &lt;= 59) {
+        TEMP = (A &lt;&lt; 5) + f3(B, C, D) + E + W[i] + K[i / 20];
+    } else if (i &gt;= 60 &amp;&amp; i &lt;= 79) {
+        TEMP = (A &lt;&lt; 5) + f4(B, C, D) + E + W[i] + K[i / 20];
+    }
+
+    E = D; D = C; C = B &lt;&lt; 30; B = A; A = TEMP;
+}
+
+H0 = H0 + A;
+H1 = H1 + B;
+H2 = H2 + C;
+H3 = H3 + D;
+H4 = H4 + E;
+
+&lt;&lt; 表示循环左移
+</code></pre>
+<p>这里的K[i]计算如下：</p>
+<pre><code class="c">K[0] = sqrt(2) * pow(2, 30);
+K[1] = sqrt(3) * pow(2, 30);
+K[2] = sqrt(5) * pow(2, 30);
+K[3] = sqrt(10) * pow(2, 30);
+
+sqrt 开根号
+pow 乘方
+</code></pre>
+<p>处理完成之后本块处理结束，如果后续依旧有数据重复这个过程，直到所有数据块处理结束。</p>
+<p>全部数据块处理完成之后依照H0→H1→H2→H3→H4顺序输出结果，输出结果直接按照数据原始形态输出，不需要按照小端字节序输出。<br>举例：</p>
+<pre><code class="c">H0 = 0x67452301
+H1 = 0xEFCDAB89
+H2 = 0x98BADCFE
+H3 = 0x10325476
+H4 = 0xC3D2E1F0
+
+Result = 0x67452301 EFCDAB89 98BADCFE 10325476 C3D2E1F0
+</code></pre>
+<p>SHA1依旧要注意字节存储的问题，与MD5不同，SHA1只按照数据原始形态来，所以说存储的时候使用的脚标顺序就是数据的组织顺序，不需要颠倒。</p>
+<p>以上就是SHA1，比MD5要简单很多。</p>
+<h3 id="有限集可逆？"><a href="#有限集可逆？" class="headerlink" title="有限集可逆？"></a>有限集可逆？</h3><p>好了重点来了，有限集中MD5/SHA1是否可逆呢？</p>
+<p>假设我们知道了数据只有1字节（0～255），这样数据只会处理一轮，结果对应的数据，由于是跟初始幻数计算而来，所以由结果和初始幻数可以得到最后一轮的结果。</p>
+<p>我们观察一下MD5和SHA1，后面的步骤大部分都是重复的，所以这里简化起见，我们以MD5的一个循环为例，分析一下如果要得到这个循环开始的结果能否通过最终的数据推出来。</p>
+<p>假设现在已经知道了MD5第一轮FF处理的结果A、B、C、D，初始幻数也是知道的，现在要求的是M[0~15]。</p>
+<p>最后一次计算的是B的值，这里用于计算的B我们是不知道的，C、D、A已知，M[15]也是待求变量，所以我们这里先把用于计算的B设为B16，这样我们其实得到了一个二元一次方程，我们把他计作：</p>
+<pre><code class="c">ℵ(B16, M[15]) = B
+</code></pre>
+<p>同理我们继续向上推算，C的计算中，D、A已知，B16被我们设为了未知数，结果C我们也知道了，但是这里由于M[14]未知，我们依旧要设一个新的未知数C15，这时其实我们得到了一个新的方程：</p>
+<pre><code class="c">ℵ(B16, C15, M[14]) = C
+</code></pre>
+<p>类似的继续向上推演，我们最终会得到一个方程组：</p>
+<pre><code class="c">ℵ(B16, M[15]) = B
+ℵ(B16, C15, M[14]) = C
+ℵ(B16, C15, D14, M[13]) = D
+ℵ(B16, C15, D14, A13, M[12]) = A
+ℵ(B12, C15, D14, A13, M[11]) = B16
+ℵ(B12, C11, D14, A13, M[10]) = C15
+ℵ(B12, C11, D10, A13, M[9])  = D14
+ℵ(B12, C11, D10, A9,  M[8])  = A13
+ℵ(B8,  C11, D10, A9,  M[7])  = B12
+ℵ(B8,  C7,  D10, A9,  M[6])  = C11
+ℵ(B8,  C7,  D6,  A9,  M[5])  = D10
+ℵ(B8,  C7,  D6,  A5,  M[4])  = A9
+ℵ(C7,  D6,  A5,  M[3]) = B8
+ℵ(D6,  A5,  M[2]) = C7
+ℵ(A5,  M[1]) = D6
+ℵ(M[0]) = A5
+</code></pre>
+<p>我们知道数据只有一字节，所以说，M[0~15]中，还有一些是可以预测的，最简单的M[15]是0x00000000，M[14]是0x08000000，M[1]~M[13]则一定是0x00000000，M[0]是唯一不知道的一个。<br>这样下来方程简化为了：</p>
+<pre><code class="c">ℵ(B16) = B
+ℵ(B16, C15) = C
+ℵ(B16, C15, D14) = D
+ℵ(B16, C15, D14, A13) = A
+ℵ(B12, C15, D14, A13) = B16
+ℵ(B12, C11, D14, A13) = C15
+ℵ(B12, C11, D10, A13)  = D14
+ℵ(B12, C11, D10, A9)  = A13
+ℵ(B8,  C11, D10, A9)  = B12
+ℵ(B8,  C7,  D10, A9)  = C11
+ℵ(B8,  C7,  D6,  A9)  = D10
+ℵ(B8,  C7,  D6,  A5)  = A9
+ℵ(C7,  D6,  A5) = B8
+ℵ(D6,  A5) = C7
+ℵ(A5) = D6
+ℵ(M[0]) = A5
+</code></pre>
+<p>共有16个方程，但是未知数有13个，显然是能解出来的。<br><!-- 但是别忘了，我们只是假设A、B、C、D已知，FF轮最终的A，B，C，D其实我们是不知道的，相当于是17个未知数，显然不可解。 --><br>其实如果把MD5的整个过程全部使用多元方程组表示出来，我们最终会得到64个方程，61个未知量，这个方程组是<strong>可解的</strong>……<br>是不是很神奇？（位运算原则上与普通运算没有严格不同，依旧可以使用数学方法推算）<br>如果扩大有限集的范围到1~2字节时，此时会将未知数增加到62个（数据长度我们无法确定了），方程还是可解的。<br>直到扩大有限集的范围到1~12字节时，未知数数量才增加到65个，方程组开始不可解。<br>也就是说在限定集字节大小变化小于12字节浮动的时候我们是可以通过结果反推的。<br><strong>※ 当然这里也只是数学理论证明，解题过程中应该跟这个结论有出入，但是可以肯定的是在某些情况下方程组是有固定解的。</strong></p>
+<p>那么SHA1呢？<br>这里我直接下结论了，不再过多赘述，有兴趣的可以思考一下这个问题。<br>很遗憾的是，就算限定数据为1个字节的数据，SHA1依旧在原始数据中就会引入一堆未知量，W[0~79]中，除了W[1~15]可知，其他的几乎全部未知，未知量不难推算，应该有58个。<br>整理出来的方程组中，主要是跟E的值有关，为了求数据，我们会引入E80~E6，也就是说我们一共有75+58=133个未知数，而我们的方程组只有80个，这显然是不可解的（理论不可解）。</p>
+<p>所以说，MD5不是当年被Diss……确实现在来看是不安全的，SHA1相对来说还算安全，但是目前来看SHA1貌似也有一种快速攻击方法，这里就不展开细说了，毕竟也没怎么了解过。</p>
+<h3 id="写到最后"><a href="#写到最后" class="headerlink" title="写到最后"></a>写到最后</h3><p>MD5在实现中要确认大小端字节序，这个跟普通编程思路有点不太一样，需要时刻注意，SHA1则没有这个要求。</p>
+<p>不同的哈希算法对数据长度要求是不一样的，MD5不要求数据长度，SHA家族中：SHA-0、SHA-1、SHA-224和SHA-256限制长度2^64-1，SHA-384、SHA-512限制长度为2^128-1，SHA-3无限制。</p>
+<p>PS：其实我感觉MD5当年应该是一个失败的加密算法设计才对www，设计出来发现哎呀有时候咋解不出来，索性变成了哈希算法233。</p>
+<p>今天就到这里了。</p>
+<h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><p>如果你要尝试实现MD5和SHA1的话我这里给几个临界校验值供参考：</p>
+<pre><code class="c">MD5(&quot;&quot;)  = 0xD41D8CD9 8F00B204 E9800998 ECF8427E
+MD5(&quot;a&quot;) = 0x0CC175B9 C0F1B6A8 31C399E2 69772661
+MD5(&quot;01234567890123456789012345678901234567890123456789012345&quot;)
+    = 0x8AF270B2 847610E7 42B0791B 53648C09
+MD5(&quot;012345678901234567890123456789012345678901234567890123456&quot;)
+    = 0xC620BACE 4CDE41BC 45A14CFA 62EE3487
+
+SHA1(&quot;&quot;)  = 0xDA39A3EE 5E6B4B0D 3255BFEF 95601890 AFD80709
+SHA1(&quot;a&quot;) = 0x86F7E437 FAA5A7FC E15D1DDC B9EAEAEA 377667B8
+SHA1(&quot;01234567890123456789012345678901234567890123456789012345&quot;)
+    = 0x0A40B8FB DAAFB7C2 9651618A C15D27E7 72287130
+</code></pre>
+
+        </div>
+    
+</div>
+
+
+                
+                    <!-- Paradox Post Info -->
+                    
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2018/10/09/无损文件压缩/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!-- 新篇 -->
+            无损文件压缩
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2018/05/14/AVL树与红黑树/" id="post_nav-older" class="next-content">
+            <!-- 旧篇 -->
+            AVL树与红黑树
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+</footer>
+
+
+                    <!-- Import File -->
+
+
+    <script>lsloader.load("js/lazyload.min.js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==")</script>
+    <script>lsloader.load("js/js.min.js","/js/js.min.js?oAl/+lvaqTFV31JXTmbrNA==")</script>
+
+
+
+    <script>lsloader.load("js/nprogress.js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==")</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Window Load-->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+</script>
+
+<!-- MathJax Load-->
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Bing Background -->
+
+
+<script>
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.4.0 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                    <div id="container"></div>
+                    <script src="/js/gitment.browser.js"></script>
+
+                    <div id="loadComment" class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out"  style="background-color: rgba(0, 47, 85, 0.5); min-height: 32px; margin-bottom: 0px;">
+                        <center style="margin-top: 6px;">
+                            <a href="javascript:loadComment()" title="加载评论" style="color: rgb(129, 248, 228); text-decoration: none;">
+                                <span id="BackgroundSwitchTitle">加载评论</span>
+                            </a>
+                        </center>
+                    </div>
+
+                    <script>
+                        function loadComment() {
+                            var p_id = '有限集内MD5/SHA1可逆吗——MD5、SHA1算法'
+                            if (p_id == '')
+                                p_id = 'home'
+                            var gitment = new Gitment({
+                                id: p_id,
+                                owner: 'stefenson',
+                                repo: 'blog_comment',
+                                oauth: {
+                                    client_id: '11eae2a971d306a1da92',
+                                    client_secret: '4ab3eb2e110d470092f71f89ad8126654048f609',
+                                },
+                            })
+                            gitment.render('container')
+
+                            var lc_btn = document.getElementById("loadComment");
+                            var m = document.getElementById("main");
+                            m.removeChild(lc_btn);
+                        }
+                    </script>
+                </main>
+            </div>
+            <!-- <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script> -->
+            <script type="text/javascript" src="/js/nest.min.js"></script>
+            <script type="text/javascript" src="/js/image-zoom.js"></script>
+            <script> setUpZoomImgToDiv('post-content'); </script>
+            <script>
+            (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/f5a96f80.js","daovoice")
+            daovoice('init', {
+                app_id: "f5a96f80"
+            });
+            daovoice('update');
+            </script>
+            <style>
+            #daodream-container .daodream-sheet-header
+            {
+                background-image: none;
+            }
+            </style>
+        </body>
+    
+</html>

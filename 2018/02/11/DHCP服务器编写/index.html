@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?cf6db1de52b3cb4093686c920c8e3f7e";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<html style="display: none;" lang="zh">
+    <head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.4.0 -->
+    <script>window.materialVersion = "1.4.0"</script>
+
+    <!-- Title -->
+    
+    <title>
+        
+            DHCP服务器编写 | 
+        
+        Stefenson&#39;s Blog
+    </title>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="Stefenson Wang">
+    <meta name="description" itemprop="description" content>
+    <meta name="keywords" content=",网络,DHCP">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" sizes="192x192" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+
+    <!--iOS -->
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Stefenson&#39;s Blog">
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://yoursite.com">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="DHCP服务器编写 | Stefenson&#39;s Blog">
+    <meta property="og:image" content="/img/favicon.png">
+    <meta property="og:description" content>
+    <meta property="og:article:tag" content="网络"> <meta property="og:article:tag" content="DHCP"> 
+
+    
+        <meta property="article:published_time" content="2月 11, 2018">
+        <meta property="article:modified_time" content="7月 08, 2020">
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:title" content="DHCP服务器编写 | Stefenson&#39;s Blog">
+    <meta name="twitter:description" content>
+    <meta name="twitter:image" content="/img/favicon.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="http://yoursite.com">
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="http://yoursite.com/2018/02/11/DHCP服务器编写/index.html">
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Stefenson&#39;s Blog",
+        "logo": "/img/favicon.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Stefenson Wang",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/favicon.png"
+        },
+        "description": "一个渣渣程序员的笔记"
+    },
+    "headline": "DHCP服务器编写",
+    "url": "http://yoursite.com/2018/02/11/DHCP服务器编写/index.html",
+    "datePublished": "2月 11, 2018",
+    "dateModified": "7月 08, 2020",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://yoursite.com"
+    }
+}
+</script>
+
+
+    
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(key){try{localStorage.removeItem(key)}catch(e){}};lsloader.setLS=function(key,val){try{localStorage.setItem(key,val)}catch(e){}};lsloader.getLS=function(key){var val="";try{val=localStorage.getItem(key)}catch(e){val=""}return val};versionString="/*"+materialVersion+"*/";lsloader.clean=function(){try{var keys=[];for(var i=0;i<localStorage.length;i++){keys.push(localStorage.key(i))}keys.forEach(function(key){var data=lsloader.getLS(key);if(data&&data.indexOf(versionString)===-1){lsloader.removeLS(key)}})}catch(e){}};lsloader.clean();lsloader.load=function(jsname,jspath,cssonload){cssonload=cssonload||function(){};var code;code=this.getLS(jsname);if(code&&code.indexOf(versionString)===-1){this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}if(code){var versionNumber=code.split(versionString)[0];if(versionNumber!=jspath){console.log("reload:"+jspath);this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}code=code.split(versionString)[1];if(/\.js?.+$/.test(versionNumber)){this.jsRunSequence.push({name:jsname,code:code});this.runjs(jspath,jsname,code)}else{document.getElementById(jsname).appendChild(document.createTextNode(code));cssonload()}}else{this.requestResource(jsname,jspath,cssonload)}};lsloader.requestResource=function(name,path,cssonload){var that=this;if(/\.js?.+$/.test(path)){this.iojs(path,name,function(path,name,code){that.setLS(name,path+versionString+code);that.runjs(path,name,code)})}else if(/\.css?.+$/.test(path)){this.iocss(path,name,function(code){document.getElementById(name).appendChild(document.createTextNode(code));that.setLS(name,path+versionString+code)},cssonload)}};lsloader.iojs=function(path,jsname,callback){var that=this;that.jsRunSequence.push({name:jsname,code:""});try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(path,jsname,xhr.response);return}}that.jsfallback(path,jsname)}};xhr.send(null)}catch(e){that.jsfallback(path,jsname)}};lsloader.iocss=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.iofonts=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.runjs=function(path,name,code){if(!!name&&!!code){for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code=code}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var script=document.createElement("script");script.appendChild(document.createTextNode(this.jsRunSequence[0].code));script.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(script);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var that=this;var script=document.createElement("script");script.src=this.jsRunSequence[0].path;script.type="text/javascript";this.jsRunSequence[0].status="loading";script.onload=function(){that.jsRunSequence.shift();if(that.jsRunSequence.length>0){that.runjs()}};document.body.appendChild(script)}};lsloader.tagLoad=function(path,name){this.jsRunSequence.push({name:name,code:"",path:path,status:"failed"});this.runjs()};lsloader.jsfallback=function(path,name){if(!!this.jsnamemap[name]){return}else{this.jsnamemap[name]=name}for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code="";this.jsRunSequence[k].status="failed";this.jsRunSequence[k].path=path}}this.runjs()};lsloader.cssfallback=function(path,name,cssonload){if(!!this.cssnamemap[name]){return}else{this.cssnamemap[name]=1}var link=document.createElement("link");link.type="text/css";link.href=path;link.rel="stylesheet";link.onload=link.onerror=cssonload;var root=document.getElementsByTagName("script")[0];root.parentNode.insertBefore(link,root)};lsloader.runInlineScript=function(scriptId,codeId){var code=document.getElementById(codeId).innerText;this.jsRunSequence.push({name:scriptId,code:code});this.runjs()};lsloader.loadCombo=function(jslist){var updateList="";var requestingModules={};for(var k in jslist){var LS=this.getLS(jslist[k].name);if(!!LS){var version=LS.split(versionString)[0];var code=LS.split(versionString)[1]}else{var version=""}if(version==jslist[k].path){this.jsRunSequence.push({name:jslist[k].name,code:code,path:jslist[k].path})}else{this.jsRunSequence.push({name:jslist[k].name,code:null,path:jslist[k].path,status:"comboloading"});requestingModules[jslist[k].name]=true;updateList+=(updateList==""?"":";")+jslist[k].path}}var that=this;if(!!updateList){var xhr=new XMLHttpRequest;xhr.open("get",combo+updateList,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){that.runCombo(xhr.response,requestingModules);return}}else{for(var i in that.jsRunSequence){if(requestingModules[that.jsRunSequence[i].name]){that.jsRunSequence[i].status="failed"}}that.runjs()}}};xhr.send(null)}this.runjs()};lsloader.runCombo=function(comboCode,requestingModules){comboCode=comboCode.split("/*combojs*/");comboCode.shift();for(var k in this.jsRunSequence){if(!!requestingModules[this.jsRunSequence[k].name]&&!!comboCode[0]){this.jsRunSequence[k].status="comboJS";this.jsRunSequence[k].code=comboCode[0];this.setLS(this.jsRunSequence[k].name,this.jsRunSequence[k].path+versionString+comboCode[0]);comboCode.shift()}}this.runjs()}})();</script>
+    <!-- Import CSS & jQuery -->
+    
+        <style id="css/material.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/material.min.css","/css/material.min.css?fJTiM/K1J3dWIruo3pxtAw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        <style id="css/style.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/style.min.css","/css/style.min.css?hslYKgKmx9IuZcHTcpHD1Q==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        
+            <style id="/css/fontawesome.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("/css/fontawesome.min.css","/css/fontawesome.min.css?JpVQUwzBJ7aqWjWSWn3mzg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        
+        
+        <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-color: #F5F5F5;
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+        <script>lsloader.load("js/jquery.min.js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==")</script>
+    
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Analytics -->
+    
+
+    <!-- Custom Head -->
+    
+</head>
+
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <style type="text/css">
+    /*重新定义gitment样式*/
+    .gitment-editor-tab {
+        margin: 0px;
+    }
+    .gitment-editor-main {
+        background-color: white;
+    }
+    .gitment-comment-main {
+        background-color: white;
+    }
+    .gitment-editor-submit:enabled {
+        background-color: black;
+    }
+    .gitment-editor-submit:disabled {
+        background-color: gray;
+    }
+
+    /*重新定义MathJax样式，去掉框线*/
+    .MathJax {
+        outline: 0;
+    }
+
+    /*重新定义代码块样式*/
+    #post-content pre {
+        color: rgb(255, 240, 192);
+        background-color: rgba(17, 17, 31, 1);
+        /* border-radius: 3px; */
+    }
+    #post-content pre code {
+        font-family: "Consolas","Monaco";
+    }
+
+    /*重新定义表格样式*/
+    #post-content table td {
+        border: 1px solid rgb(156, 156, 156);
+    }
+    #post-content table th {
+        color: white;
+        background-color: rgba(128, 128, 128, 0.5);
+        border: 1px solid rgb(156, 156, 156);
+    }
+
+    /*重新定义头部Tags标签样式*/
+    #scheme-Isolation .post_entry-tags-head-list {
+        padding: 0;
+        margin: 0;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-item {
+        list-style: none;
+        float: left;
+        font-size: 11px;
+        border: 1px solid #c2c2c2;
+        letter-spacing: 1px;
+        border-radius: 3px;
+        padding-right: 6px;
+        padding-left: 8px;
+        margin-top: 8px;
+        margin-right: 8px;
+        text-align: center;
+        -webkit-appearance: none;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-count {
+        margin-left: 2px;
+        color: #BBBBBB;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-item a {
+        text-decoration: none;
+        color: white;
+        font-weight: 500;
+    }
+    </style>
+    
+        <body id="scheme-Isolation" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+                    <!-- Isolation Header -->
+                    <header class="header">
+    <div class="header-wrapper">
+        <!-- Header Copyright -->
+        <div class="header-copyright" style="bottom: -100px">
+            <div class="header-site">
+                ©&nbsp;
+                <script type="text/javascript">
+                    var fd = new Date();
+                    document.write(fd.getFullYear());
+                </script>
+                &nbsp;Stefenson's Blog
+            </div>
+            <!--
+            I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+            It will not impact the appearance and can give developers a lot of support :)
+
+            很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+            它不会影响美观并可以给开发者很大的支持。 :)
+            -->
+            <div>
+                Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a>
+                <br>
+                Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a>
+                <br>
+                <br>友情链接：
+                <br>某可爱的司机的博客 <a href="https://blog.chionlab.moe" class="footer-develop-a">Chion82的未来道具研究所</a>
+                <br>某可爱的日天的博客 <a href="https://sunskyxh.github.io" class="footer-develop-a">香鸡鸡的小窝</a>
+                <br>某可爱的miruku博客 <a href="https://mirukuchan.github.io" class="footer-develop-a">世界尽头的百货公司</a>
+                <br>某可爱的钟叔的博客 <a href="https://kurumichann.github.io" class="footer-develop-a">kurumi's blog(miruku?)</a>
+            </div>
+        </div>
+
+        <!-- Header Title -->
+        <span class="header-title header-item">
+            <a href="/" title="Stefenson&#39;s Blog">
+                Stefenson&#39;s Blog
+            </a>
+        </span>
+
+        <p class="header-slogan header-item">
+        
+            
+                一个渣渣程序员的笔记
+            
+        
+        </p>
+
+        <!-- Header Nav -->
+        <nav class="header-nav header-item">
+            <span class="header-nav-item">
+                <a href="/" title="Home">
+                    <span>主页</span>
+                </a>
+            </span>
+
+            <!-- Pages  -->
+            
+                <span class="header-nav-item">
+                    <a href="/about" title="About">
+                        <span>About</span>
+                    </a>
+                </span>
+            
+                <span class="header-nav-item">
+                    <a href="/game" title="Game &amp; Demo">
+                        <span>Game &amp; Demo</span>
+                    </a>
+                </span>
+            
+            <span class="header-nav-item">
+                <a id="BackgroundSwitch" href="javascript:switchbg()" title="暂停背景">
+                    <span id="BackgroundSwitchTitle">暂停背景</span>
+                </a>
+            </span>
+            <span class="header-nav-item">
+                <a id="MouseTrack" href="javascript:mousetrack()" title="追踪鼠标">
+                    <span id="BackgroundSwitchTitle">追踪鼠标</span>
+                </a>
+            </span>
+        </nav>
+
+        <!-- Header SNS -->
+        <div class="header-item header-sns_list">
+    <!-- Twitter -->
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Telegram -->
+    
+</div>
+
+    </div>
+</header>
+
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+
+                    <!-- Post TOC -->
+
+    
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col" style="background-color: rgba(255,255,255,0.6)">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+
+
+    <!-- Isolation Post Header -->
+    <!-- Post thumbnail -->
+    
+        <!-- Post Header Info -->
+        <div class="post-header_info without-thumbnail">
+            <!-- Author Avatar & Name -->
+            <a href="/about" style="text-decoration: none; color: #333">
+                <img src="/img/avatar.png" class="avatar-img" width="44px" height="44px" alt="Stefenson Wang's avatar">
+                <span class="name-span">Stefenson Wang</span>
+            </a>
+        </div>
+
+        <!-- Null Thumbnail -->
+        <div class="post_thumbnail-null">
+    
+        </div>
+
+
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+
+    
+        <div class="post-content_wrapper">
+            <p class="post-title">
+                DHCP服务器编写
+            </p>
+            <p>DHCP协议（Dynamic Host Configuration Protocol）是一个网络层协议，主要用于给接入设备分配IP，是目前所有路由设备中重要的协议之一。</p>
+<p>本文主要记录博主以前编写DHCP时查询的所有资料和记录编写中遇到的坑，还有编写之后对于DHCP整个流程的理解，希望对后来者有些帮助。</p>
+<p>注意：本文不会写相关代码，只讲述编写思路和算法，代码不是重点。</p>
+<h3 id="DHCP的工作流程"><a href="#DHCP的工作流程" class="headerlink" title="DHCP的工作流程"></a>DHCP的工作流程</h3><blockquote>
+<p>1.客户端以广播的方式发出DHCP Discover报文。<br>2.所有服务器接受这一消息，返回DHCP Offer报文，报文中携带DHCP服务器标示和预分配给客户端的IP地址。<br>3.客户端根据需要处理这些报文，一般只能处理一个报文，然后发出一个<u> 广播 </u>DHCP Request报文，报文中携带选中的DHCP服务器的服务器标示和需要申请的IP地址。<br>4.DHCP服务器收到报文之后，判断Option中携带的标示是不是自己，如果不是，服务器不作处理，只清除相应的IP分配信息（IP分配在Offer阶段发生）；如果是，服务器回应一个DHCP ACK消息，并且在字段中补全IP、DNS、租期等信息。<br>5.客户端收到ACK之后，检查IP是否可用，如果可用则设置网络配置，启动续租流程，如果不可用向服务器发出DHCP Decline报文<u>（广播）</u>，通知所有DHCP服务器禁用该地址，然后重新开始新的地址申请。<br>6.客户端成功获取IP之后可以随时发送DHCP Release报文告诉服务器释放自己的IP，Server收到报文后会回收相应的IP地址，并等待重新分配。</p>
+</blockquote>
+<p>DHCP服务器并不参与后续的数据传输工作，只是为接入网络的设备提供可用的IP这样一个服务，换句话说，DHCP服务器只记录网络中设备的网络配置，在设备配置好相应的网络配置之后，DHCP服务器与其交互基本没有（除了续租和释放）。现在的家用局域网环境中一般路由器既作为网络传输设备又作为IP分配设备，一定程度上会造成误导，其实在一个局域网中，通信设备和IP分配设备完全可以分开。</p>
+<p>客户端续租流程一般发生在租期的50%和87.5%，某些设备也会自定义续租周期，并不一定完全按照规范来，第一次续租叫做Renew，是以单播形式发送DHCP Request报文给服务器，如果成功收到服务器的ACK报文则更新租期时间，继续使用该IP，如果没用，等到87.5%第二次续租的时候会广播发送给全网段的DHCP服务器，这次续租叫做Rebind，如果收到ACK消息，更新服务器标示和租期继续使用该IP，否则等到租期结束发送DHCP Release释放IP并且重新发起IP申请流程。</p>
+<p>客户端在Rebind过程中不携带ServerID，接受所有服务器发过来的NAK和ACK信息，一般情况下Rebind不会成功，因为现阶段网络中大部分使用的是DHCP之间相互独立的设计，部分网络分配发生比较频繁的局域网中可能会同时存在多个设备进行压力分流接受Rebind，一般来说DHCP服务器收到Rebind会因为找不到对应的IP记录直接回复NAK报文给客户端让客户端重新申请IP，压力分流网络中会接受Rebind返回ACK，并记录设备信息。</p>
+<p>在DHCP协商阶段任意时刻，如果DHCP客户端请求存在问题，DHCP服务器就会发送NAK消息拒绝此次请求，客户端收到NAK之后会判断是否来自目标服务器，如果是重新发起申请流程，如果不是忽略该消息继续申请IP。</p>
+<p>当客户端轮询寻找DHCP服务器时（反复发送DHCP Discover没有回应的情况），每次重试之后，时间间隔会在原先基础上 x2，当达到一个轮询周期时间之后重制间隔。比如第一次DHCP Discover没有回应，到第二次的时候间隔时间为2s，如果第二次还没有回应到第三次的时候间隔为4s，第三次到第四次间隔为8s依次类推。</p>
+<p>不过DHCP阶段所有有要求的间隔（轮询间隔、续租间隔）都不是十分准确的时间点，一般会有 ±1s 以内的随机时间叠加，这么做是为了防止服务器瞬时压力过大而给服务器带来不必要的麻烦而设计。正因为此，DHCP在一个轮询周期内DHCP Discover报文数量不固定。</p>
+<p>DHCP协商使用UDP协议，DHCP服务预留的两个端口为67、68，其中68为客户端发送的目标端口，67为服务器的回应的目标端口。</p>
+<h3 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h3><p>广播是一种特殊的UDP报文，所有子网设备都可以收到UDP广播报文，不需要网络分发设备支持。</p>
+<p>发送广播与普通的UDP报文一样，都有一个明确的目标，不过目标的IP是一个特殊的值。</p>
+<p>一般来说，某个子网的广播地址可以用下面方法计算：</p>
+<pre><code class="Java">       IP: 10.85.172.36
+  NetMask: 255.255.254.0
+Broadcast: 10.85.172.36 &amp; (255.255.254.0) | !(255.255.254.0) = 10.85.173.255
+</code></pre>
+<p>PS: NetMask 为子网掩码，! 为按位取反（取补码），计算在字节层面进行</p>
+<p>换句话说，广播地址 = 自己的IP &amp; 子网掩码 | 子网掩码补码<br>也可以理解为网段中的最大IP。</p>
+<p>广播有一个通用地址是 255.255.255.255 ，DHCP服务器中一般使用该地址作为广播目标。</p>
+<p>如果使用 255.255.255.255 作为广播目标，该广播不会被路由器转发到其他设备，只在当前物理层面的局域网中传播。</p>
+<p>顺带一提，链路层的广播地址一般是：FF:FF:FF:FF:FF:FF，这个知识在编写PPPoE服务器中需要了解（下一次博客更新PPPoE服务器编写）</p>
+<h3 id="DHCP报文结构"><a href="#DHCP报文结构" class="headerlink" title="DHCP报文结构"></a>DHCP报文结构</h3><p>DHCP报文衍生自bootp报文，是一个UDP协议的网络层报文，该报文在网络层结构如下：<br><img src="/img/DHCP_BW.png" alt="DHCP报文"><br>图片中数字为该项目的大小，单位是字节Bytes，最后一项表示可变。</p>
+<p>各个项目的意义：</p>
+<blockquote>
+<p>OP：客户端到服务器为1，服务器返回客户端为2。<br>Htype：硬件类型，Ethernet为1，实际在当前网络模式下该值始终为1，无论无线还是有线，可以自己抓报文查看结果。<br>Hlen：硬件地址长度，目前的Mac地址都是6字节，所以值一般都是6。<br>Hops：路由数量，每经过一个路由该值加一，普通网络一般用不到该值。<br>Transation ID：事务ID，客户端请求与服务器的答复相互对应。<br>Secodes：客户端请求开始之后流逝的时间长度，并非IP租期时间。<br>Flags：标志位，目前只用到最高的一位bit，表示DHCP服务器使用广播形式传包，一般不设置。<br>Ciaddr：用户IP，一般为空，续租和释放时会带上自己的IP地址。<br>Yiaddr：客户IP，服务器分配给客户端的IP地址。<br>Siaddr：bootswap中的IP，一般是一个回环地址，回环给自己。<br>Giaddr：网管地址，非下发网关地址，是记录被路由过的DHCP报文上级路由的IP，一般为空。<br>Chaddr：客户端的硬件地址，始终是客户端自己的Mac地址，Mac从前往后依次填写，也就是说现阶段只用到最前面六位。<br>Sname：可选，服务器名称，以0x00结尾。<br>File：启动文件名，在分配完成之后要读取或执行的额外文件。<br>Magic Cookie：DHCP固定为 {0x63, 0x82, 0x53, 0x63}，16进制。</p>
+</blockquote>
+<p>一般情况下File，Sname都是空的，很少用到。<br>有关Magic Cookie，bootp文档解释为让服务器确定在这个报文中它看到的信息类型，有点像特殊标示。</p>
+<p>最后的Option报文的组织形式为：</p>
+<table>
+<thead>
+<tr>
+<th>OptionNum</th>
+<th>OptionLength</th>
+<th>OptionContains</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4 Bytes</td>
+<td>4 Bytes</td>
+<td>length Bytes</td>
+</tr>
+</tbody>
+</table>
+<p>最后的length等于OptionLength定义的值。</p>
+<p>Option有如下属性信息可定义：</p>
+<table>
+<thead>
+<tr>
+<th>必须</th>
+<th>Option编号</th>
+<th>长度</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>☆</td>
+<td>1</td>
+<td>4</td>
+<td>子网掩码</td>
+</tr>
+<tr>
+<td>☆</td>
+<td>3</td>
+<td>4</td>
+<td>网关地址</td>
+</tr>
+<tr>
+<td></td>
+<td>6</td>
+<td>4/8</td>
+<td>DNS地址</td>
+</tr>
+<tr>
+<td></td>
+<td>7</td>
+<td>4</td>
+<td>日志服务器</td>
+</tr>
+<tr>
+<td></td>
+<td>26</td>
+<td>2</td>
+<td>接口MTU</td>
+</tr>
+<tr>
+<td></td>
+<td>33</td>
+<td>8</td>
+<td>静态路由（现阶段中多使用Option 121）</td>
+</tr>
+<tr>
+<td></td>
+<td>35</td>
+<td>4</td>
+<td>ARP缓存时间</td>
+</tr>
+<tr>
+<td></td>
+<td>42</td>
+<td>4</td>
+<td>NTP服务器地址（时间同步服务器）</td>
+</tr>
+<tr>
+<td>☆</td>
+<td>51</td>
+<td>4</td>
+<td>IP租期</td>
+</tr>
+<tr>
+<td>☆</td>
+<td>53</td>
+<td>1</td>
+<td>Message <br> 1 - Discover <br> 2 - Offer <br> 3 - Request <br> 4 - Decline <br> 5 - ACK <br> 6 - NAK <br> 7 - Release <br> 8 - INFO</td>
+</tr>
+<tr>
+<td>☆</td>
+<td>54</td>
+<td>4</td>
+<td>服务器标示，一般是服务器的IP地址。</td>
+</tr>
+</tbody>
+</table>
+<p>所有Option信息添加完毕之后，以0xFF表示配置结束。<br>报文末尾需要使用0x00补足不够的部分，bootp报文在网络层上长度为300字节（不包含链路层报文头42字节），如果不足300字节要用0x00补齐，超过则不需要补齐。</p>
+<p>其他的Option<br>Option60:有两种含义，一种是基本表征值，客户端用于报告自身硬件厂商和配置信息，一种是经过华为定制的携带有用户名密码信息的报文，这里由于商业机密原因不做过多说明，关键字IPoE。</p>
+<p>Option61:客户端标示信息，一般是网络类型+MAC地址，正常情况与Htype和Chaddr保持一致，有些服务器会强制要求客户单携带Option61。</p>
+<p>Option121:静态路由，该字段在一些特殊的网络环境下还是比较常见的。构造形式中，除去开头的Num和Length，后面的形式为</p>
+<table>
+<thead>
+<tr>
+<th>Destination</th>
+<th>Router</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n Bytes</td>
+<td>4 Bytes</td>
+</tr>
+</tbody>
+</table>
+<p>其中Destination为掩码长+掩码固定字段的形式，这也就造成了长度不固定。举个例子：<br>{ 0x00, 0x0A, 0x0A, 0x0A, 0x0A }<br>这样表示一条静态路由，所有的要访问的IP报文无条件发送到目标10.10.10.10，相当于 0/0 -&gt; 10.10.10.10<br>再比如：<br>{ 0x18, 0x10, 0x10, 0x10, 0x0A, 0x0A, 0x0A, 0x0A }<br>这表示所有要访问16.16.16.0/24网段的信息全部发送到10.10.10.10，相当于16.16.16.0/24 -&gt; 10.10.10.10<br>Option121可以含有多条静态路由，发送时需要一条一条组织，解析错误会造成设备联网异常。</p>
+<p>Option125:该字段为服务器向客户端提供的认证信息，有些情况下，客户端只希望收到指定的DHCP服务器消息，所以会要求DHCP服务器携带Option125，收到报文之后将信息与预先存储的信息进行比对，比对通过才接受服务器的答复。</p>
+<h3 id="其他一些注意事项和技巧"><a href="#其他一些注意事项和技巧" class="headerlink" title="其他一些注意事项和技巧"></a>其他一些注意事项和技巧</h3><ul>
+<li>NAK报文一般只在下列情况下发送<blockquote>
+<p>1.续租请求非法（租约过期、无法找到租约、请求的IP分配给了其他设备、请求的地址不在地址池中、请求的地址与Offer的不一致）<br>2.Chaddr为空</p>
+</blockquote>
+</li>
+<li>DHCP服务器分配并记录IP的过程不是在Request时发生，而是在Offer时就已经发生，Request阶段只是确认客户端是否申请了该地址，申请了就开始对客户端的租期，否则清掉Offer阶段存储的信息。<br>换句话说，Mac-&gt;IP的映射在Offer阶段就已经记录，但是Offer阶段不会定义租约。</li>
+<li>DHCP服务器不会主动清理过期的IP，也不会主动探测发现不可用的IP，DHCP服务器只是被动的分配IP给客户端，答复客户端消息，所以DHCP服务器其实不占用很多系统资源，通常一台普通PC就可以应付。<br>所以DHCP服务器分配出去的IP可能是冲突的IP，判断IP是否可用的过程是交给客户端判断的。<br>但是DHCP服务器应当接受所有网络设备发出的Decline信息，如果自己没有记录Decline中携带的IP信息，那么就应该把该IP设置为不可用，以防止下次分配该IP给其他设备。</li>
+<li>编写DHCP服务器IP分配流程时，策略有很多种选择，这里我说一下我的设计方案，策略没有绝对的要求<blockquote>
+<p>设计一个游标和IP分配池，游标初始指向第一个位置。<br>每申请一次IP，先查看游标位置的IP是否可用，如果可用，把该IP分配给设备，然后将游标移动到下一个位置，否则向后寻找可用的IP。<br>寻找的过程中，首先优先寻找未分配的IP，如果没有，寻找租期到期的IP，如果还没有，寻找以前标记为Decline的IP。<br>如果经过几次寻找都没有找到合适的IP，这时候有两种策略，一种是不答复客户端的Request请求，另一种是发送NAK给客户端。<br>每当有IP清除（Release或者Request非自己），这时候可以把游标移动到清理的位置上，提高IP分配效率。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h3><p>DHCP说到底只是一个协议，协议有些固定的内容，比如报文中消息的组织形式，但是也没有那么死板，比如续租流程，比如答复流程中Option携带的信息，这些都是可以定制和发挥的地方。<br>根据bootp报文的性质，其实是完全有能力设计一套自己的IP分配报文类型的，只是能不能流通就只能看时势了……<br>客户端的请求和服务器的答复都有可能发生异常，解析过程中要考虑到这些异常的情况。<br>当然胡搞也是可以的，比如无条件接受所有Request，无条件拒绝所有Request，分配IP的时候故意分配毫无意义的IP或者根本没法用的IP，故意写错网关的地址，故意分配一个虚假的DNS信息，Renew中更新客户端IP等等，这些都是可以做到的，只是这样违背了DHCP服务器初衷而已（不过真的很有趣www）。<br>几个关键的地方：DHCP服务器最关键的是IP分配策略，其他的基本没有太大变化，按照报文要求事先组织好消息形式即可。</p>
+<p>可以拓展的地方：</p>
+<ul>
+<li>DHCP服务器自我管理租期到期的IP和自行检查不可用的IP，不过这样会给DHCP服务器造成一定负担。</li>
+<li>主动与已经开始租期的IP通信判读设备是否还在线，不在线主动清理，同样很耗资源。</li>
+<li>多个DHCP服务器协同工作，就是上文提到的Rebind问题，这个往往在大型局域网IP管理策略中会用到，可以尝试一下。</li>
+</ul>
+<p>第一篇博客就先这样吧，希望能够帮到你。</p>
+<p>后面会陆续把以前总结在本上的知识写上来，敬请期待咯。</p>
+<h3 id="相关资料"><a href="#相关资料" class="headerlink" title="相关资料"></a>相关资料</h3><p><a href="https://www.ietf.org/rfc/rfc2131.txt" target="_blank" rel="noopener">RFC 2131(DHCP)</a><br><a href="https://www.ietf.org/rfc/rfc2132.txt" target="_blank" rel="noopener">RFC 2132(Options in DHCP)</a><br><a href="https://tools.ietf.org/html/rfc3442" target="_blank" rel="noopener">RFC 3442(Option 121)</a><br><a href="https://tools.ietf.org/html/rfc3925" target="_blank" rel="noopener">RFC 3925(DHCPv4 Option 43/60/125)</a></p>
+
+        </div>
+    
+</div>
+
+
+                
+                    <!-- Paradox Post Info -->
+                    
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2018/02/12/PPPoE服务器编写/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!-- 新篇 -->
+            PPPoE服务器编写
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+</footer>
+
+
+                    <!-- Import File -->
+
+
+    <script>lsloader.load("js/lazyload.min.js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==")</script>
+    <script>lsloader.load("js/js.min.js","/js/js.min.js?oAl/+lvaqTFV31JXTmbrNA==")</script>
+
+
+
+    <script>lsloader.load("js/nprogress.js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==")</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Window Load-->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+</script>
+
+<!-- MathJax Load-->
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Bing Background -->
+
+
+<script>
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.4.0 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                    <div id="container"></div>
+                    <script src="/js/gitment.browser.js"></script>
+
+                    <div id="loadComment" class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out"  style="background-color: rgba(0, 47, 85, 0.5); min-height: 32px; margin-bottom: 0px;">
+                        <center style="margin-top: 6px;">
+                            <a href="javascript:loadComment()" title="加载评论" style="color: rgb(129, 248, 228); text-decoration: none;">
+                                <span id="BackgroundSwitchTitle">加载评论</span>
+                            </a>
+                        </center>
+                    </div>
+
+                    <script>
+                        function loadComment() {
+                            var p_id = 'DHCP服务器编写'
+                            if (p_id == '')
+                                p_id = 'home'
+                            var gitment = new Gitment({
+                                id: p_id,
+                                owner: 'stefenson',
+                                repo: 'blog_comment',
+                                oauth: {
+                                    client_id: '11eae2a971d306a1da92',
+                                    client_secret: '4ab3eb2e110d470092f71f89ad8126654048f609',
+                                },
+                            })
+                            gitment.render('container')
+
+                            var lc_btn = document.getElementById("loadComment");
+                            var m = document.getElementById("main");
+                            m.removeChild(lc_btn);
+                        }
+                    </script>
+                </main>
+            </div>
+            <!-- <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script> -->
+            <script type="text/javascript" src="/js/nest.min.js"></script>
+            <script type="text/javascript" src="/js/image-zoom.js"></script>
+            <script> setUpZoomImgToDiv('post-content'); </script>
+            <script>
+            (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/f5a96f80.js","daovoice")
+            daovoice('init', {
+                app_id: "f5a96f80"
+            });
+            daovoice('update');
+            </script>
+            <style>
+            #daodream-container .daodream-sheet-header
+            {
+                background-image: none;
+            }
+            </style>
+        </body>
+    
+</html>

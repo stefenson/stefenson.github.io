@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?cf6db1de52b3cb4093686c920c8e3f7e";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<html style="display: none;" lang="zh">
+    <head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.4.0 -->
+    <script>window.materialVersion = "1.4.0"</script>
+
+    <!-- Title -->
+    
+    <title>
+        
+            无损文件压缩 | 
+        
+        Stefenson&#39;s Blog
+    </title>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="Stefenson Wang">
+    <meta name="description" itemprop="description" content>
+    <meta name="keywords" content=",压缩,哈夫曼,LZ77">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" sizes="192x192" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+
+    <!--iOS -->
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Stefenson&#39;s Blog">
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://yoursite.com">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="无损文件压缩 | Stefenson&#39;s Blog">
+    <meta property="og:image" content="/img/favicon.png">
+    <meta property="og:description" content>
+    <meta property="og:article:tag" content="压缩"> <meta property="og:article:tag" content="哈夫曼"> <meta property="og:article:tag" content="LZ77"> 
+
+    
+        <meta property="article:published_time" content="10月 09, 2018">
+        <meta property="article:modified_time" content="7月 09, 2020">
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:title" content="无损文件压缩 | Stefenson&#39;s Blog">
+    <meta name="twitter:description" content>
+    <meta name="twitter:image" content="/img/favicon.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="http://yoursite.com">
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="http://yoursite.com/2018/10/09/无损文件压缩/index.html">
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Stefenson&#39;s Blog",
+        "logo": "/img/favicon.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Stefenson Wang",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/favicon.png"
+        },
+        "description": "一个渣渣程序员的笔记"
+    },
+    "headline": "无损文件压缩",
+    "url": "http://yoursite.com/2018/10/09/无损文件压缩/index.html",
+    "datePublished": "10月 09, 2018",
+    "dateModified": "7月 09, 2020",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://yoursite.com"
+    }
+}
+</script>
+
+
+    
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(key){try{localStorage.removeItem(key)}catch(e){}};lsloader.setLS=function(key,val){try{localStorage.setItem(key,val)}catch(e){}};lsloader.getLS=function(key){var val="";try{val=localStorage.getItem(key)}catch(e){val=""}return val};versionString="/*"+materialVersion+"*/";lsloader.clean=function(){try{var keys=[];for(var i=0;i<localStorage.length;i++){keys.push(localStorage.key(i))}keys.forEach(function(key){var data=lsloader.getLS(key);if(data&&data.indexOf(versionString)===-1){lsloader.removeLS(key)}})}catch(e){}};lsloader.clean();lsloader.load=function(jsname,jspath,cssonload){cssonload=cssonload||function(){};var code;code=this.getLS(jsname);if(code&&code.indexOf(versionString)===-1){this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}if(code){var versionNumber=code.split(versionString)[0];if(versionNumber!=jspath){console.log("reload:"+jspath);this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}code=code.split(versionString)[1];if(/\.js?.+$/.test(versionNumber)){this.jsRunSequence.push({name:jsname,code:code});this.runjs(jspath,jsname,code)}else{document.getElementById(jsname).appendChild(document.createTextNode(code));cssonload()}}else{this.requestResource(jsname,jspath,cssonload)}};lsloader.requestResource=function(name,path,cssonload){var that=this;if(/\.js?.+$/.test(path)){this.iojs(path,name,function(path,name,code){that.setLS(name,path+versionString+code);that.runjs(path,name,code)})}else if(/\.css?.+$/.test(path)){this.iocss(path,name,function(code){document.getElementById(name).appendChild(document.createTextNode(code));that.setLS(name,path+versionString+code)},cssonload)}};lsloader.iojs=function(path,jsname,callback){var that=this;that.jsRunSequence.push({name:jsname,code:""});try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(path,jsname,xhr.response);return}}that.jsfallback(path,jsname)}};xhr.send(null)}catch(e){that.jsfallback(path,jsname)}};lsloader.iocss=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.iofonts=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.runjs=function(path,name,code){if(!!name&&!!code){for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code=code}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var script=document.createElement("script");script.appendChild(document.createTextNode(this.jsRunSequence[0].code));script.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(script);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var that=this;var script=document.createElement("script");script.src=this.jsRunSequence[0].path;script.type="text/javascript";this.jsRunSequence[0].status="loading";script.onload=function(){that.jsRunSequence.shift();if(that.jsRunSequence.length>0){that.runjs()}};document.body.appendChild(script)}};lsloader.tagLoad=function(path,name){this.jsRunSequence.push({name:name,code:"",path:path,status:"failed"});this.runjs()};lsloader.jsfallback=function(path,name){if(!!this.jsnamemap[name]){return}else{this.jsnamemap[name]=name}for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code="";this.jsRunSequence[k].status="failed";this.jsRunSequence[k].path=path}}this.runjs()};lsloader.cssfallback=function(path,name,cssonload){if(!!this.cssnamemap[name]){return}else{this.cssnamemap[name]=1}var link=document.createElement("link");link.type="text/css";link.href=path;link.rel="stylesheet";link.onload=link.onerror=cssonload;var root=document.getElementsByTagName("script")[0];root.parentNode.insertBefore(link,root)};lsloader.runInlineScript=function(scriptId,codeId){var code=document.getElementById(codeId).innerText;this.jsRunSequence.push({name:scriptId,code:code});this.runjs()};lsloader.loadCombo=function(jslist){var updateList="";var requestingModules={};for(var k in jslist){var LS=this.getLS(jslist[k].name);if(!!LS){var version=LS.split(versionString)[0];var code=LS.split(versionString)[1]}else{var version=""}if(version==jslist[k].path){this.jsRunSequence.push({name:jslist[k].name,code:code,path:jslist[k].path})}else{this.jsRunSequence.push({name:jslist[k].name,code:null,path:jslist[k].path,status:"comboloading"});requestingModules[jslist[k].name]=true;updateList+=(updateList==""?"":";")+jslist[k].path}}var that=this;if(!!updateList){var xhr=new XMLHttpRequest;xhr.open("get",combo+updateList,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){that.runCombo(xhr.response,requestingModules);return}}else{for(var i in that.jsRunSequence){if(requestingModules[that.jsRunSequence[i].name]){that.jsRunSequence[i].status="failed"}}that.runjs()}}};xhr.send(null)}this.runjs()};lsloader.runCombo=function(comboCode,requestingModules){comboCode=comboCode.split("/*combojs*/");comboCode.shift();for(var k in this.jsRunSequence){if(!!requestingModules[this.jsRunSequence[k].name]&&!!comboCode[0]){this.jsRunSequence[k].status="comboJS";this.jsRunSequence[k].code=comboCode[0];this.setLS(this.jsRunSequence[k].name,this.jsRunSequence[k].path+versionString+comboCode[0]);comboCode.shift()}}this.runjs()}})();</script>
+    <!-- Import CSS & jQuery -->
+    
+        <style id="css/material.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/material.min.css","/css/material.min.css?fJTiM/K1J3dWIruo3pxtAw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        <style id="css/style.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/style.min.css","/css/style.min.css?hslYKgKmx9IuZcHTcpHD1Q==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        
+            <style id="/css/fontawesome.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("/css/fontawesome.min.css","/css/fontawesome.min.css?JpVQUwzBJ7aqWjWSWn3mzg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        
+        
+        <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-color: #F5F5F5;
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+        <script>lsloader.load("js/jquery.min.js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==")</script>
+    
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Analytics -->
+    
+
+    <!-- Custom Head -->
+    
+</head>
+
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <style type="text/css">
+    /*重新定义gitment样式*/
+    .gitment-editor-tab {
+        margin: 0px;
+    }
+    .gitment-editor-main {
+        background-color: white;
+    }
+    .gitment-comment-main {
+        background-color: white;
+    }
+    .gitment-editor-submit:enabled {
+        background-color: black;
+    }
+    .gitment-editor-submit:disabled {
+        background-color: gray;
+    }
+
+    /*重新定义MathJax样式，去掉框线*/
+    .MathJax {
+        outline: 0;
+    }
+
+    /*重新定义代码块样式*/
+    #post-content pre {
+        color: rgb(255, 240, 192);
+        background-color: rgba(17, 17, 31, 1);
+        /* border-radius: 3px; */
+    }
+    #post-content pre code {
+        font-family: "Consolas","Monaco";
+    }
+
+    /*重新定义表格样式*/
+    #post-content table td {
+        border: 1px solid rgb(156, 156, 156);
+    }
+    #post-content table th {
+        color: white;
+        background-color: rgba(128, 128, 128, 0.5);
+        border: 1px solid rgb(156, 156, 156);
+    }
+
+    /*重新定义头部Tags标签样式*/
+    #scheme-Isolation .post_entry-tags-head-list {
+        padding: 0;
+        margin: 0;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-item {
+        list-style: none;
+        float: left;
+        font-size: 11px;
+        border: 1px solid #c2c2c2;
+        letter-spacing: 1px;
+        border-radius: 3px;
+        padding-right: 6px;
+        padding-left: 8px;
+        margin-top: 8px;
+        margin-right: 8px;
+        text-align: center;
+        -webkit-appearance: none;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-count {
+        margin-left: 2px;
+        color: #BBBBBB;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-item a {
+        text-decoration: none;
+        color: white;
+        font-weight: 500;
+    }
+    </style>
+    
+        <body id="scheme-Isolation" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+                    <!-- Isolation Header -->
+                    <header class="header">
+    <div class="header-wrapper">
+        <!-- Header Copyright -->
+        <div class="header-copyright" style="bottom: -100px">
+            <div class="header-site">
+                ©&nbsp;
+                <script type="text/javascript">
+                    var fd = new Date();
+                    document.write(fd.getFullYear());
+                </script>
+                &nbsp;Stefenson's Blog
+            </div>
+            <!--
+            I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+            It will not impact the appearance and can give developers a lot of support :)
+
+            很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+            它不会影响美观并可以给开发者很大的支持。 :)
+            -->
+            <div>
+                Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a>
+                <br>
+                Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a>
+                <br>
+                <br>友情链接：
+                <br>某可爱的司机的博客 <a href="https://blog.chionlab.moe" class="footer-develop-a">Chion82的未来道具研究所</a>
+                <br>某可爱的日天的博客 <a href="https://sunskyxh.github.io" class="footer-develop-a">香鸡鸡的小窝</a>
+                <br>某可爱的miruku博客 <a href="https://mirukuchan.github.io" class="footer-develop-a">世界尽头的百货公司</a>
+                <br>某可爱的钟叔的博客 <a href="https://kurumichann.github.io" class="footer-develop-a">kurumi's blog(miruku?)</a>
+            </div>
+        </div>
+
+        <!-- Header Title -->
+        <span class="header-title header-item">
+            <a href="/" title="Stefenson&#39;s Blog">
+                Stefenson&#39;s Blog
+            </a>
+        </span>
+
+        <p class="header-slogan header-item">
+        
+            
+                一个渣渣程序员的笔记
+            
+        
+        </p>
+
+        <!-- Header Nav -->
+        <nav class="header-nav header-item">
+            <span class="header-nav-item">
+                <a href="/" title="Home">
+                    <span>主页</span>
+                </a>
+            </span>
+
+            <!-- Pages  -->
+            
+                <span class="header-nav-item">
+                    <a href="/about" title="About">
+                        <span>About</span>
+                    </a>
+                </span>
+            
+                <span class="header-nav-item">
+                    <a href="/game" title="Game &amp; Demo">
+                        <span>Game &amp; Demo</span>
+                    </a>
+                </span>
+            
+            <span class="header-nav-item">
+                <a id="BackgroundSwitch" href="javascript:switchbg()" title="暂停背景">
+                    <span id="BackgroundSwitchTitle">暂停背景</span>
+                </a>
+            </span>
+            <span class="header-nav-item">
+                <a id="MouseTrack" href="javascript:mousetrack()" title="追踪鼠标">
+                    <span id="BackgroundSwitchTitle">追踪鼠标</span>
+                </a>
+            </span>
+        </nav>
+
+        <!-- Header SNS -->
+        <div class="header-item header-sns_list">
+    <!-- Twitter -->
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Telegram -->
+    
+</div>
+
+    </div>
+</header>
+
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+
+                    <!-- Post TOC -->
+
+    
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col" style="background-color: rgba(255,255,255,0.6)">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+
+
+    <!-- Isolation Post Header -->
+    <!-- Post thumbnail -->
+    
+        <!-- Post Header Info -->
+        <div class="post-header_info without-thumbnail">
+            <!-- Author Avatar & Name -->
+            <a href="/about" style="text-decoration: none; color: #333">
+                <img src="/img/avatar.png" class="avatar-img" width="44px" height="44px" alt="Stefenson Wang's avatar">
+                <span class="name-span">Stefenson Wang</span>
+            </a>
+        </div>
+
+        <!-- Null Thumbnail -->
+        <div class="post_thumbnail-null">
+    
+        </div>
+
+
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+
+    
+        <div class="post-content_wrapper">
+            <p class="post-title">
+                无损文件压缩
+            </p>
+            <blockquote>
+<p>emmmmmmmmm……<br>突然发现半年前挖的坑……</p>
+<pre><code>write date: 2019-4-5
+</code></pre><p>emmmmmmmmm……</p>
+</blockquote>
+<p>无损压缩（下简称”压缩”）是计算机存储方面很重要的一种课题（至少在过去是），这是一种典型的时间换空间的方案。</p>
+<p>过去由于存储介质普遍很贵，所以压缩方式存储文件可以更大化的利用存储介质的空间（就问你有没有见过只有40G的PC硬盘，想想都可怕）。</p>
+<p>压缩，顾名思义就是把大文件的体积变小，让他在存储的时候能够少用一点存储空间，而且压缩后的文件能保证可以反向解算出来并且内容不会变化，但是压缩后的文件不能直接被文件系统识别和读取，需要先对文件进行解压之后才能读取其中内容，解压的时候会消耗一定时间，所以说是时间换空间。</p>
+<p>压缩存储其实也就是对文件进行了特殊编码然后存储，今天主要介绍两种压缩编码：哈夫曼编码、LZ77编码。</p>
+<h3 id="哈夫曼编码"><a href="#哈夫曼编码" class="headerlink" title="哈夫曼编码"></a>哈夫曼编码</h3><p>哈夫曼编码(Huffman Coding)，又称霍夫曼编码，是一种编码方式，哈夫曼编码是可变字长编码(VLC)的一种，是一种用于无损数据压缩的熵编码（权编码）算法。由美国计算机科学家大卫·霍夫曼（David Albert Huffman）在1952年发明。</p>
+<p>这里我们先不管这个什么熵编码是啥意思，哈夫曼编码的核心是统计学原理。<br>简单举个例子，一篇英文文稿，也就是由a～z一共26种英文字母组成，而且有的字母出现频率很高，有些则很低。这时候我们就可以把频繁出现的部分替换为短一点的数据存储。比如如果字母e出现的频率很高，那么我们就用 bit: 0 表示字母e，这样所有有字母e的位置存储的大小都有 1 byte 变为了 1 bit，直接把字母e压缩了87.5%。其他的字母如果还有出现频次比较高的，也按照这个思路压缩，依次使用 bit: 1、bits: 00、bits: 01……这样向后不断填写替换原先的数据，这其实就是哈夫曼编码的核心思想。</p>
+<p>所以说哈夫曼编码中我们需要预先知道所有要编码内容的出现频率，这里我们方便讨论，文件中按照字节看，也就是0～255一共256种可能字节，我们就以这256种字节作为编码对象简述一下过程：</p>
+<blockquote>
+<p>1、读取源文件，统计这256种字节每一种出现的频数。<br>2、把统计得到的结果按照频数排序。<br>3、自底向上按照频数建立一个哈夫曼树。<br>4、根据树节点输出哈夫曼表。<br>5、按照哈夫曼表中的对应关系对数据重新进行编码并存储。<br>6、存储哈夫曼树/表信息用于解码。</p>
+</blockquote>
+<p>这之中的重点就是哈夫曼树/表，下面通过对以上过程的详解穿插介绍一下这个树/表的来历。</p>
+<h4 id="哈夫曼编码过程"><a href="#哈夫曼编码过程" class="headerlink" title="哈夫曼编码过程"></a>哈夫曼编码过程</h4><p>如果我们现在要压缩的数据是：</p>
+<pre><code>ABBCDADDE
+</code></pre><p>统计这份数据各个字节出现的频数：</p>
+<pre><code>A B C D E
+2 2 1 3 1
+</code></pre><p>把数据按照频数排序：</p>
+<pre><code>C E A B D
+1 1 2 2 3
+</code></pre><p>下面就是建立哈夫曼树了。<br>我们先选择出现频数最低的两个节点（C，E），然后把它们放在同一个父节点下，父节点记录这两个节点一共出现的频数：<br><img src="/img/Compression/1.png" alt="ZIP1"><br>然后把他们的父节点与剩余的频数分布放到一起并排序（剔除C、E之后剩余的频数分布节点）</p>
+<pre><code>A B *(2) D
+2 2  2   3
+</code></pre><p>这里为什么把它放在A、B之后一会儿做说明。<br>然后又回到了排序好的状态，重复挑选最低频数过程，直到这个频数分布表只剩下一个节点。</p>
+<pre><code>*(9)
+ 9
+</code></pre><p>最终我们得到这样一个树：<br><img src="/img/Compression/2.png" alt="ZIP2"><br>得到这棵树之后我们这样建立哈夫曼表：<br><strong>先序遍历这棵树，然后记录路径，每向左一次记一个 0，向右一次记一个 1。</strong><br>举个例子：<br>从根节点到E节点，我们的路径是“右左右”，所以E对应的编码是“101”<br>按照这种方法我们得到的哈夫曼表如下：</p>
+<table>
+<thead>
+<tr>
+<th>Node</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>00</td>
+</tr>
+<tr>
+<td>B</td>
+<td>01</td>
+</tr>
+<tr>
+<td>C</td>
+<td>100</td>
+</tr>
+<tr>
+<td>D</td>
+<td>11</td>
+</tr>
+<tr>
+<td>E</td>
+<td>101</td>
+</tr>
+</tbody>
+</table>
+<p><em>以上的1、0都是bit表示</em><br><em>所以这里你也可以思考一下，如果把新节点排序放在前面建立的树形态，这样你就理解为什么我们要把新节点放到后面了。</em></p>
+<p>使用这些编码我们对原数据进行编码，对比原数据：</p>
+<pre><code>压缩后：
+    0001 0110 0110 0111 1101
+=&gt;  0x1667D
+    2.5 bytes
+原数据：
+    ABBCDADDE
+=&gt;  0x414242434441444445
+    9 bytes
+</code></pre><p>这样我们就把数据由原来的9字节压缩成了2.5字节。<br>把编码的数据重新存储，并且存储树信息，这样完整的哈夫曼编码过程就结束了。</p>
+<h4 id="哈夫曼解码过程"><a href="#哈夫曼解码过程" class="headerlink" title="哈夫曼解码过程"></a>哈夫曼解码过程</h4><p>有编码肯定要有解码，解码失败那我们数据等于白存了。<br>哈夫曼的解码过程比较简单，还举刚刚的例子，假设我们已经拿到了编码和哈夫曼树。<br>由于编码是：</p>
+<pre><code>0x1667D =&gt; 0001 0110 0110 0111 1101
+</code></pre><p>树参考刚刚的图，这里不再赘述。<br>我们按照编码时候的方式对数据进行展开，具体操作：<br><strong>根据树信息和编码，从根结点开始，如果编码是0，去当前节点的的左子树，否则去右子树，如果新节点是一个叶子结点，那么就把数据输出然后退回根结点，重复这个过程直到数据结束。</strong><br>比如我们按顺序读到了0，去往左子树，该点不是叶子，继续读又读到了0，继续前往左子树，这时候我们就到了节点A，输出A，然后退回根结点继续按照刚刚的方式读，一直到最后我们就得到了完整的原数据：ABBCDADDE。</p>
+<p>哈夫曼编码的主要内容就是以上这些。</p>
+<h4 id="哈夫曼编码其他一些注意事项"><a href="#哈夫曼编码其他一些注意事项" class="headerlink" title="哈夫曼编码其他一些注意事项"></a>哈夫曼编码其他一些注意事项</h4><p>树是<strong>不一定要存储的</strong>，哈夫曼本质是使用字典进行替换，如果你的字典预先写死在程序中，每一个程序压缩用的是同一个字典，这时候就不用单独存一份信息。<br>然而这么做的代价就是压缩的效果会由于文件的不同而不同，好的好，差的差。但是这种方法并不是不可取，有些主流的压缩算法中，有使用实数e和Π作为字典的。</p>
+<p>那么我们讨论一下需要存储的情况。<br>树的存储有两种方式：<strong>重复节点存储和不重复节点存储。</strong><br>我们建立哈夫曼树的时候，如果你亲自实现以下，你会发现最容易实现的算法就是重复节点存储方式，存储的形式就跟刚刚的例子一样，我们会把树的节点存成下面这样：</p>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>L-son</th>
+<th>R-son</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>E</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>-</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>A</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>B</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>-</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>-</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>D</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>-</td>
+<td>6</td>
+<td>7</td>
+</tr>
+<tr>
+<td>-</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>-</td>
+<td>6</td>
+<td>7</td>
+</tr>
+<tr>
+<td>-</td>
+<td>9</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<p><em>- 代表无数据</em><br><em>最后一个节点是根</em><br><em>数据索引从上到下，从0开始</em></p>
+<p>这样建树，第一是很快，第二是不需要复杂的树存储逻辑，存储新数据时不会影响以往的数据，但是代价也显而易见，这里面有很多冗余数据，必定造成空间浪费。<br>如果你直接保存这个树，无疑是很不理智的，如果要做到极致，树在保存的过程中应该把这些冗余的数据删除再保存。</p>
+<p>关于压缩后的编码，还有一点<strong>理应存储一个文件解压后的长度</strong>，因为在当下的所有操作系统中，存储块默认最小是1字节，就刚刚的例子，我们是不可能保存2.5个字节到文件的，只能保存3个字节，如果保存了三个字节，必定造成后方存在 4 bit 的冗余数据，如果填成 0000 并且没有记录文件长，这四个 0 会被解释成AA，这显然是不对的，所以文件原长度是一定要保存的。</p>
+<h3 id="LZ77编码"><a href="#LZ77编码" class="headerlink" title="LZ77编码"></a>LZ77编码</h3><p>LZ77是Abraham Lempel在1977年发表的论文中的无损数据压缩算法。与最小冗余编码器或者行程长度编码器不同，它是一种基于字典的、“滑动窗”的无损压缩算法，广泛应用于通信、计算机文件存档等方面，这个算法后来被证明等同于LZ78中首次出现的显式字典编码技术。</p>
+<p>与哈夫曼不同，LZ77是一种动态的压缩算法，算法核心是通过前向缓冲区压缩后面的即将出现的数据，也是一种熵编码算法。他与哈夫曼最大的区别在于，LZ77不需要预先对文件进行全读处理，而是读取一段处理一段。</p>
+<p>LZ77算法中，数据是一字节一字节读取的，然后根据前向缓冲区数据对后方数据进行压缩，算法流程：</p>
+<blockquote>
+<p>1、读取文件流中的下一字节。<br>2、在前向缓冲区寻找与该数据相匹配的位置。<br>3、如果找到对应匹配，记录该位置并向后比较，直到数据出现不一致或者缓冲区耗尽，然后编码这一段数据写入结果；如果没有找到直接把该字符写入结果。<br>4、把刚刚读到的字符写入缓冲区。<br>5、如果文件流有剩余回到最初继续，否则编码结束。</p>
+</blockquote>
+<p>LZ77的编码方式为：</p>
+<table>
+<thead>
+<tr>
+<th>StartPos</th>
+<th>Length</th>
+<th>EndChar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>前向位置</td>
+<td>长度</td>
+<td>结束字符</td>
+</tr>
+</tbody>
+</table>
+<p>只是这么讲的话，肯定你对LZ77的轮廓都无法想象出来，所以我们还是从例子出发详细描绘一下LZ77的一个大致轮廓。</p>
+<h4 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h4><p>假设我们现在要压缩数据：</p>
+<pre><code>ABCDEABCDD
+Hex:
+0x41424344 45414243 4444
+</code></pre><p>我们的缓冲区长度为8。<br>开始时：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>E</th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>D</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>↑</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>前面缓冲区数据为空，所以直接把A写入结果，并且把A写入缓冲区。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>E</th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>D</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>A</td>
+<td>↑</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>B在缓冲区中也没有匹配，继续按照刚刚的方式处理：输出文件，写入缓冲区。<br>这个过程一直持续到这个时候：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th>*</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>D</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>↑</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>这时候我们匹配到了A向后开始匹配数据。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th>*</th>
+<th>*</th>
+<th>*</th>
+<th>*</th>
+<th></th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>D</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>↑</td>
+</tr>
+</tbody>
+</table>
+<p>一共匹配到了4个字节，开始位置为3，长度为4，匹配结束末尾是D，所以我们编码数据输出(3，4，D)。<br>整个过程我们向结果中输出的数据为：ABCDE(3,4,D)</p>
+<p>那怎么存这个数据呢？<br>其实LZ77算法在编码数据的时候一般需要一个标志位提示下面是编码的字段，比如取一个无意义字符0xFF，但是这这样的话在压缩非文本文件的时候0xFF还是会出现在有意义的字节中。这里我们可以根据C语言的格式化字符串处理这种情况。<br>回想一下C语言的格式化字符串，假设我们要输出一个“%”，那么我们需要在字符串中输入的是“%%”，这是一种处理数据的技巧，模仿一下，如果我们要存储一个有意义的0xFF而不希望解码的时候将它识别为标志，我们这里可以存储两个0xFF来表示这是一个有效的0xFF。</p>
+<p>所以刚刚的例子中，我们最终存储的数据是（Hex）：</p>
+<pre><code>0x41424344 45FF0304 44
+</code></pre><p>比起原数据长度缩短了一个字节。</p>
+<h4 id="解码"><a href="#解码" class="headerlink" title="解码"></a>解码</h4><p>LZ77的解码也比较简单，用我们刚刚编码的数据简单描述一下解码的流程：</p>
+<pre><code>ABCDE#34D
+HEX:
+0x41424344 45FF0304 44
+</code></pre><p>我们依旧将缓冲区长度设为8（标志使用#表示）：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>E</th>
+<th>#</th>
+<th>3</th>
+<th>4</th>
+<th>D</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>↑</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>读到A，非编码flag，直接输出结果，然后把A放入缓冲区。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>E</th>
+<th>#</th>
+<th>3</th>
+<th>4</th>
+<th>D</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>A</td>
+<td>↑</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>与刚刚一样，该过程一直持续到如下情况：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th>#</th>
+<th>3</th>
+<th>4</th>
+<th>D</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>↑</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>读到flag，查看下一位不是flag，说明是起始字符，开始解码。<br>后续读入3，4，D，了解编码的数据是缓冲区索引3开始长度4的数据，并且末尾补充上D，所以我们输出数据为：ABCDD。<br>这样我们在整个流程中输出了：ABCDEABCDD。与原数据一致。</p>
+<h4 id="LZ77要注意的地方"><a href="#LZ77要注意的地方" class="headerlink" title="LZ77要注意的地方"></a>LZ77要注意的地方</h4><p>第一个要注意的地方是，缓冲区在前向匹配的过程中应当闭锁，不再存入数据，直到本次匹配完成，否则超出当前缓冲区的部分，解码时其实是无法感知的，这个道理简单不再赘述。<br>第二个是，前向匹配中，不能只匹配数据第一次出现的位置，而是要匹配最佳的位置。举个例子：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>*</th>
+<th>*</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>D</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td>A</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>↑</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>这时候两个A都匹配到了后面的数据，但是如果拿第一个A进行编码我们只能匹配到一位，后面的A却可以匹配到4位，所以这里更好的处理是使用第二个A作为匹配位置。</p>
+<p>最后一点是，当你前向匹配到数据时，不一定要进行编码，简单来说，编码长度是固定的，因为它格式单一，而且肯定比一字节大，这时候如果你只匹配到一字节或者少于编码长度的字节数量，这里没必要把数据编码输出，因为编码后的数据比编码前还要大，得不偿失，还不如直接存储数据本身。</p>
+<h3 id="LZ77与哈夫曼这类熵编码总结"><a href="#LZ77与哈夫曼这类熵编码总结" class="headerlink" title="LZ77与哈夫曼这类熵编码总结"></a>LZ77与哈夫曼这类熵编码总结</h3><p>我们先直观感受一下这两个编码表现最好的时候能把数据压缩成什么样子吧：<br>哈夫曼的：<br><img src="/img/Compression/3.png" alt="ZIP3"><br>LZ77的：<br><img src="/img/Compression/4.png" alt="ZIP4"><br>原谅我一个在Windows写的，一个在MacOS写的233。<br>写LZ77的时候手头刚好没有Windows环境，只能拿自己的Mac开撸C了。</p>
+<p>这里你可能会说，哦呀压缩不错啊。<br>其实这个文件的内容很简单：<br><img src="/img/Compression/111.png" alt="FILE"></p>
+<p>如果全世界的文件都长这样就好了（死）<br>好了好了不逗了，那对于一般情况的文件他们表现又如何呢？<br>我们先看PNG图片：<br><img src="/img/Compression/7.png" alt="ZIP5"><br><img src="/img/Compression/5.png" alt="ZIP6"></p>
+<p>emmmmm，我有个问题想咨询一下哈夫曼同学，您对压缩的定义是不是有点偏差？<br>我们再来看看已经压缩的ZIP文档：<br><img src="/img/Compression/8.png" alt="ZIP5"><br><img src="/img/Compression/6.png" alt="ZIP6"></p>
+<p>很不幸，哈夫曼同学依旧在进行反向压缩。<br>后面我多次尝试了一下，哈夫曼编码在压缩数据种类少，且数据频率差异明显的时候有很高的压缩率，在数据种类多，并且频率分布均匀的时候反而没有太大压缩效果。<br>LZ77则不同，LZ77无论什么文件几乎都能压缩那么一丢，因为它动态字典的特性，LZ77往往能比哈夫曼有更好的字典替换方案，并且LZ77不需要存储整棵树用于解码，如果编解码长度恒定甚至不需要存储缓冲区窗口长度。<br>所以在效果上来看，LZ77算法是优于哈夫曼的。</p>
+<p>但是效果好也有很头疼的地方，LZ77最大的缺点是速度，非常慢，因为窗口的动态调整，他对数据的处理速度跟哈夫曼相比慢了不止一个数量级。</p>
+<p>怎么优化他们呢？<br>这里我简单提供一个思路，留给读者们开发：</p>
+<ul>
+<li>哈夫曼算法瓶颈其实是哈夫曼树的存储所占用的空间过多，还有就是选取字典的时候，如果你能匹配尽可能长的字节作为字典基，那么哈夫曼的效果其实是更好的，关键词：<strong>字典设置，树存储优化</strong>。</li>
+<li>LZ77算法的速度其实是可以实现并行计算的，在编码当前数据段的时候，如果已经确定结果，可以立即写好缓冲区进行下一次编码，不用非得等待本次编码完全结束再开始下一次编码。关键词：<strong>多线程</strong>。</li>
+<li>LZ77算法的压缩率，理论上与窗口长度正相关，因为当你窗口足够长的时候，你潜在可匹配的字符会更多，越有可能对后续数据进行编码存储，但是这里就有一个问题，那就是存储编码的时候需要使用大于一字节的数据存储数据开始位置和长度，这会造成文件中数据解释不统一，其实这个很好解决，不过后面我懒得写了233。关键词：<strong>增加窗口长</strong>。</li>
+</ul>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>无损压缩算法的核心思想其实就是通过短字典替换长数据，最终使要存储的东西体积变得比原先小很多。</p>
+<p>无损压缩算法其实还有很多变种，这里不再对他们进行一一介绍了，有兴趣的话读者们可以自行搜索一下资料，例如LZ78（这个其实挺有意思的，跟LZ77刚好相反的一种编码方式），LZW等等。</p>
+<p>那么我们学了这些压缩算法能自己写一套压缩软件吗？当然可以，但是不建议你这么做，因为当下流行的几款主流压缩中，都是多年经验总结下来的结果，例如RAR，这个的压缩器是有专利的（但是解压器是开源的），RAR的效果大家是有目共睹的，但是它还是跑不出这些无损压缩算法的核心，只是通过很巧妙的方式把他们进行了优化和整合。</p>
+<p>如果你真的想要尝试生产一个可用的压缩程序，我建议你去研究一下<a href="https://sourceforge.net/projects/sevenzip/" target="_blank" rel="noopener">7z</a>，这个开源的项目可以作为你快速了解一个无损压缩软件的入门项目，里面凝聚了很多大佬们的智慧。</p>
+<p>另外，压缩是存在极限的，如果你想对这部分进行了解，我推荐你去看一看香农大佬的<strong>信息论</strong>，很棒的一本信息学著作（因为他是信息学创始人啊喂）。</p>
+<p><em>PS：终于把6个月之前的坑填进去了……</em></p>
+
+        </div>
+    
+</div>
+
+
+                
+                    <!-- Paradox Post Info -->
+                    
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2020/07/07/自制NAT网关/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!-- 新篇 -->
+            自制NAT网关
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2018/10/03/有限集内MD5-SHA1可逆吗——MD5、SHA1算法/" id="post_nav-older" class="next-content">
+            <!-- 旧篇 -->
+            有限集内MD5/SHA1可逆吗——MD5、SHA1算法
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+</footer>
+
+
+                    <!-- Import File -->
+
+
+    <script>lsloader.load("js/lazyload.min.js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==")</script>
+    <script>lsloader.load("js/js.min.js","/js/js.min.js?oAl/+lvaqTFV31JXTmbrNA==")</script>
+
+
+
+    <script>lsloader.load("js/nprogress.js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==")</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Window Load-->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+</script>
+
+<!-- MathJax Load-->
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Bing Background -->
+
+
+<script>
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.4.0 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                    <div id="container"></div>
+                    <script src="/js/gitment.browser.js"></script>
+
+                    <div id="loadComment" class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out"  style="background-color: rgba(0, 47, 85, 0.5); min-height: 32px; margin-bottom: 0px;">
+                        <center style="margin-top: 6px;">
+                            <a href="javascript:loadComment()" title="加载评论" style="color: rgb(129, 248, 228); text-decoration: none;">
+                                <span id="BackgroundSwitchTitle">加载评论</span>
+                            </a>
+                        </center>
+                    </div>
+
+                    <script>
+                        function loadComment() {
+                            var p_id = '无损文件压缩'
+                            if (p_id == '')
+                                p_id = 'home'
+                            var gitment = new Gitment({
+                                id: p_id,
+                                owner: 'stefenson',
+                                repo: 'blog_comment',
+                                oauth: {
+                                    client_id: '11eae2a971d306a1da92',
+                                    client_secret: '4ab3eb2e110d470092f71f89ad8126654048f609',
+                                },
+                            })
+                            gitment.render('container')
+
+                            var lc_btn = document.getElementById("loadComment");
+                            var m = document.getElementById("main");
+                            m.removeChild(lc_btn);
+                        }
+                    </script>
+                </main>
+            </div>
+            <!-- <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script> -->
+            <script type="text/javascript" src="/js/nest.min.js"></script>
+            <script type="text/javascript" src="/js/image-zoom.js"></script>
+            <script> setUpZoomImgToDiv('post-content'); </script>
+            <script>
+            (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/f5a96f80.js","daovoice")
+            daovoice('init', {
+                app_id: "f5a96f80"
+            });
+            daovoice('update');
+            </script>
+            <style>
+            #daodream-container .daodream-sheet-header
+            {
+                background-image: none;
+            }
+            </style>
+        </body>
+    
+</html>

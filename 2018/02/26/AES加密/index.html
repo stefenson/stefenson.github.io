@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?cf6db1de52b3cb4093686c920c8e3f7e";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<html style="display: none;" lang="zh">
+    <head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.4.0 -->
+    <script>window.materialVersion = "1.4.0"</script>
+
+    <!-- Title -->
+    
+    <title>
+        
+            AES加密 | 
+        
+        Stefenson&#39;s Blog
+    </title>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="Stefenson Wang">
+    <meta name="description" itemprop="description" content>
+    <meta name="keywords" content=",加密,AES,伽罗华域,矩阵,数论">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" sizes="192x192" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+
+    <!--iOS -->
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Stefenson&#39;s Blog">
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://yoursite.com">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="AES加密 | Stefenson&#39;s Blog">
+    <meta property="og:image" content="/img/favicon.png">
+    <meta property="og:description" content>
+    <meta property="og:article:tag" content="加密"> <meta property="og:article:tag" content="AES"> <meta property="og:article:tag" content="伽罗华域"> <meta property="og:article:tag" content="矩阵"> <meta property="og:article:tag" content="数论"> 
+
+    
+        <meta property="article:published_time" content="2月 26, 2018">
+        <meta property="article:modified_time" content="7月 09, 2020">
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:title" content="AES加密 | Stefenson&#39;s Blog">
+    <meta name="twitter:description" content>
+    <meta name="twitter:image" content="/img/favicon.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="http://yoursite.com">
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="http://yoursite.com/2018/02/26/AES加密/index.html">
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Stefenson&#39;s Blog",
+        "logo": "/img/favicon.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Stefenson Wang",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/favicon.png"
+        },
+        "description": "一个渣渣程序员的笔记"
+    },
+    "headline": "AES加密",
+    "url": "http://yoursite.com/2018/02/26/AES加密/index.html",
+    "datePublished": "2月 26, 2018",
+    "dateModified": "7月 09, 2020",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://yoursite.com"
+    }
+}
+</script>
+
+
+    
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(key){try{localStorage.removeItem(key)}catch(e){}};lsloader.setLS=function(key,val){try{localStorage.setItem(key,val)}catch(e){}};lsloader.getLS=function(key){var val="";try{val=localStorage.getItem(key)}catch(e){val=""}return val};versionString="/*"+materialVersion+"*/";lsloader.clean=function(){try{var keys=[];for(var i=0;i<localStorage.length;i++){keys.push(localStorage.key(i))}keys.forEach(function(key){var data=lsloader.getLS(key);if(data&&data.indexOf(versionString)===-1){lsloader.removeLS(key)}})}catch(e){}};lsloader.clean();lsloader.load=function(jsname,jspath,cssonload){cssonload=cssonload||function(){};var code;code=this.getLS(jsname);if(code&&code.indexOf(versionString)===-1){this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}if(code){var versionNumber=code.split(versionString)[0];if(versionNumber!=jspath){console.log("reload:"+jspath);this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}code=code.split(versionString)[1];if(/\.js?.+$/.test(versionNumber)){this.jsRunSequence.push({name:jsname,code:code});this.runjs(jspath,jsname,code)}else{document.getElementById(jsname).appendChild(document.createTextNode(code));cssonload()}}else{this.requestResource(jsname,jspath,cssonload)}};lsloader.requestResource=function(name,path,cssonload){var that=this;if(/\.js?.+$/.test(path)){this.iojs(path,name,function(path,name,code){that.setLS(name,path+versionString+code);that.runjs(path,name,code)})}else if(/\.css?.+$/.test(path)){this.iocss(path,name,function(code){document.getElementById(name).appendChild(document.createTextNode(code));that.setLS(name,path+versionString+code)},cssonload)}};lsloader.iojs=function(path,jsname,callback){var that=this;that.jsRunSequence.push({name:jsname,code:""});try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(path,jsname,xhr.response);return}}that.jsfallback(path,jsname)}};xhr.send(null)}catch(e){that.jsfallback(path,jsname)}};lsloader.iocss=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.iofonts=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.runjs=function(path,name,code){if(!!name&&!!code){for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code=code}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var script=document.createElement("script");script.appendChild(document.createTextNode(this.jsRunSequence[0].code));script.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(script);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var that=this;var script=document.createElement("script");script.src=this.jsRunSequence[0].path;script.type="text/javascript";this.jsRunSequence[0].status="loading";script.onload=function(){that.jsRunSequence.shift();if(that.jsRunSequence.length>0){that.runjs()}};document.body.appendChild(script)}};lsloader.tagLoad=function(path,name){this.jsRunSequence.push({name:name,code:"",path:path,status:"failed"});this.runjs()};lsloader.jsfallback=function(path,name){if(!!this.jsnamemap[name]){return}else{this.jsnamemap[name]=name}for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code="";this.jsRunSequence[k].status="failed";this.jsRunSequence[k].path=path}}this.runjs()};lsloader.cssfallback=function(path,name,cssonload){if(!!this.cssnamemap[name]){return}else{this.cssnamemap[name]=1}var link=document.createElement("link");link.type="text/css";link.href=path;link.rel="stylesheet";link.onload=link.onerror=cssonload;var root=document.getElementsByTagName("script")[0];root.parentNode.insertBefore(link,root)};lsloader.runInlineScript=function(scriptId,codeId){var code=document.getElementById(codeId).innerText;this.jsRunSequence.push({name:scriptId,code:code});this.runjs()};lsloader.loadCombo=function(jslist){var updateList="";var requestingModules={};for(var k in jslist){var LS=this.getLS(jslist[k].name);if(!!LS){var version=LS.split(versionString)[0];var code=LS.split(versionString)[1]}else{var version=""}if(version==jslist[k].path){this.jsRunSequence.push({name:jslist[k].name,code:code,path:jslist[k].path})}else{this.jsRunSequence.push({name:jslist[k].name,code:null,path:jslist[k].path,status:"comboloading"});requestingModules[jslist[k].name]=true;updateList+=(updateList==""?"":";")+jslist[k].path}}var that=this;if(!!updateList){var xhr=new XMLHttpRequest;xhr.open("get",combo+updateList,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){that.runCombo(xhr.response,requestingModules);return}}else{for(var i in that.jsRunSequence){if(requestingModules[that.jsRunSequence[i].name]){that.jsRunSequence[i].status="failed"}}that.runjs()}}};xhr.send(null)}this.runjs()};lsloader.runCombo=function(comboCode,requestingModules){comboCode=comboCode.split("/*combojs*/");comboCode.shift();for(var k in this.jsRunSequence){if(!!requestingModules[this.jsRunSequence[k].name]&&!!comboCode[0]){this.jsRunSequence[k].status="comboJS";this.jsRunSequence[k].code=comboCode[0];this.setLS(this.jsRunSequence[k].name,this.jsRunSequence[k].path+versionString+comboCode[0]);comboCode.shift()}}this.runjs()}})();</script>
+    <!-- Import CSS & jQuery -->
+    
+        <style id="css/material.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/material.min.css","/css/material.min.css?fJTiM/K1J3dWIruo3pxtAw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        <style id="css/style.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/style.min.css","/css/style.min.css?hslYKgKmx9IuZcHTcpHD1Q==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        
+            <style id="/css/fontawesome.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("/css/fontawesome.min.css","/css/fontawesome.min.css?JpVQUwzBJ7aqWjWSWn3mzg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        
+        
+        <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-color: #F5F5F5;
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+        <script>lsloader.load("js/jquery.min.js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==")</script>
+    
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Analytics -->
+    
+
+    <!-- Custom Head -->
+    
+</head>
+
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <style type="text/css">
+    /*重新定义gitment样式*/
+    .gitment-editor-tab {
+        margin: 0px;
+    }
+    .gitment-editor-main {
+        background-color: white;
+    }
+    .gitment-comment-main {
+        background-color: white;
+    }
+    .gitment-editor-submit:enabled {
+        background-color: black;
+    }
+    .gitment-editor-submit:disabled {
+        background-color: gray;
+    }
+
+    /*重新定义MathJax样式，去掉框线*/
+    .MathJax {
+        outline: 0;
+    }
+
+    /*重新定义代码块样式*/
+    #post-content pre {
+        color: rgb(255, 240, 192);
+        background-color: rgba(17, 17, 31, 1);
+        /* border-radius: 3px; */
+    }
+    #post-content pre code {
+        font-family: "Consolas","Monaco";
+    }
+
+    /*重新定义表格样式*/
+    #post-content table td {
+        border: 1px solid rgb(156, 156, 156);
+    }
+    #post-content table th {
+        color: white;
+        background-color: rgba(128, 128, 128, 0.5);
+        border: 1px solid rgb(156, 156, 156);
+    }
+
+    /*重新定义头部Tags标签样式*/
+    #scheme-Isolation .post_entry-tags-head-list {
+        padding: 0;
+        margin: 0;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-item {
+        list-style: none;
+        float: left;
+        font-size: 11px;
+        border: 1px solid #c2c2c2;
+        letter-spacing: 1px;
+        border-radius: 3px;
+        padding-right: 6px;
+        padding-left: 8px;
+        margin-top: 8px;
+        margin-right: 8px;
+        text-align: center;
+        -webkit-appearance: none;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-count {
+        margin-left: 2px;
+        color: #BBBBBB;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-item a {
+        text-decoration: none;
+        color: white;
+        font-weight: 500;
+    }
+    </style>
+    
+        <body id="scheme-Isolation" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+                    <!-- Isolation Header -->
+                    <header class="header">
+    <div class="header-wrapper">
+        <!-- Header Copyright -->
+        <div class="header-copyright" style="bottom: -100px">
+            <div class="header-site">
+                ©&nbsp;
+                <script type="text/javascript">
+                    var fd = new Date();
+                    document.write(fd.getFullYear());
+                </script>
+                &nbsp;Stefenson's Blog
+            </div>
+            <!--
+            I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+            It will not impact the appearance and can give developers a lot of support :)
+
+            很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+            它不会影响美观并可以给开发者很大的支持。 :)
+            -->
+            <div>
+                Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a>
+                <br>
+                Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a>
+                <br>
+                <br>友情链接：
+                <br>某可爱的司机的博客 <a href="https://blog.chionlab.moe" class="footer-develop-a">Chion82的未来道具研究所</a>
+                <br>某可爱的日天的博客 <a href="https://sunskyxh.github.io" class="footer-develop-a">香鸡鸡的小窝</a>
+                <br>某可爱的miruku博客 <a href="https://mirukuchan.github.io" class="footer-develop-a">世界尽头的百货公司</a>
+                <br>某可爱的钟叔的博客 <a href="https://kurumichann.github.io" class="footer-develop-a">kurumi's blog(miruku?)</a>
+            </div>
+        </div>
+
+        <!-- Header Title -->
+        <span class="header-title header-item">
+            <a href="/" title="Stefenson&#39;s Blog">
+                Stefenson&#39;s Blog
+            </a>
+        </span>
+
+        <p class="header-slogan header-item">
+        
+            
+                一个渣渣程序员的笔记
+            
+        
+        </p>
+
+        <!-- Header Nav -->
+        <nav class="header-nav header-item">
+            <span class="header-nav-item">
+                <a href="/" title="Home">
+                    <span>主页</span>
+                </a>
+            </span>
+
+            <!-- Pages  -->
+            
+                <span class="header-nav-item">
+                    <a href="/about" title="About">
+                        <span>About</span>
+                    </a>
+                </span>
+            
+                <span class="header-nav-item">
+                    <a href="/game" title="Game &amp; Demo">
+                        <span>Game &amp; Demo</span>
+                    </a>
+                </span>
+            
+            <span class="header-nav-item">
+                <a id="BackgroundSwitch" href="javascript:switchbg()" title="暂停背景">
+                    <span id="BackgroundSwitchTitle">暂停背景</span>
+                </a>
+            </span>
+            <span class="header-nav-item">
+                <a id="MouseTrack" href="javascript:mousetrack()" title="追踪鼠标">
+                    <span id="BackgroundSwitchTitle">追踪鼠标</span>
+                </a>
+            </span>
+        </nav>
+
+        <!-- Header SNS -->
+        <div class="header-item header-sns_list">
+    <!-- Twitter -->
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Telegram -->
+    
+</div>
+
+    </div>
+</header>
+
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+
+                    <!-- Post TOC -->
+
+    
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col" style="background-color: rgba(255,255,255,0.6)">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+
+
+    <!-- Isolation Post Header -->
+    <!-- Post thumbnail -->
+    
+        <!-- Post Header Info -->
+        <div class="post-header_info without-thumbnail">
+            <!-- Author Avatar & Name -->
+            <a href="/about" style="text-decoration: none; color: #333">
+                <img src="/img/avatar.png" class="avatar-img" width="44px" height="44px" alt="Stefenson Wang's avatar">
+                <span class="name-span">Stefenson Wang</span>
+            </a>
+        </div>
+
+        <!-- Null Thumbnail -->
+        <div class="post_thumbnail-null">
+    
+        </div>
+
+
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+
+    
+        <div class="post-content_wrapper">
+            <p class="post-title">
+                AES加密
+            </p>
+            <p>今天更新一下这个鸽了快一周的文章……</p>
+<p>前一段时间其实我是在思考这个文章要不要更新，AES加密这个东西其实要讲的不多，而且连续好几篇高难度的文章，后面更新一篇很没技术含量的文章会显得很突兀……</p>
+<p>不过最后我还是决定把它更了吧，标题都放上了，不更新说不过去。</p>
+<p>AES加密是一种对称加密算法，全称为Advanced Encryption Standard，高级加密标准，在密码学中又称Rijndael加密法。它是一种区块加密标准，目前是最流行的一种对称加密算法。该算法为比利时密码学家Joan Daemen和Vincent Rijmen所设计，结合两位作者的名字，以Rijndael为名投稿高级加密标准的甄选流程。</p>
+<p>AES加密流程很简单，整体过程可以用下面这张图表示（点击可查看大图）：</p>
+<p><img src="/img/AES1.png" alt="AES1"></p>
+<p>其中，中间的9/11/13轮分别是在秘钥长度为128bits、192bits和256bits时使用的轮数。</p>
+<p>图片上很多步骤如果不了解肯定是一脸懵逼，这些步骤都是在AES中定义好的一些操作，后面分开来讲一下每一步都要干嘛。</p>
+<p>在开始了解AES之前，我们先来了解一些基本的数学知识（没错，又是数学知识）。</p>
+<p style="color: blue;"> 在关键算法领域数学依旧占有举足轻重的地位。</p>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
+<h3 id="伽罗华域"><a href="#伽罗华域" class="headerlink" title="伽罗华域"></a>伽罗华域</h3><p>伽罗华域是包含有限个元素的域，也叫做有限域，最常见的有限域是对素数取模组成的一个集合，然后域中的四则运算与普通集合无异，只是结果要对域定义时的质数取模。</p>
+<p>域中有两个重要概念，一个是加法逆元，一个是乘法逆元，加法逆元定义就是两数相加结果为\(0\)，乘法逆元则是两数相乘结果为\(1\)。乘法逆元的意义很重要，因为除法本质上与乘逆没有区别，举个例子：10进制下\(8\)的乘法逆元为\(\frac{1}{8}\)，则有下面的等式成立：\(32 \div 8 = 32 \times \frac{1}{8} = 4\)。逆元是除法是否可计算的关键。</p>
+<p>在密码领域中用的最多的则是以\(2^m\)为底的域，通常这个域计作\(GF(2^m)\)，这个域有一个特点，比如\(GF(2^4)\)，域中的元素为\(\{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15\}\)，刚好对应16进制的0~F，换句话说\(GF(2^m)\)中的\(m\)可以与计算机中的bit位数对应起来，就比如\(GF(2^8)\)可以与一个字节的数据的所有形式形成对应。</p>
+<p>\(GF(2^8)\)在定义运算中，加减法使用异或代替，不难看出所有结果依旧还在定义内，但是在定义乘法里面遇到了问题，那就是乘法中取模的时候，由于会存在公约数\(2\)的倍数的情况，导致一些元素不存在乘法逆元，举个例子：在\(GF(2^4)\)中考察\(2\)的倍数，结果为：\(0,2,4,6,8,10,12,14,0,2,4,6,8,10,12,14\)，找不到乘法逆元，也就是说一个数除以\(2\)在某些情况下会造成无法计算的囧境。为解决这个问题，数学家们引入了不可约多项式概念。</p>
+<blockquote>
+<p>可能到这儿你有点迷茫，这怎么又扯到多项式去了。这里具体为啥域内的元素可以转化为多项式，估计你得问问数学家们这么做有什么好处了。现阶段\(GF(2^8)\)域中元素可以这样转化为多项式，比如\(GF(2^8)\)中元素\(113\)使用2进制表示为\(01110001_{(2)}\)，数学家们发明了一种神奇的记法来记这个数字：\(x^6+x^5+x^4+0\times x^3+0\times x^2+0\times x^1+x^0=x^6+x^5+x^4+1\)。<br>这就是这个数字的多项式记法，至于原因暂且没研究过，想研究的话可以去这里<a href="https://zh.wikipedia.org/wiki/多项式环" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/多项式环</a>。</p>
+</blockquote>
+<p>什么是不可约多项式嘞？简单来说就是没法进一步化简的多项式就叫做不可约多项式。这个东西跟整数范围内的质数概念差不多，至于怎么寻找这个多项式，跟找质数其实差不多，一个一个尝试，看看这个多项式能不能被低次多项式除尽，比如多项式\(x^2-1\)可以被\(x+1\)除尽，因为\(x^2-1=(x+1)(x-1)\)。</p>
+<p>所以，要这个不可约多项式有什么用呢？当然有用了！它的作用就是把乘法结果重新归于域范围内，并且使所有的元素存在逆元。</p>
+<p>具体是这么使用的（取不可约多项式为0x11B即\(100011011_{(2)}\)）：<br>$$<br>\begin{align}<br>10000000_{(2)}\times 00000100_{(2)}   &amp;= x^{7}\times x^{2}                                    \\<br>                                        &amp;= x^{8}\times x                                        \\<br>                                        &amp;= (x^{8} + 100011011_{(2)})\times x                   \\<br>                                        &amp;= (x^{8} + x^{8} + x^{4} + x^{3} + x + 1)\times x      \\<br>                                        &amp;= (x^{4} + x^{3} + x + 1)\times x                      \\<br>                                        &amp;= x^{5} + x^{4} + x^{2} + x                            \\<br>                                        &amp;= 00110110_{(2)}<br>\end{align}<br>$$</p>
+<p>也就是在结果溢出域范围的时候使用不可约多项式与结果进行异或运算，让结果重新回到域范围内。</p>
+<p>好了，了解了不可约多项式，下面我要直接上结论了：\(GF(2^8)\)中所有的不可约多项式为：</p>
+<pre><code class="c">0x11B,0x11D,0x12B,0x12D,0x139,0x13F,0x14D,0x15F,
+0x163,0x165,0x169,0x171,0x177,0x17B,0x187,0x18B,
+0x18D,0x19F,0x1A3,0x1A9,0x1B1,0x1BD,0x1C3,0x1CF,
+0x1D7,0x1DD,0x1E7,0x1F3,0x1F5,0x1F9
+</code></pre>
+<p>得到这些数字的方法其实也很简单，遍历0x100~0x1FF，看看哪些可以满足作为乘法的不可约多项式可以让所有元素逆元存在，以上是程序遍历的结果。<br>哈？为啥不要超过0x1FF的结果？emmmmmmmmm……举个例子：0x111B，溢出异或时会把结果异或为0x10xx，或许你可以忽略最高的那个1，那这样的话它跟0x11B有什么区别呢？对吧？还有比如0x21B，这个连最高位的1都异或不掉，还会添一个1进去，变成0x3xx……所以只需要考察0x100~0x1FF。<br>其实主要是看后面一个字节的数字，前面取0x100只是为了方便溢出时剔除高位的1，并没有其他作用。</p>
+<p>OK，到这里伽罗华域介绍基本完毕。</p>
+<p><strong> 需要注意的是算乘法的时候要在溢出处处理，而不是先算一个超出很大范围的结果再异或回来。也就是说，每次都要把作为乘数的多项式每一项拆出来，并且每次与被乘数相乘的时候只能乘\(1\)或者\(x\)，处理完之后发现溢出就要与不可约多项式异或，将结果纠正回来。 </strong></p>
+<h3 id="矩阵"><a href="#矩阵" class="headerlink" title="矩阵"></a>矩阵</h3><p>AES加密中运用到大量矩阵计算。</p>
+<p>矩阵的概念就不再赘述了，这里主要复习一下矩阵求逆的运算。</p>
+<p>矩阵求逆算法其实不难，只是大学时代的知识可能会有很多人忘掉，但是AES的解密运算中需要对列转换操作使用到的矩阵求逆，所以还是有必要了解一下的。</p>
+<p><strong> 算法简述：</strong></p>
+<ol>
+<li>为当前矩阵并列一个伴随矩阵（大小相同的单位矩阵），把第一列选为当前要归0的列，第一行选为当前行；</li>
+<li>把当前列不为0的行与当前行进行行交换；</li>
+<li>把当前要归0的列上向下不是0的数全部变为1；</li>
+<li>使用行运算，向下把除当前行以外的其他行当前位置归为0；</li>
+<li>选择当前行下一行为当前行，当前列的下一列为当前列，回到第二步，直到选到矩阵最后一列；</li>
+<li>选择最后一行为当前行；</li>
+<li>通过当前行，把其他行对应列变为0；</li>
+<li>选取当前行上一行为当前行，重复第七步，直到左边变为伴随矩阵。</li>
+</ol>
+<p>这样处理完之后，左侧变成了一个单位矩阵，右侧伴随矩阵就是所求矩阵的逆。</p>
+<p>举例，在\(GF(2^8)\)对下面的矩阵进行求逆：<br>$$<br>\begin{matrix}<br>2 &amp; 3 &amp; 1 &amp; 1 \\<br>1 &amp; 2 &amp; 3 &amp; 1 \\<br>1 &amp; 1 &amp; 2 &amp; 3 \\<br>3 &amp; 1 &amp; 1 &amp; 2<br>\end{matrix}<br>$$<br>伴随矩阵：<br>$$<br>\begin{matrix}<br>2 &amp; 3 &amp; 1 &amp; 1 &amp; | &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\<br>1 &amp; 2 &amp; 3 &amp; 1 &amp; | &amp; 0 &amp; 1 &amp; 0 &amp; 0 \\<br>1 &amp; 1 &amp; 2 &amp; 3 &amp; | &amp; 0 &amp; 0 &amp; 1 &amp; 0 \\<br>3 &amp; 1 &amp; 1 &amp; 2 &amp; | &amp; 0 &amp; 0 &amp; 0 &amp; 1<br>\end{matrix}<br>$$<br>将第一列全部变为1：<br>$$<br>\begin{matrix}<br>1 &amp; 8C &amp; 8D &amp; 8D &amp; | &amp; 8D &amp; 0 &amp; 0 &amp;  0 \\<br>1 &amp;  2 &amp;  3 &amp;  1 &amp; | &amp;  0 &amp; 1 &amp; 0 &amp;  0 \\<br>1 &amp;  1 &amp;  2 &amp;  3 &amp; | &amp;  0 &amp; 0 &amp; 1 &amp;  0 \\<br>1 &amp; F6 &amp; F6 &amp; F7 &amp; | &amp;  0 &amp; 0 &amp; 0 &amp; F6<br>\end{matrix}<br>$$<br>使用第一行与其它行进行行计算，把第一列除了第一行，其他全部变为0：<br>$$<br>\begin{matrix}<br>1 &amp; 8C &amp; 8D &amp; 8D &amp; | &amp; 8D &amp; 0 &amp; 0 &amp;  0 \\<br>0 &amp; 8E &amp; 8E &amp; 8C &amp; | &amp; 8D &amp; 1 &amp; 0 &amp;  0 \\<br>0 &amp; 8D &amp; 8F &amp; 8E &amp; | &amp; 8D &amp; 0 &amp; 1 &amp;  0 \\<br>0 &amp; 7A &amp; 7B &amp; 7A &amp; | &amp; 8D &amp; 0 &amp; 0 &amp; F6<br>\end{matrix}<br>$$<br>继续按照这个方法处理其它行：<br>$$<br>\begin{matrix}<br>1 &amp; 8C &amp; 8D &amp; 8D &amp; | &amp; 8D &amp;  0 &amp;  0 &amp; 0 \\<br>0 &amp;  1 &amp;  1 &amp; 68 &amp; | &amp; D1 &amp; B9 &amp;  0 &amp; 0 \\<br>0 &amp;  0 &amp;  1 &amp; 5D &amp; | &amp; 34 &amp; E5 &amp; 8D &amp; 0 \\<br>0 &amp;  0 &amp;  0 &amp;  1 &amp; | &amp;  B &amp;  D &amp;  9 &amp; E<br>\end{matrix}<br>$$<br>通过当前行，把其他行对应列变为0：<br>$$<br>\begin{matrix}<br>1 &amp; 8C &amp; 8D &amp; 0 &amp; | &amp; 5 &amp; 8B &amp; 89 &amp; 7 \\<br>0 &amp;  1 &amp;  1 &amp; 0 &amp; | &amp; 4 &amp;  7 &amp;  5 &amp; 6 \\<br>0 &amp;  0 &amp;  1 &amp; 0 &amp; | &amp; D &amp;  9 &amp;  E &amp; B \\<br>0 &amp;  0 &amp;  0 &amp; 1 &amp; | &amp; B &amp;  D &amp;  9 &amp; E<br>\end{matrix}<br>$$<br>把左边化为单位矩阵：<br>$$<br>\begin{matrix}<br>1 &amp; 0 &amp; 0 &amp; 0 &amp; | &amp; E &amp; B &amp; D &amp; 9 \\<br>0 &amp; 1 &amp; 0 &amp; 0 &amp; | &amp; 9 &amp; E &amp; B &amp; D \\<br>0 &amp; 0 &amp; 1 &amp; 0 &amp; | &amp; D &amp; 9 &amp; E &amp; B \\<br>0 &amp; 0 &amp; 0 &amp; 1 &amp; | &amp; B &amp; D &amp; 9 &amp; E<br>\end{matrix}<br>$$<br>右侧就是我们要的结果。</p>
+<p>emmmmmmm，到这里，准备知识就差不多了，接下来我们来看AES加密到底是个什么玩意吧：</p>
+<h3 id="AES加密中的各项操作"><a href="#AES加密中的各项操作" class="headerlink" title="AES加密中的各项操作"></a>AES加密中的各项操作</h3><p style="color: red;"> <strong> 首先说明，AES加密流程中发生的运算全部都在\(GF(2^8)\)下，后面的运算不再特殊说明！ </strong> </p>
+
+<h4 id="行转换"><a href="#行转换" class="headerlink" title="行转换"></a>行转换</h4><p>从简单的说起，行转换比较容易，他的操作图示如下：<br>$$<br>\begin{matrix}<br>    \begin{matrix}<br>    1 &amp; 5 &amp;  9 &amp; 13 \\<br>    2 &amp; 6 &amp; 10 &amp; 14 \\<br>    3 &amp; 7 &amp; 11 &amp; 15 \\<br>    4 &amp; 8 &amp; 12 &amp; 16<br>    \end{matrix}<br>&amp;<br>    \Rightarrow<br>&amp;<br>    \begin{matrix}<br>     1 &amp;  5 &amp;  9 &amp; 13 \\<br>     6 &amp; 10 &amp; 14 &amp;  2 \\<br>    11 &amp; 15 &amp;  3 &amp;  7 \\<br>    16 &amp;  4 &amp;  8 &amp; 12<br>    \end{matrix}<br>\end{matrix}<br>$$<br>左侧为原数据，每一格表示一个字节，右侧为行转换之后的数据，与原先的标号一一对应。</p>
+<h4 id="列转换"><a href="#列转换" class="headerlink" title="列转换"></a>列转换</h4><p>列转换操作也很简单，另下面的矩阵与数据中的每一列相乘，把所得的结果替换到那个列即可。<br>$$<br>\begin{matrix}<br>2 &amp; 3 &amp; 1 &amp; 1 \\<br>1 &amp; 2 &amp; 3 &amp; 1 \\<br>1 &amp; 1 &amp; 2 &amp; 3 \\<br>3 &amp; 1 &amp; 1 &amp; 2<br>\end{matrix}<br>$$<br>可以用下面这个式子验证结果：<br>$$<br>\begin{matrix}<br>    \begin{matrix}<br>    2 &amp; 3 &amp; 1 &amp; 1 \\<br>    1 &amp; 2 &amp; 3 &amp; 1 \\<br>    1 &amp; 1 &amp; 2 &amp; 3 \\<br>    3 &amp; 1 &amp; 1 &amp; 2<br>    \end{matrix}<br>&amp;<br>    \times<br>&amp;<br>    \begin{matrix}<br>    D4 \\<br>    BF \\<br>    5D \\<br>    30<br>    \end{matrix}<br>&amp;<br>    =<br>&amp;<br>    \begin{matrix}<br>    04 \\<br>    66 \\<br>    81 \\<br>    E5<br>    \end{matrix}<br>\end{matrix}<br>$$</p>
+<h4 id="S置换"><a href="#S置换" class="headerlink" title="S置换"></a>S置换</h4><p>这个操作其实也没那么难，只是通过SBox替换数据中的每一个字节。<br>SBox是一个\(16\times 16\)的矩阵，它在不可约多项式取0x11B并且仿射变换为基本定义的话长这个样子：</p>
+<pre><code class="Java">SBox in Trans_C = 0x63, TransCube(5), GF28Root = 0x11B is
+    0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F
+0   0x63,0x7c,0x77,0x7b,0xf2,0x6b,0x6f,0xc5,0x30,0x01,0x67,0x2b,0xfe,0xd7,0xab,0x76,
+1   0xca,0x82,0xc9,0x7d,0xfa,0x59,0x47,0xf0,0xad,0xd4,0xa2,0xaf,0x9c,0xa4,0x72,0xc0,
+2   0xb7,0xfd,0x93,0x26,0x36,0x3f,0xf7,0xcc,0x34,0xa5,0xe5,0xf1,0x71,0xd8,0x31,0x15, 
+3   0x04,0xc7,0x23,0xc3,0x18,0x96,0x05,0x9a,0x07,0x12,0x80,0xe2,0xeb,0x27,0xb2,0x75, 
+4   0x09,0x83,0x2c,0x1a,0x1b,0x6e,0x5a,0xa0,0x52,0x3b,0xd6,0xb3,0x29,0xe3,0x2f,0x84, 
+5   0x53,0xd1,0x00,0xed,0x20,0xfc,0xb1,0x5b,0x6a,0xcb,0xbe,0x39,0x4a,0x4c,0x58,0xcf, 
+6   0xd0,0xef,0xaa,0xfb,0x43,0x4d,0x33,0x85,0x45,0xf9,0x02,0x7f,0x50,0x3c,0x9f,0xa8,  
+7   0x51,0xa3,0x40,0x8f,0x92,0x9d,0x38,0xf5,0xbc,0xb6,0xda,0x21,0x10,0xff,0xf3,0xd2, 
+8   0xcd,0x0c,0x13,0xec,0x5f,0x97,0x44,0x17,0xc4,0xa7,0x7e,0x3d,0x64,0x5d,0x19,0x73, 
+9   0x60,0x81,0x4f,0xdc,0x22,0x2a,0x90,0x88,0x46,0xee,0xb8,0x14,0xde,0x5e,0x0b,0xdb, 
+A   0xe0,0x32,0x3a,0x0a,0x49,0x06,0x24,0x5c,0xc2,0xd3,0xac,0x62,0x91,0x95,0xe4,0x79, 
+B   0xe7,0xc8,0x37,0x6d,0x8d,0xd5,0x4e,0xa9,0x6c,0x56,0xf4,0xea,0x65,0x7a,0xae,0x08,
+C   0xba,0x78,0x25,0x2e,0x1c,0xa6,0xb4,0xc6,0xe8,0xdd,0x74,0x1f,0x4b,0xbd,0x8b,0x8a, 
+D   0x70,0x3e,0xb5,0x66,0x48,0x03,0xf6,0x0e,0x61,0x35,0x57,0xb9,0x86,0xc1,0x1d,0x9e, 
+E   0xe1,0xf8,0x98,0x11,0x69,0xd9,0x8e,0x94,0x9b,0x1e,0x87,0xe9,0xce,0x55,0x28,0xdf, 
+F   0x8c,0xa1,0x89,0x0d,0xbf,0xe6,0x42,0x68,0x41,0x99,0x2d,0x0f,0xb0,0x54,0xbb,0x16
+</code></pre>
+<p>如何使用它呢？举个例子：数据中取到一个字节为0x2F，查SBox，第2行第F列值为：0x15，所以就把0x2F替换为0x15，就这么简单。<br>估计有人会好奇，这SBox是怎么生成的？<br>这里查了一下资料，最后得知SBox是通过以下过程得到的：<br>先对\(GF(2^8)\)下的每一个元素求逆，组建一个\(16\times 16\)的矩阵，然后取每一个元素进行下面的计算：<br>$$<br>\begin{matrix}<br>    \begin{matrix}<br>    1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\<br>    0 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 \\<br>    0 &amp; 0 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 \\<br>    0 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 \\<br>    1 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 1 &amp; 1 \\<br>    1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 1 \\<br>    1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 1 \\<br>    1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 1<br>    \end{matrix}<br>&amp;<br>    \times<br>&amp;<br>    X<br>&amp;<br>    +<br>&amp;<br>    C<br>&amp;<br>    =<br>&amp;<br>    Y<br>\end{matrix}<br>$$<br>其中\(X\)为元素二进制值的单列矩阵，比如0x2A就是\([00101010]^T\)，\(C\)一般取\([01100011]^T\)（即0x63），\(Y\)为结果，把\(Y\)表示的数据替换为当前元素。</p>
+<h4 id="加轮秘钥"><a href="#加轮秘钥" class="headerlink" title="加轮秘钥"></a>加轮秘钥</h4><p>轮秘钥其实就是所给的秘钥经过固定轮数变化后的当前轮使用的秘钥。<br>加轮秘钥就是把数据与当前轮使用的秘钥相加。</p>
+<p>第一轮中用到的秘钥自然就是秘钥本身。<br>第二轮秘钥需要做如下变化：<br>假设初始秘钥表示为\([R_1,R_2,R_3,R_4]\)，其中\(R_1,R_2,R_3,R_4\)分别表示秘钥的四个列。<br>取秘钥第四列\(R_4\)，进行如下操作：<br>$$<br>\begin{matrix}<br>    \begin{matrix}<br>    1 \\<br>    2 \\<br>    3 \\<br>    4<br>    \end{matrix}<br>&amp;<br>    \Rightarrow<br>&amp;<br>    \begin{matrix}<br>    2 \\<br>    3 \\<br>    4 \\<br>    1<br>    \end{matrix}<br>&amp;<br>    \begin{matrix}<br>    S置换 \\<br>    \rightarrow<br>    \end{matrix}<br>&amp;<br>    \begin{matrix}<br>    2’ \\<br>    3’ \\<br>    4’ \\<br>    1’<br>    \end{matrix}<br>\end{matrix}<br>$$<br>然后通过如下步骤计算新的\(R_1\)（计作\(R_1’\)）：<br>$$<br>\begin{matrix}<br>&amp;<br>    R_1’<br>&amp;<br>    =<br>&amp;<br>    R_1<br>&amp;<br>    +<br>&amp;<br>    \begin{matrix}<br>    2’ \\<br>    3’ \\<br>    4’ \\<br>    1’<br>    \end{matrix}<br>&amp;<br>    +<br>&amp;<br>    RCon_1<br>\end{matrix}<br>$$<br>然后后面的列计算就简单了：<br>$$<br>R_2’ = R_2 + R_1’ \\<br>R_3’ = R_3 + R_2’ \\<br>R_4’ = R_4 + R_3’<br>$$<br>然后\([R_1’,R_2’,R_3’,R_4’]\)组成第二轮的轮秘钥。<br>后面每轮都按照这个操作处理，初始秘钥为上次一轮的秘钥，\(RCon_1\)换成对应的\(RCon_i\)。<br>这里用到了一个东西叫做\(RCon_i\)，这个东西其实变化很简单。<br>$$<br>RCon_1=[1,0,0,0]^T,RCon_i=RCon_{i-1}\times 2\;(i&gt;1)<br>$$<br>注意\(GF(2^8)\)运算规则。</p>
+<p>以上就是AES加密的所有内容了。</p>
+<h3 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h3><p>解密就是把加密的流程反过来，全部都反，注意SBox要反，列变换中的矩阵要求逆（不知道为啥请自觉复习矩阵基础知识），轮秘钥要从最后一个倒着来，流程是一样哒。</p>
+<h3 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h3><p>从整篇文章可以看出，AES加密其实就是定义好的一系列流程。<br>注意AES加密是以16字节的块为单位对数据进行处理的，如果数据最后几字节不符合块要求需要补齐。<br>秘钥可以使用128bit，192bit和256bit版本，多出来的那几列怎么处理呢？其实AES里面秘钥不是看成一个整体，而是看成一束流，比如192bit秘钥其实就是24字节，也就是\([R_1,R_2,R_3,R_4,R_5,R_6]\)，当前四列用完之后，直接使用轮秘钥变换操作向后填充，第二轮的时候其实使用的是\([R_5,R_6,R_1’,R_2’]\)。<br>影响AES加密流程中数据的有如下因素：\(GF(2^8)\)不可约多项式的选择，RCon的定义（间接受\(GF(2^8)\)域不可约多项式的选择的影响）和轮秘钥变换方法，SBox生成时仿射变换的定义（\(C\)和那个变换矩阵都可以自定义），列变换时所用的矩阵，行变换方法定义。任何一个小环节都可以影响加解密流程的结果，但是这样修改之后到底还是不是AES不好说。但是有一点：操作必须可反，否则解不开。</p>
+<p>那么AES安全吗？<br>以下节选自Wikipedia：</p>
+<blockquote>
+<p>截至2006年，针对AES唯一的成功攻击是旁道攻击。美国国家安全局审核了所有的参与竞选AES的最终入围者（包括Rijndael），认为他们均能够满足美国政府传递非机密文件的安全需要。2003年6月，美国政府宣布AES可以用于加密机密文件：<br>The design and strength of all key lengths of the AES algorithm（i.e., 128, 192 and 256）are sufficient to protect classified information up to the SECRET level. TOP SECRET information will require use of either the 192 or 256 key lengths. The implementation of AES in products intended to protect national security systems and/or information must be reviewed and certified by NSA prior to their acquisition and use.<br>（译：AES加密算法（使用128，192，和256比特密钥的版本）的安全性，在设计结构及密钥的长度上俱已到达保护机密信息的标准。最高机密信息的传递，则至少需要192或256比特的密钥长度。用以传递国家安全信息的AES实现产品，必须先由国家安全局审核认证，方能被发放使用。）<br>这标志着，由美国国家安全局NSA批准在最高机密信息上使用的加密系统首次可以被公开使用。许多大众化产品只使用128位密钥当作默认值；由于最高机密文件的加密系统必须保证数十年以上的安全性，故推测NSA可能认为128位太短，才以更长的密钥长度为最高机密的加密保留了安全空间。<br>通常破解一个区块加密系统最常见的方式，是先对其较弱版本（加密循环次数较少）尝试各种攻击。AES中128位密钥版本有10个加密循环，192比特密钥版本有12个加密循环，256比特密钥版本则有14个加密循环。至2006年为止，最著名的攻击是针对AES 7次加密循环的128位密钥版本，8次加密循环的192比特密钥版本，和9次加密循环的256比特密钥版本所作的攻击。<br>由于已遭破解的弱版的AES，其加密循环数和原本的加密循环数相差无几，有些密码学家开始担心AES的安全性：要是有人能将该著名的攻击加以改进，这个区块加密系统就会被破解。在密码学的意义上，只要存在一个方法，比穷举法还要更有效率，就能被视为一种“破解”。故一个针对AES 128位密钥的攻击若“只”需要\(2^{120}\)计算复杂度（少于穷举法\(2^{128}\)），128位密钥的AES就算被破解了；即便该方法在目前还不实用。从应用的角度来看，这种程度的破解依然太不切实际。最著名的暴力攻击法是distributed.net针对64位密钥RC5所作的攻击。（该攻击在2002年完成。根据摩尔定律，到2005年12月，同样的攻击应该可以破解66比特密钥的RC5。）<br>其他的争议则着重于AES的数学结构。不像其他区块加密系统，AES具有相当井然有序的代数结构。虽然相关的代数攻击尚未出现，但有许多学者认为，把安全性创建于未经透彻研究过的结构上是有风险的。Ferguson，Schroeppel和Whiting因此写道：“…我们很担心Rijndael(AES)算法应用在机密系统上的安全性。”<br>2002年，Nicolas Courtois和Josef Pieprzyk发表名为XSL攻击的理论性攻击，试图展示AES一个潜在的弱点。但几位密码学专家发现该攻击的数学分析有点问题，推测应是作者的计算有误。因此，这种攻击法是否对AES奏效，仍是未解之谜。就现阶段而言，XSL攻击AES的效果不十分显著，故将之应用于实际情况的可能性并不高。</p>
+</blockquote>
+<p>简单总结一下这段描述就是：现阶段，没有行之有效的破解AES加密的方法，但是也没有人能证明AES加密绝对安全，当轮数少于9轮时是相对不安全的，当前的AES加密一般都选择长一点的秘钥和尽可能多的轮数。<br>总结下来……等于没说……<br>但是加密算法的可靠性有时候并不是单单看方法的，比如加密时使用的模式：ECB、CBC、OFB、CTR等，可参考这边博客<a href="http://blog.csdn.net/xiaowang627/article/details/56270206" target="_blank" rel="noopener">AES五种加密模式</a>。简单来说，工具大家都有，但是用得好不好，不在于工具，而在于使用者的水平。<br>现阶段一般采用的模式是秘钥使用RSA加密，然后数据使用AES这种速度快安全性好的对称加密。</p>
+<p>AES加密作为现阶段使用度最广的加密算法是很值得好好研究的，实现中的关键的关键是实现\(GF(2^8)\)中的所有性质。</p>
+<p>AES加密到此结束。</p>
+<h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><p>AES加密在普通情况下的一些常定义<br>SBox：</p>
+<pre><code class="Java">/* S_Box in Trans_C = 0x63, TransCube(5), GF28Root = 0x1B is
+ * 0x63,0x7c,0x77,0x7b,0xf2,0x6b,0x6f,0xc5,0x30,0x01,0x67,0x2b,0xfe,0xd7,0xab,0x76,
+ * 0xca,0x82,0xc9,0x7d,0xfa,0x59,0x47,0xf0,0xad,0xd4,0xa2,0xaf,0x9c,0xa4,0x72,0xc0,
+ * 0xb7,0xfd,0x93,0x26,0x36,0x3f,0xf7,0xcc,0x34,0xa5,0xe5,0xf1,0x71,0xd8,0x31,0x15, 
+ * 0x04,0xc7,0x23,0xc3,0x18,0x96,0x05,0x9a,0x07,0x12,0x80,0xe2,0xeb,0x27,0xb2,0x75, 
+ * 0x09,0x83,0x2c,0x1a,0x1b,0x6e,0x5a,0xa0,0x52,0x3b,0xd6,0xb3,0x29,0xe3,0x2f,0x84, 
+ * 0x53,0xd1,0x00,0xed,0x20,0xfc,0xb1,0x5b,0x6a,0xcb,0xbe,0x39,0x4a,0x4c,0x58,0xcf, 
+ * 0xd0,0xef,0xaa,0xfb,0x43,0x4d,0x33,0x85,0x45,0xf9,0x02,0x7f,0x50,0x3c,0x9f,0xa8,  
+ * 0x51,0xa3,0x40,0x8f,0x92,0x9d,0x38,0xf5,0xbc,0xb6,0xda,0x21,0x10,0xff,0xf3,0xd2, 
+ * 0xcd,0x0c,0x13,0xec,0x5f,0x97,0x44,0x17,0xc4,0xa7,0x7e,0x3d,0x64,0x5d,0x19,0x73, 
+ * 0x60,0x81,0x4f,0xdc,0x22,0x2a,0x90,0x88,0x46,0xee,0xb8,0x14,0xde,0x5e,0x0b,0xdb, 
+ * 0xe0,0x32,0x3a,0x0a,0x49,0x06,0x24,0x5c,0xc2,0xd3,0xac,0x62,0x91,0x95,0xe4,0x79, 
+ * 0xe7,0xc8,0x37,0x6d,0x8d,0xd5,0x4e,0xa9,0x6c,0x56,0xf4,0xea,0x65,0x7a,0xae,0x08,
+ * 0xba,0x78,0x25,0x2e,0x1c,0xa6,0xb4,0xc6,0xe8,0xdd,0x74,0x1f,0x4b,0xbd,0x8b,0x8a, 
+ * 0x70,0x3e,0xb5,0x66,0x48,0x03,0xf6,0x0e,0x61,0x35,0x57,0xb9,0x86,0xc1,0x1d,0x9e, 
+ * 0xe1,0xf8,0x98,0x11,0x69,0xd9,0x8e,0x94,0x9b,0x1e,0x87,0xe9,0xce,0x55,0x28,0xdf, 
+ * 0x8c,0xa1,0x89,0x0d,0xbf,0xe6,0x42,0x68,0x41,0x99,0x2d,0x0f,0xb0,0x54,0xbb,0x16  
+ */
+</code></pre>
+<p>解密用SBox：</p>
+<pre><code class="Java">/* S_Box_Reverse in Trans_C = 0x63, TransCube(5), GF28Root = 0x1B is
+ * 0x52,0x09,0x6a,0xd5,0x30,0x36,0xa5,0x38,0xbf,0x40,0xa3,0x9e,0x81,0xf3,0xd7,0xfb,
+ * 0x7c,0xe3,0x39,0x82,0x9b,0x2f,0xff,0x87,0x34,0x8e,0x43,0x44,0xc4,0xde,0xe9,0xcb,
+ * 0x54,0x7b,0x94,0x32,0xa6,0xc2,0x23,0x3d,0xee,0x4c,0x95,0x0b,0x42,0xfa,0xc3,0x4e, 
+ * 0x08,0x2e,0xa1,0x66,0x28,0xd9,0x24,0xb2,0x76,0x5b,0xa2,0x49,0x6d,0x8b,0xd1,0x25, 
+ * 0x72,0xf8,0xf6,0x64,0x86,0x68,0x98,0x16,0xd4,0xa4,0x5c,0xcc,0x5d,0x65,0xb6,0x92, 
+ * 0x6c,0x70,0x48,0x50,0xfd,0xed,0xb9,0xda,0x5e,0x15,0x46,0x57,0xa7,0x8d,0x9d,0x84, 
+ * 0x90,0xd8,0xab,0x00,0x8c,0xbc,0xd3,0x0a,0xf7,0xe4,0x58,0x05,0xb8,0xb3,0x45,0x06, 
+ * 0xd0,0x2c,0x1e,0x8f,0xca,0x3f,0x0f,0x02,0xc1,0xaf,0xbd,0x03,0x01,0x13,0x8a,0x6b, 
+ * 0x3a,0x91,0x11,0x41,0x4f,0x67,0xdc,0xea,0x97,0xf2,0xcf,0xce,0xf0,0xb4,0xe6,0x73, 
+ * 0x96,0xac,0x74,0x22,0xe7,0xad,0x35,0x85,0xe2,0xf9,0x37,0xe8,0x1c,0x75,0xdf,0x6e, 
+ * 0x47,0xf1,0x1a,0x71,0x1d,0x29,0xc5,0x89,0x6f,0xb7,0x62,0x0e,0xaa,0x18,0xbe,0x1b, 
+ * 0xfc,0x56,0x3e,0x4b,0xc6,0xd2,0x79,0x20,0x9a,0xdb,0xc0,0xfe,0x78,0xcd,0x5a,0xf4, 
+ * 0x1f,0xdd,0xa8,0x33,0x88,0x07,0xc7,0x31,0xb1,0x12,0x10,0x59,0x27,0x80,0xec,0x5f, 
+ * 0x60,0x51,0x7f,0xa9,0x19,0xb5,0x4a,0x0d,0x2d,0xe5,0x7a,0x9f,0x93,0xc9,0x9c,0xef, 
+ * 0xa0,0xe0,0x3b,0x4d,0xae,0x2a,0xf5,0xb0,0xc8,0xeb,0xbb,0x3c,0x83,0x53,0x99,0x61, 
+ * 0x17,0x2b,0x04,0x7e,0xba,0x77,0xd6,0x26,0xe1,0x69,0x14,0x63,0x55,0x21,0x0c,0x7d  
+ */
+</code></pre>
+<p>解密用列变换矩阵：</p>
+<pre><code class="Java">/* Column_Trans_Cube_Reverse should be 
+ * 0E, 0B, 0D, 09; 
+ * 09, 0E, 0B, 0D;
+ * 0D, 09, 0E, 0B;
+ * 0B, 0D, 09, 0E
+ */
+</code></pre>
+
+        </div>
+    
+</div>
+
+
+                
+                    <!-- Paradox Post Info -->
+                    
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2018/04/15/排序算法/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!-- 新篇 -->
+            排序算法
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2018/02/24/RSA加密/" id="post_nav-older" class="next-content">
+            <!-- 旧篇 -->
+            RSA加密
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+</footer>
+
+
+                    <!-- Import File -->
+
+
+    <script>lsloader.load("js/lazyload.min.js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==")</script>
+    <script>lsloader.load("js/js.min.js","/js/js.min.js?oAl/+lvaqTFV31JXTmbrNA==")</script>
+
+
+
+    <script>lsloader.load("js/nprogress.js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==")</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Window Load-->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+</script>
+
+<!-- MathJax Load-->
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Bing Background -->
+
+
+<script>
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.4.0 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                    <div id="container"></div>
+                    <script src="/js/gitment.browser.js"></script>
+
+                    <div id="loadComment" class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out"  style="background-color: rgba(0, 47, 85, 0.5); min-height: 32px; margin-bottom: 0px;">
+                        <center style="margin-top: 6px;">
+                            <a href="javascript:loadComment()" title="加载评论" style="color: rgb(129, 248, 228); text-decoration: none;">
+                                <span id="BackgroundSwitchTitle">加载评论</span>
+                            </a>
+                        </center>
+                    </div>
+
+                    <script>
+                        function loadComment() {
+                            var p_id = 'AES加密'
+                            if (p_id == '')
+                                p_id = 'home'
+                            var gitment = new Gitment({
+                                id: p_id,
+                                owner: 'stefenson',
+                                repo: 'blog_comment',
+                                oauth: {
+                                    client_id: '11eae2a971d306a1da92',
+                                    client_secret: '4ab3eb2e110d470092f71f89ad8126654048f609',
+                                },
+                            })
+                            gitment.render('container')
+
+                            var lc_btn = document.getElementById("loadComment");
+                            var m = document.getElementById("main");
+                            m.removeChild(lc_btn);
+                        }
+                    </script>
+                </main>
+            </div>
+            <!-- <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script> -->
+            <script type="text/javascript" src="/js/nest.min.js"></script>
+            <script type="text/javascript" src="/js/image-zoom.js"></script>
+            <script> setUpZoomImgToDiv('post-content'); </script>
+            <script>
+            (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/f5a96f80.js","daovoice")
+            daovoice('init', {
+                app_id: "f5a96f80"
+            });
+            daovoice('update');
+            </script>
+            <style>
+            #daodream-container .daodream-sheet-header
+            {
+                background-image: none;
+            }
+            </style>
+        </body>
+    
+</html>

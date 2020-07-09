@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?cf6db1de52b3cb4093686c920c8e3f7e";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<html style="display: none;" lang="zh">
+    <head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.4.0 -->
+    <script>window.materialVersion = "1.4.0"</script>
+
+    <!-- Title -->
+    
+    <title>
+        
+            PPPoE服务器编写 | 
+        
+        Stefenson&#39;s Blog
+    </title>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="Stefenson Wang">
+    <meta name="description" itemprop="description" content>
+    <meta name="keywords" content=",网络,PPPoE">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" sizes="192x192" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+
+    <!--iOS -->
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Stefenson&#39;s Blog">
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://yoursite.com">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="PPPoE服务器编写 | Stefenson&#39;s Blog">
+    <meta property="og:image" content="/img/favicon.png">
+    <meta property="og:description" content>
+    <meta property="og:article:tag" content="网络"> <meta property="og:article:tag" content="PPPoE"> 
+
+    
+        <meta property="article:published_time" content="2月 12, 2018">
+        <meta property="article:modified_time" content="7月 09, 2020">
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:title" content="PPPoE服务器编写 | Stefenson&#39;s Blog">
+    <meta name="twitter:description" content>
+    <meta name="twitter:image" content="/img/favicon.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="http://yoursite.com">
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="http://yoursite.com/2018/02/12/PPPoE服务器编写/index.html">
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Stefenson&#39;s Blog",
+        "logo": "/img/favicon.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Stefenson Wang",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/favicon.png"
+        },
+        "description": "一个渣渣程序员的笔记"
+    },
+    "headline": "PPPoE服务器编写",
+    "url": "http://yoursite.com/2018/02/12/PPPoE服务器编写/index.html",
+    "datePublished": "2月 12, 2018",
+    "dateModified": "7月 09, 2020",
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://yoursite.com"
+    }
+}
+</script>
+
+
+    
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(key){try{localStorage.removeItem(key)}catch(e){}};lsloader.setLS=function(key,val){try{localStorage.setItem(key,val)}catch(e){}};lsloader.getLS=function(key){var val="";try{val=localStorage.getItem(key)}catch(e){val=""}return val};versionString="/*"+materialVersion+"*/";lsloader.clean=function(){try{var keys=[];for(var i=0;i<localStorage.length;i++){keys.push(localStorage.key(i))}keys.forEach(function(key){var data=lsloader.getLS(key);if(data&&data.indexOf(versionString)===-1){lsloader.removeLS(key)}})}catch(e){}};lsloader.clean();lsloader.load=function(jsname,jspath,cssonload){cssonload=cssonload||function(){};var code;code=this.getLS(jsname);if(code&&code.indexOf(versionString)===-1){this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}if(code){var versionNumber=code.split(versionString)[0];if(versionNumber!=jspath){console.log("reload:"+jspath);this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload);return}code=code.split(versionString)[1];if(/\.js?.+$/.test(versionNumber)){this.jsRunSequence.push({name:jsname,code:code});this.runjs(jspath,jsname,code)}else{document.getElementById(jsname).appendChild(document.createTextNode(code));cssonload()}}else{this.requestResource(jsname,jspath,cssonload)}};lsloader.requestResource=function(name,path,cssonload){var that=this;if(/\.js?.+$/.test(path)){this.iojs(path,name,function(path,name,code){that.setLS(name,path+versionString+code);that.runjs(path,name,code)})}else if(/\.css?.+$/.test(path)){this.iocss(path,name,function(code){document.getElementById(name).appendChild(document.createTextNode(code));that.setLS(name,path+versionString+code)},cssonload)}};lsloader.iojs=function(path,jsname,callback){var that=this;that.jsRunSequence.push({name:jsname,code:""});try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(path,jsname,xhr.response);return}}that.jsfallback(path,jsname)}};xhr.send(null)}catch(e){that.jsfallback(path,jsname)}};lsloader.iocss=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.iofonts=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.runjs=function(path,name,code){if(!!name&&!!code){for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code=code}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var script=document.createElement("script");script.appendChild(document.createTextNode(this.jsRunSequence[0].code));script.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(script);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var that=this;var script=document.createElement("script");script.src=this.jsRunSequence[0].path;script.type="text/javascript";this.jsRunSequence[0].status="loading";script.onload=function(){that.jsRunSequence.shift();if(that.jsRunSequence.length>0){that.runjs()}};document.body.appendChild(script)}};lsloader.tagLoad=function(path,name){this.jsRunSequence.push({name:name,code:"",path:path,status:"failed"});this.runjs()};lsloader.jsfallback=function(path,name){if(!!this.jsnamemap[name]){return}else{this.jsnamemap[name]=name}for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code="";this.jsRunSequence[k].status="failed";this.jsRunSequence[k].path=path}}this.runjs()};lsloader.cssfallback=function(path,name,cssonload){if(!!this.cssnamemap[name]){return}else{this.cssnamemap[name]=1}var link=document.createElement("link");link.type="text/css";link.href=path;link.rel="stylesheet";link.onload=link.onerror=cssonload;var root=document.getElementsByTagName("script")[0];root.parentNode.insertBefore(link,root)};lsloader.runInlineScript=function(scriptId,codeId){var code=document.getElementById(codeId).innerText;this.jsRunSequence.push({name:scriptId,code:code});this.runjs()};lsloader.loadCombo=function(jslist){var updateList="";var requestingModules={};for(var k in jslist){var LS=this.getLS(jslist[k].name);if(!!LS){var version=LS.split(versionString)[0];var code=LS.split(versionString)[1]}else{var version=""}if(version==jslist[k].path){this.jsRunSequence.push({name:jslist[k].name,code:code,path:jslist[k].path})}else{this.jsRunSequence.push({name:jslist[k].name,code:null,path:jslist[k].path,status:"comboloading"});requestingModules[jslist[k].name]=true;updateList+=(updateList==""?"":";")+jslist[k].path}}var that=this;if(!!updateList){var xhr=new XMLHttpRequest;xhr.open("get",combo+updateList,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){that.runCombo(xhr.response,requestingModules);return}}else{for(var i in that.jsRunSequence){if(requestingModules[that.jsRunSequence[i].name]){that.jsRunSequence[i].status="failed"}}that.runjs()}}};xhr.send(null)}this.runjs()};lsloader.runCombo=function(comboCode,requestingModules){comboCode=comboCode.split("/*combojs*/");comboCode.shift();for(var k in this.jsRunSequence){if(!!requestingModules[this.jsRunSequence[k].name]&&!!comboCode[0]){this.jsRunSequence[k].status="comboJS";this.jsRunSequence[k].code=comboCode[0];this.setLS(this.jsRunSequence[k].name,this.jsRunSequence[k].path+versionString+comboCode[0]);comboCode.shift()}}this.runjs()}})();</script>
+    <!-- Import CSS & jQuery -->
+    
+        <style id="css/material.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/material.min.css","/css/material.min.css?fJTiM/K1J3dWIruo3pxtAw==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        <style id="css/style.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("css/style.min.css","/css/style.min.css?hslYKgKmx9IuZcHTcpHD1Q==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        
+            <style id="/css/fontawesome.min.css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("/css/fontawesome.min.css","/css/fontawesome.min.css?JpVQUwzBJ7aqWjWSWn3mzg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";})</script>
+        
+        
+        <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-color: #F5F5F5;
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+        <script>lsloader.load("js/jquery.min.js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==")</script>
+    
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Analytics -->
+    
+
+    <!-- Custom Head -->
+    
+</head>
+
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <style type="text/css">
+    /*重新定义gitment样式*/
+    .gitment-editor-tab {
+        margin: 0px;
+    }
+    .gitment-editor-main {
+        background-color: white;
+    }
+    .gitment-comment-main {
+        background-color: white;
+    }
+    .gitment-editor-submit:enabled {
+        background-color: black;
+    }
+    .gitment-editor-submit:disabled {
+        background-color: gray;
+    }
+
+    /*重新定义MathJax样式，去掉框线*/
+    .MathJax {
+        outline: 0;
+    }
+
+    /*重新定义代码块样式*/
+    #post-content pre {
+        color: rgb(255, 240, 192);
+        background-color: rgba(17, 17, 31, 1);
+        /* border-radius: 3px; */
+    }
+    #post-content pre code {
+        font-family: "Consolas","Monaco";
+    }
+
+    /*重新定义表格样式*/
+    #post-content table td {
+        border: 1px solid rgb(156, 156, 156);
+    }
+    #post-content table th {
+        color: white;
+        background-color: rgba(128, 128, 128, 0.5);
+        border: 1px solid rgb(156, 156, 156);
+    }
+
+    /*重新定义头部Tags标签样式*/
+    #scheme-Isolation .post_entry-tags-head-list {
+        padding: 0;
+        margin: 0;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-item {
+        list-style: none;
+        float: left;
+        font-size: 11px;
+        border: 1px solid #c2c2c2;
+        letter-spacing: 1px;
+        border-radius: 3px;
+        padding-right: 6px;
+        padding-left: 8px;
+        margin-top: 8px;
+        margin-right: 8px;
+        text-align: center;
+        -webkit-appearance: none;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-count {
+        margin-left: 2px;
+        color: #BBBBBB;
+    }
+    #scheme-Isolation .post_entry-tags-head-list-item a {
+        text-decoration: none;
+        color: white;
+        font-weight: 500;
+    }
+    </style>
+    
+        <body id="scheme-Isolation" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+                    <!-- Isolation Header -->
+                    <header class="header">
+    <div class="header-wrapper">
+        <!-- Header Copyright -->
+        <div class="header-copyright" style="bottom: -100px">
+            <div class="header-site">
+                ©&nbsp;
+                <script type="text/javascript">
+                    var fd = new Date();
+                    document.write(fd.getFullYear());
+                </script>
+                &nbsp;Stefenson's Blog
+            </div>
+            <!--
+            I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+            It will not impact the appearance and can give developers a lot of support :)
+
+            很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+            它不会影响美观并可以给开发者很大的支持。 :)
+            -->
+            <div>
+                Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a>
+                <br>
+                Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a>
+                <br>
+                <br>友情链接：
+                <br>某可爱的司机的博客 <a href="https://blog.chionlab.moe" class="footer-develop-a">Chion82的未来道具研究所</a>
+                <br>某可爱的日天的博客 <a href="https://sunskyxh.github.io" class="footer-develop-a">香鸡鸡的小窝</a>
+                <br>某可爱的miruku博客 <a href="https://mirukuchan.github.io" class="footer-develop-a">世界尽头的百货公司</a>
+                <br>某可爱的钟叔的博客 <a href="https://kurumichann.github.io" class="footer-develop-a">kurumi's blog(miruku?)</a>
+            </div>
+        </div>
+
+        <!-- Header Title -->
+        <span class="header-title header-item">
+            <a href="/" title="Stefenson&#39;s Blog">
+                Stefenson&#39;s Blog
+            </a>
+        </span>
+
+        <p class="header-slogan header-item">
+        
+            
+                一个渣渣程序员的笔记
+            
+        
+        </p>
+
+        <!-- Header Nav -->
+        <nav class="header-nav header-item">
+            <span class="header-nav-item">
+                <a href="/" title="Home">
+                    <span>主页</span>
+                </a>
+            </span>
+
+            <!-- Pages  -->
+            
+                <span class="header-nav-item">
+                    <a href="/about" title="About">
+                        <span>About</span>
+                    </a>
+                </span>
+            
+                <span class="header-nav-item">
+                    <a href="/game" title="Game &amp; Demo">
+                        <span>Game &amp; Demo</span>
+                    </a>
+                </span>
+            
+            <span class="header-nav-item">
+                <a id="BackgroundSwitch" href="javascript:switchbg()" title="暂停背景">
+                    <span id="BackgroundSwitchTitle">暂停背景</span>
+                </a>
+            </span>
+            <span class="header-nav-item">
+                <a id="MouseTrack" href="javascript:mousetrack()" title="追踪鼠标">
+                    <span id="BackgroundSwitchTitle">追踪鼠标</span>
+                </a>
+            </span>
+        </nav>
+
+        <!-- Header SNS -->
+        <div class="header-item header-sns_list">
+    <!-- Twitter -->
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Telegram -->
+    
+</div>
+
+    </div>
+</header>
+
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+
+                    <!-- Post TOC -->
+
+    
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col" style="background-color: rgba(255,255,255,0.6)">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+
+
+    <!-- Isolation Post Header -->
+    <!-- Post thumbnail -->
+    
+        <!-- Post Header Info -->
+        <div class="post-header_info without-thumbnail">
+            <!-- Author Avatar & Name -->
+            <a href="/about" style="text-decoration: none; color: #333">
+                <img src="/img/avatar.png" class="avatar-img" width="44px" height="44px" alt="Stefenson Wang's avatar">
+                <span class="name-span">Stefenson Wang</span>
+            </a>
+        </div>
+
+        <!-- Null Thumbnail -->
+        <div class="post_thumbnail-null">
+    
+        </div>
+
+
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+
+    
+        <div class="post-content_wrapper">
+            <p class="post-title">
+                PPPoE服务器编写
+            </p>
+            <p>按照约定，今天简单说一下编写PPPoE服务器。</p>
+<p>PPPoE（Point-to-Point Protocol Over Ethernet）协议是一个以太网上的点对点协议，是将点对点协议（PPP）封装在以太网（Ethernet）框架中的一种网络隧道协议。<br>它是一个链路层协议，如果要想自己实现一个PPPoE服务器需要了解链路层编程的相关知识。<br>网络五层架构中：应用——传输——网络——链路——物理。链路层属于比较靠底层的一层，所以难度还是有的。编程的时候相当于是直接与网卡打交道，编写难度比较高。</p>
+<p>这里在Windows中，我比较推荐 <a href="https://www.winpcap.org" target="_blank" rel="noopener">WinPcap</a> 进行编程，虽然Windows中也有面向网卡的编程，但是一般只有C的接口，并且相关资料匮乏，往往还需要与各个型号的网卡打交道，所以推荐使用WinPcap，接口统一并且易于掌握，只是有些时候速度不太理想。<br>使用WinPcap，你甚至可以发送一个一字节的报文（虽然他毫无意义）！在WinPcap里，TCP/IP报文头将不再是限制！你甚至不会被链路层默认封装头限制！报文里的每一个字节全部由你自由定制！WinPcap！你值得拥有！</p>
+<p>咳咳，扯远了（感觉跟打了个广告一样……）下面说回PPPoE编程。</p>
+<h3 id="PPPoE工作流程"><a href="#PPPoE工作流程" class="headerlink" title="PPPoE工作流程"></a>PPPoE工作流程</h3><p><img src="/img/PPPoE_PROC.png" alt="PPPoE流程"><br>上面的图是一个PPPoE完整的工作流程（点击可查看大图）。<br>双向箭头的地方表示顺序可以互换，任何一方都可以发起，没有严格要求谁先发起。</p>
+<p>从图中可以看出，PPPoE流程分为五个阶段。<br>其实不细分，PPPoE只有两个阶段，一个是PPPoED阶段，后面的LCP/Auth/IPCP/PPP全部都可以纳入PPP Session阶段。</p>
+<p>PPPoE服务器在后续数据交互的过程还要参与，它不仅仅是提供IP配置给客户端，后续通讯中全部建立在PPP Session之上，服务器需要处理这些Session包，一是与客户端通讯确认是否在线管理session，二是对数据进行重新封包，去掉PPP报文头，转换为一般的报文与外部目标设备通讯，并且吧通讯结果使用PPP封包发送给客户端。所以说PPPoE服务器对服务器性能要求非常高。<br>从上面的描述中也可以看出PPP Session是一个很重要的概念，PPPoE通讯中，链接保持、数据传输、链路通讯、链路状态汇报和修改全部都是在PPP Session通讯上进行的，Session是一个PPPoE通讯中的关键通道。</p>
+<p>下面就每一个阶段讲解其流程和报文结构。</p>
+<h3 id="链路报文头"><a href="#链路报文头" class="headerlink" title="链路报文头"></a>链路报文头</h3><p>首先介绍一下链路报文头：</p>
+<table>
+<thead>
+<tr>
+<th>Destination</th>
+<th>Source</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6 Bytes</td>
+<td>6 Bytes</td>
+<td>2 Bytes</td>
+</tr>
+</tbody>
+</table>
+<p>由于我们做的是链路层编程，报文里面每一个字节都需要我们填进去，所以开头这一部分我们也需要了解。<br>Destination：目标的Mac地址，PADI阶段客户端会使用FF:FF:FF:FF:FF:FF广播地址。<br>Source：来源MAC，该值在组织报文时理论上可以随意设置，可以不与当前发送设备的MAC一致，链路层编程时Source不会被自动填入当前设备的MAC地址，所以这里可以随便写（要来搞事吗www）。<br>Type：报文类型，目前我所知道的取值有这些</p>
+<blockquote>
+<p>0x8863……………..PPPoE Discovery<br>0x8864……………..PPPoE Session<br>0x0800……………..IPv4</p>
+</blockquote>
+<p>PPPoE Discovery对应的就是PPPoED阶段报文类型，在PPPoED阶段Type取该值。<br>PPPoE Session对应的是PPPoED阶段之后链路通讯的报文类型，在LCP/Auth/IPCP/PPP阶段Type都使用该值。<br>IPv4为目前网络中使用的普通报文类型，现阶段v6没有普及，如果不使用PPPoE方式进行网络接入，报文类型一般都是IPv4。</p>
+<h3 id="PPPoE报文通用部分"><a href="#PPPoE报文通用部分" class="headerlink" title="PPPoE报文通用部分"></a>PPPoE报文通用部分</h3><p>在链路报文头之后，PPPoE报文有一段通用的部分：</p>
+<table>
+<thead>
+<tr>
+<th>Version&amp;Type</th>
+<th>Code</th>
+<th>Session ID</th>
+<th>Payload Length</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 Bytes</td>
+<td>1 Bytes</td>
+<td>2 Bytes</td>
+<td>2 Bytes</td>
+</tr>
+</tbody>
+</table>
+<p>Version&amp;Type：现阶段只有一个取值：0x11，表示PPPoE版本1，类型1。<br>Code：表示PPPoE报文细分类型，目前有如下取值</p>
+<table>
+<thead>
+<tr>
+<th>Code值</th>
+<th>含义</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>Session Data</td>
+<td>PPP流程通讯时的类型</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>PADI</td>
+<td>PADI</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>PADO</td>
+<td>PADO</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>PADR</td>
+<td>PADR</td>
+</tr>
+<tr>
+<td>0x65</td>
+<td>PADS</td>
+<td>PADS</td>
+</tr>
+<tr>
+<td>0xA7</td>
+<td>PADT</td>
+<td>PADT</td>
+</tr>
+</tbody>
+</table>
+<p>PADI/PADO/PADR/PADS/PADT是PPPoED阶段使用的Code，Session Data是PPPoE Session阶段使用的Code。<br>其中Session ID在PADI/PADO/PADR阶段为0x0000，在PADS中服务器会分配一个Session ID给客户，在PADT中需要携带Session ID告知接收方要断开的Session。<br>Session Data阶段，Session ID表示客户端与服务器之间建立的Session编号。<br>Payload Length为后面跟的数据总长，不包括PPPoE头和链路头。</p>
+<h3 id="PPPoED（PPPoE-Discovery）"><a href="#PPPoED（PPPoE-Discovery）" class="headerlink" title="PPPoED（PPPoE Discovery）"></a>PPPoED（PPPoE Discovery）</h3><p>PPPoED阶段主要工作是客户端发现并确定要注册的PPPoE服务器，在相关的PPPoE服务器注册Session。<br>它的流程简单描述如下：</p>
+<blockquote>
+<p>1.客户端通过PADI通知PPPoE服务器自己的接入请求。<br>2.PPPoE服务器接到PADI请求之后判断是否要答复，需要答复回复PADO。<br>3.客户端判断PADO内容是否是自己期望的服务器，如果是，回复PADR申请Session。<br>4.PPPoE服务器收到了PADR，根据当前服务器状况判断是否要开启Session，如果可以接受回复PADS。</p>
+</blockquote>
+<p>去掉开头的链路报文头和PPPoE通用部分，PPPoED阶段报文数据形式：</p>
+<table>
+<thead>
+<tr>
+<th>Tag Type</th>
+<th>Tag Length</th>
+<th>Tag Data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2 Bytes</td>
+<td>2 Bytes</td>
+<td>x Bytes</td>
+</tr>
+</tbody>
+</table>
+<p>PPPoED中Payload就是PPPoE Tag的列表，上面这一段会重复多次，他的各个部分含义：<br>Tag Type表示类型，可取值</p>
+<table>
+<thead>
+<tr>
+<th>Type值</th>
+<th>含义</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x0000</td>
+<td>End of list</td>
+<td>Tags列表结束标志</td>
+</tr>
+<tr>
+<td>0x0101</td>
+<td>Service-Name</td>
+<td>服务器名称，客户端携带，说明选择特定的服务器 <br> 长度可以为0表示接受所有PPPoE服务器 <br> 一般情况下长度是0</td>
+</tr>
+<tr>
+<td>0x0102</td>
+<td>AC-Name</td>
+<td>服务器返回服务器自己的名字</td>
+</tr>
+<tr>
+<td>0x0103</td>
+<td>Host-Uniq</td>
+<td>Discovery阶段特征值，作用类似于SessionID <br> 每个客户端在一个流程中会保持该值唯一 <br> 服务器答复的时候最好对该值进行判断并维持该值返回</td>
+</tr>
+<tr>
+<td>0x0104</td>
+<td>AC-Cookie</td>
+<td>-</td>
+</tr>
+<tr>
+<td>0x0105</td>
+<td>Vendor-Specific</td>
+<td>-</td>
+</tr>
+<tr>
+<td>0x0110</td>
+<td>Reply-Session-ID</td>
+<td>-</td>
+</tr>
+<tr>
+<td>0x0201</td>
+<td>Service-Name-Error</td>
+<td>-</td>
+</tr>
+<tr>
+<td>0x0202</td>
+<td>AC-System-Error</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p>以上有备注说明的是比较重要的字段，也是一个PPPoE服务器的基本能力所应具备的字段，其他字段解释请查阅RFC文档。<br>AC-Name当然可以自己发挥了，比如我写的就是stefenson-pppoe-server，当然也可以迎合客户端要求，根据客户端 0x0101 所需进行返回，机不机智？</p>
+<p>Tag Length表示Tag的数据长，不包含Type和Length占用的长度。</p>
+<p>Tag Data表示Tag携带的数据。</p>
+<h3 id="PPPoE-Session阶段共用部分"><a href="#PPPoE-Session阶段共用部分" class="headerlink" title="PPPoE Session阶段共用部分"></a>PPPoE Session阶段共用部分</h3><p>PPPoED成功完成之后进入PPPoE Session阶段。<br>Session阶段会先携带一个通用的两字节数据 Point to Point Protocol<br>该值表示接下来的Session数据是哪种类型，包括以下取值</p>
+<blockquote>
+<p>0x8021…………..IPCP<br>0xC021…………..LCP<br>0xC023…………..PAP<br>0xC223…………..CHAP<br>0x0021…………..IPv4</p>
+</blockquote>
+<p><u>当取值 0x0021 时，该报文携带的是要通讯的数据，后面的Data与链路报文类型IPv4内容一致，去掉PPPoE部分，修改链路头Type为IPv4这就是一个正常的IPv4报文。</u><br><strong> 注意这一点在后面数据链路通讯时十分重要，是PPPoE真正实现通讯的基本要点。 </strong></p>
+<p>紧接着的内容，如果不是IPv4，数据组织形式一样：</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Identifier</th>
+<th>Length</th>
+<th>Data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 Bytes</td>
+<td>1 Bytes</td>
+<td>2 Bytes</td>
+<td>x Bytes</td>
+</tr>
+</tbody>
+</table>
+<p>Code根据不同类型的有不同的意义，后面分开进行说明。<br>Identifier作为PPP阶段报文应答标识，用于区别报文应答关系。<br>Length为全长，包括Code、Identifier、Length占用的长度，不仅仅是Data的长度，也就是说 Length = Data.Length + 4。</p>
+<h3 id="LCP-Discussion"><a href="#LCP-Discussion" class="headerlink" title="LCP Discussion"></a>LCP Discussion</h3><p>LCP全称 Link Control Protocol，链路控制协议，控制链路吞吐量，链路通断等链路基本信息。<br>它的Code有如下取值</p>
+<table>
+<thead>
+<tr>
+<th>Code值</th>
+<th>含义</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>Configuration Request</td>
+<td>链路协商</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Configuration ACK</td>
+<td>协商通过</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Configuration NAK</td>
+<td>协商拒绝</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Configuration Reject</td>
+<td>协商回绝</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Terminate Request</td>
+<td>链路终止请求</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>Terminate ACK</td>
+<td>终止请求确认</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Echo Requeest</td>
+<td>心跳请求</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>Echo Reply</td>
+<td>心跳确认</td>
+</tr>
+</tbody>
+</table>
+<p>NAK和Reject的区别是，NAK表示对方的所列出的链路配置恕无法接受，而Reject则表示发过来的消息意义不明或者信息缺失，这边解析不了很迷茫（看不懂你到底要表达啥的意思）。</p>
+<p>Data的组织形式为下面结构的多项叠加</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Length</th>
+<th>Data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 Bytes</td>
+<td>1 Bytes</td>
+<td>x Bytes</td>
+</tr>
+</tbody>
+</table>
+<p>这里的Length表示全长，包括Type和Length占用的字节，所以Length = Data.Length + 2。</p>
+<p>Type取值和含义</p>
+<blockquote>
+<p>0x01…………..MRU（Maximum Receive Unit）<br>0x02…………..Async-Control-Character-Map<br>0x03…………..Auth Type<br>0x05…………..Magic Number<br>0x06…………..Link Quality Compression/Monitoring<br>0x07…………..Procotol Field Compression<br>0x08…………..Address and Control Field Compression</p>
+</blockquote>
+<p>当Type为MRU时，长度为 2 Bytes，表示报文发送方最大可接收的报文大小，一般不超过1484。<br>当Type为Auth Type时，Data可取值有这些：0xC023表示采用PAP认证、0xC223 + 0x05表示使用MD5挑战方式的CHAP认证。当然也存在其他取值，具体可参阅RFC文档。<br>当Type为Magic Number时，长度为 4 Bytes，值随机，答复的时候要带上用于辨识答复方数据可靠性。<br>其他的Type含义参阅RFC文档，这里所说的是几个比较重要的Type值，这几个是实现PPPoE服务器中必须处理和了解的几个值。</p>
+<p>LCP Discussion阶段中双方互相发送Configuration Request，相互确认对方的信息，同意回复Configuration ACK并携带对方的Request信息。<br>如果不同意对方的Request，这时候回复NAK，并且在NAK中携带自己期待的配置信息，收到NAK之后如果接受列出的配置，带上NAK中的配置重新Configuration Request。<br>如果发现对方报文中存在错误，这时候需要回复Reject，并且携带对方报文中意义不明或者错误的信息内容等待进一步答复。</p>
+<blockquote>
+<p>比如 Configuration Request: Auth Type 0x0000，这时候接收方会回复Configuration Reject: Auth Type 0x0000，相当于该信息我不知道它对不对，反正我这解析不出来，我不管你得换一个。</p>
+</blockquote>
+<p>LCP Discussion过程可能会来回多次，反复确认双方配置（Request–NAK–Request–Reject–Request–…)，如果在多次Configuration依旧无法协商完成只能LCP Terminate Request结束这个短暂的邂逅了。虽然这种情况一般很少见，但也不排除，相当于两个人谈一场交易，结果怎么也谈不拢，那交易肯定也没法进行，再死皮赖脸的协商怕不是要打一架了。</p>
+<p><em> 其实这个过程看起来就跟两个人在进行一场协商一样的不是吗www？</em><br><em> 用自然语言表述这个过程可以编这么一个对话 </em></p>
+<blockquote>
+<p>A：请求：我可接收最大重量为1484的包裹，暗号7A908B06，请确认。<br>B：OK我方收到，已知阁下可接收最大重量为1484的包裹，答复暗号7A908B06。<br>B：另外我方最大可接受重量为1400的包裹，认证方式编码C023，暗号7A908B07，请确认。<br>A：哈？你现在还在用C023认证？你不怕泄密吗？回绝（Reject）认证方式编码C023，你得换一个，答复暗号7A908B07。<br>B：真是事多……重新请求：我方最大可接受重量为1400的包裹，认证方式编码C223+05，暗号7A908B08，请确认。<br>A：等等，1400最大重量太小了吧，我这边接受不了，拒绝（NAK），你得把配置换成这样：最大可接受重量为1450的包裹，认证方式编码C223+05，答复暗号7A908B08。<br>B：(MMP……)行行行，再次请求：我方最大可接受重量为1450的包裹，认证方式编码C223+05，暗号7A908B09，这回可以了吧？<br>A：……<br>B：……喂？<br>A：……啊，不好意思，我这边刚刚有点事没听清，你再说一遍？<br>B：你大爷……时间到了，老子不伺候了！再见！<br>——用户 B 断开连接——<br>A：？？？？？？</p>
+</blockquote>
+<h3 id="Auth（认证）"><a href="#Auth（认证）" class="headerlink" title="Auth（认证）"></a>Auth（认证）</h3><p>LCP协商之后接下来就是认证了。<br>由于认证的方式是在LCP阶段确认的，所以这里根据不同的认证方式有两种数据组织方式</p>
+<h4 id="PAP"><a href="#PAP" class="headerlink" title="PAP"></a>PAP</h4><p>PAP阶段Code取值有</p>
+<blockquote>
+<p>0x01……….Auth Request<br>0x02……….Auth ACK<br>0x03……….Auth NAK</p>
+</blockquote>
+<p>当Code为Auth Request时Data组织形式如下</p>
+<table>
+<thead>
+<tr>
+<th>Peer-ID-Length</th>
+<th>Peer-ID</th>
+<th>Password-Length</th>
+<th>Password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 Bytes</td>
+<td>x Bytes</td>
+<td>1 Bytes</td>
+<td>x Bytes</td>
+</tr>
+</tbody>
+</table>
+<p>其中Peer-ID就是用户名，Password为密码。两个Length都是指后面数据长，不包括Length所占用的字节。<br>从这里不难看出，PAP直接携带用户名密码，并且所支持的最大用户名长和密码长都是255字节。<br>使用PAP方式，客户端直接发送PAP-Auth Request，服务器收到报文后解析用户名密码判断该用户是否合法，认证成功返回Auth ACK，否则返回Auth NAK。</p>
+<p>当Code为Auth Ack或者Auth NAK的时候，后面Data先跟一字节长度提示，然后填入长度控制的字符串作为认证提示，认证提示可以随便填写，就是一个字符串。</p>
+<p><em> 比如你可以在Auth ACK之后跟上信息：Authentication Failed! Rua!，没错就是可以这么傲娇。 </em></p>
+<h4 id="CHAP"><a href="#CHAP" class="headerlink" title="CHAP"></a>CHAP</h4><p>CHAP阶段Code取值有</p>
+<blockquote>
+<p>0x01……….Challenge<br>0x02……….Response<br>0x03……….Success<br>0x04……….Failure</p>
+</blockquote>
+<p>当Code为Challenge或者Response的时候Data组织形式如下：</p>
+<table>
+<thead>
+<tr>
+<th>Value Size</th>
+<th>Value</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 Bytes</td>
+<td>x Bytes</td>
+<td>y Bytes</td>
+</tr>
+</tbody>
+</table>
+<p>其中Value Size表示Value长度，一般是16。Name为用户名，以0x00结尾。<br>Value一般是16字节的数据，各个阶段意义略微有区别。<br>当时用CHAP认证的时候，服务器首先发送Challenge消息，里面的用户名可以为空。<br>客户端收到Challenge之后，通过之前商讨的挑战方式，重新计算Value，并携带用户名，发送Response给服务器。<br>服务器通过客户端答复的Value判断认证是否成功，成功返回Success，否则返回Failure。</p>
+<p>同样的当Code为Failure或者Success的时候，后面Data是一个返回给客户端的字符串，表示认证信息，以0x00结尾。</p>
+<p>MD5挑战模式下，Challenge的期望值为：MD5(id + password + value)。<br>其中id为PPPoE Session阶段携带的Identifier，value为服务器Challenge发过来的值。计算完之后重新放入Value返回给服务器。<br>服务器收到之后也会用同样的方式处理，对比两者结果是否一致判断用户是否合法。</p>
+<p>认证失败一般紧接着就会发送LCP Terminate Request断开链接，释放当前Session。</p>
+<h3 id="IPCP-Discussion"><a href="#IPCP-Discussion" class="headerlink" title="IPCP Discussion"></a>IPCP Discussion</h3><p>认证完成之后就是IP协商了。<br>IPCP全称 IP Control Protocol，IP控制协议，用于控制接入设备的IP配置信息。<br>IPCP阶段Code可以取值：</p>
+<blockquote>
+<p>0x01……….Configuration Request<br>0x02……….Configuration ACK<br>0x03……….Configuration NAK</p>
+</blockquote>
+<p>Data组织形式为：</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Length</th>
+<th>IP Address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 Bytes</td>
+<td>1 Bytes</td>
+<td>4 Bytes</td>
+</tr>
+</tbody>
+</table>
+<p>Type可取值</p>
+<blockquote>
+<p>0x03……….IP<br>0x81……….DNS1<br>0x83……….DNS2</p>
+</blockquote>
+<p>Length为总长，Length = 6。<br>从这里不难发现，PPP接入下没有子网掩码，因为在PPP模式下不存在子网概念，所有设备相互独立，所以客户端一般在配置PPP网络的时候习惯性将子网掩码设置为255.255.255.255。</p>
+<p>IPCP流程<br>服务器首先发出一个IPCP Request报文，只带0x03字段，这个报文告知客户端服务器的IP地址信息。<br>客户端一般在收到服务器发来的IPCP Request报文之后才发送IPCP Request请求自己的IP地址。<br>一般情况下，客户端发过来的请求中携带的IP信息为0.0.0.0，也有可能是上次认证时分配到的IP。<br>服务器收到客户端的IPCP Request之后判断配置信息是否正确，正确回复ACK，否则回复NAK并附上正确的IP配置信息。</p>
+<p>这个过程其实跟LCP Discussion过程类似，只是起手动作需要服务器发起，客户端需要先确认服务器IP才会进行接下来的确认。<br>后续流程除了没有Reject消息，跟LCP Discussion流程是一样的，对了回复ACK，不对回复NAK并携带上所需的信息。</p>
+<p>IPCP协商完成之后，PPP链接建立过程结束。</p>
+<h3 id="PPP链接建立之后"><a href="#PPP链接建立之后" class="headerlink" title="PPP链接建立之后"></a>PPP链接建立之后</h3><p>PPPoE链路建立之后，上文也提到后续的数据依旧是以PPPoE Session方式发送，不过P2P Protocol的值变为0x0021（IPv4）<br>这时候，一般的网卡是无法解析该消息的，需要把PPP消息中PPPoE部分剔除封装成普通的IPv4报文，再发送给相关设备，这样网卡才能处理该消息。<br>这个策略可以考虑使用假MAC的方式，PPPoE服务器通过假MAC发送消息给相关设备，相关设备的信息发送回来之后PPPoE服务器截获该消息（其实WinPcap直接就能收到）然后重新用PPP封装在发送给客户端。<br>换句话说，PPPoE链路建立之后，通讯过程依旧跟普通的IPv4通信相差很大。</p>
+<h3 id="PPPoE报文总览"><a href="#PPPoE报文总览" class="headerlink" title="PPPoE报文总览"></a>PPPoE报文总览</h3><p>一张图总结一下PPPoE报文<br><img src="/img/PPPoEPacket.png" alt="PPPoE报文"></p>
+<h3 id="其他一些注意事项和技巧"><a href="#其他一些注意事项和技巧" class="headerlink" title="其他一些注意事项和技巧"></a>其他一些注意事项和技巧</h3><ul>
+<li>WinPcap监听会监听到Destination非自己的报文，包括自己发的，如果不过滤Source会造成报文没有被过滤，自己的报文自己答复接着进入死循环浪费资源。这点需要注意</li>
+<li>LCP控制报文中如果收到Echo Request需要及时回复Echo Reply，如果没有答复Echo Request，超过一定次数之后会使对方认为链路断开，链接丢失。所写的PPPoE也应该具备这个机制，毕竟Session资源紧张。</li>
+<li><p>Session报文的Identifier变化一般有两种思路，当然这个策略也可以自己设计</p>
+<blockquote>
+<p>1.当没有回复的时候使ID + 1重新发送，直到得到答复之后ID重置为0发送下一个消息。<br>2.当Package的类型改变的时候重制ID为0，否则ID递增。</p>
+</blockquote>
+</li>
+<li><p>LCP的Echo Request心跳报文中，ID应该只随心跳次数递增，双方个自己记录心跳情况。</p>
+</li>
+<li>LCP/IPCP都需要双方各一个Request和ACK之后才可配置好链接相关信息。</li>
+<li>Session建立过程中，如果在某阶段耗时过长即可认为流程超时，断开并清理当前Session。</li>
+<li>为了保证报文质量，PPPoE建立过程中，所有报文长度最短应为60字节，不够应当补齐。</li>
+</ul>
+<h3 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h3><p>看完PPPoE协议的内容，是不是有种晕头转向的感觉？<br>确实DHCP协议与PPPoE协议比起来简直是小巫见大巫，毕竟链路层协议，复杂程度肯定是要上升的。<br>不过也不需要太敬畏它，PPPoE依旧只是一个协议，一个准则而已，有死板的地方，也有可以搞事的地方（喂）。<br>总的来看其实PPPoE协议就是一层一层展开的，理解了PPPoE协议其实你也就理解了网络分这么多层到底有什么意义了。<br>网络报文其实就是约定好的一层一层数据组装到一起，按照一定模式一定能够将其解开，这样的设计还方便了各部分只关注自己所需要关注的部分，省去了很多解析上的麻烦，只能感叹当年这些网络工程师的智慧。<br>这里面的很多策略都是可以自己发挥的地方，可以尝试一下设计一套自己的高效的策略。<br>设计PPPoE服务器最关键的地方就是学会链路层编程，理解网络报文这种层级关系，理解PPPoE协议中各个部分所需要遵循的规则（比如CHAP认证时的Challenge规则）。<br>由于PPPoE服务器在后期通信中依旧担当一个举足轻重的角色，所以PPPoE服务器对服务器要求很高，普通电脑性能不好的话是无法承担这个任务的，这就是为什么很少在PC平台下有PPPoE服务器软件的原因。<br>目前商用的PPPoE服务器都是各厂商自己设计好的一套解决方案，而不简单是一个软件，里面设计好的各个单元不同分工，这样才有能力承接PPPoE的所有工作。<br>所以我们设计PPPoE服务器并不是说要在普通PC上实现能用的PPPoE服务器，而是通过写PPPoE服务器的过程，理解链路层编程，理解网络分层结构，这才是最终目的。</p>
+<p>可以拓展的地方：不使用WinPcap，使用更底层的C完成PPPoE服务器编程，这样效率更高，说不定性能可以达到和一些PPPoE服务器持平。</p>
+<p>希望本文对你有所启发，Thanks for Reading！</p>
+<h3 id="相关文献"><a href="#相关文献" class="headerlink" title="相关文献"></a>相关文献</h3><p><a href="https://tools.ietf.org/html/rfc2516" target="_blank" rel="noopener">RFC2561(PPPoE)</a><br><a href="https://tools.ietf.org/html/rfc1661" target="_blank" rel="noopener">RFC1661(PPP)</a><br><a href="https://tools.ietf.org/html/rfc1570" target="_blank" rel="noopener">RFC1570(LCP Etensions)</a><br><a href="https://tools.ietf.org/html/rfc2484" target="_blank" rel="noopener">RFC2484(LCP Option)</a><br><a href="https://tools.ietf.org/html/rfc1334" target="_blank" rel="noopener">RFC1334(PAP)</a><br><a href="https://tools.ietf.org/html/rfc1994" target="_blank" rel="noopener">RFC1994(CHAP)</a><br><a href="https://tools.ietf.org/html/rfc2865" target="_blank" rel="noopener">RFC2865(RADIUS)</a><br><a href="https://tools.ietf.org/html/rfc1332" target="_blank" rel="noopener">RFC1332(IPCP)</a><br><a href="https://tools.ietf.org/html/rfc1877" target="_blank" rel="noopener">RFC1877(IPCP DNS)</a></p>
+
+        </div>
+    
+</div>
+
+
+                
+                    <!-- Paradox Post Info -->
+                    
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2018/02/24/RSA加密/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!-- 新篇 -->
+            RSA加密
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2018/02/11/DHCP服务器编写/" id="post_nav-older" class="next-content">
+            <!-- 旧篇 -->
+            DHCP服务器编写
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+</footer>
+
+
+                    <!-- Import File -->
+
+
+    <script>lsloader.load("js/lazyload.min.js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==")</script>
+    <script>lsloader.load("js/js.min.js","/js/js.min.js?oAl/+lvaqTFV31JXTmbrNA==")</script>
+
+
+
+    <script>lsloader.load("js/nprogress.js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==")</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Window Load-->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+</script>
+
+<!-- MathJax Load-->
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Bing Background -->
+
+
+<script>
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.4.0 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                    <div id="container"></div>
+                    <script src="/js/gitment.browser.js"></script>
+
+                    <div id="loadComment" class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out"  style="background-color: rgba(0, 47, 85, 0.5); min-height: 32px; margin-bottom: 0px;">
+                        <center style="margin-top: 6px;">
+                            <a href="javascript:loadComment()" title="加载评论" style="color: rgb(129, 248, 228); text-decoration: none;">
+                                <span id="BackgroundSwitchTitle">加载评论</span>
+                            </a>
+                        </center>
+                    </div>
+
+                    <script>
+                        function loadComment() {
+                            var p_id = 'PPPoE服务器编写'
+                            if (p_id == '')
+                                p_id = 'home'
+                            var gitment = new Gitment({
+                                id: p_id,
+                                owner: 'stefenson',
+                                repo: 'blog_comment',
+                                oauth: {
+                                    client_id: '11eae2a971d306a1da92',
+                                    client_secret: '4ab3eb2e110d470092f71f89ad8126654048f609',
+                                },
+                            })
+                            gitment.render('container')
+
+                            var lc_btn = document.getElementById("loadComment");
+                            var m = document.getElementById("main");
+                            m.removeChild(lc_btn);
+                        }
+                    </script>
+                </main>
+            </div>
+            <!-- <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script> -->
+            <script type="text/javascript" src="/js/nest.min.js"></script>
+            <script type="text/javascript" src="/js/image-zoom.js"></script>
+            <script> setUpZoomImgToDiv('post-content'); </script>
+            <script>
+            (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/f5a96f80.js","daovoice")
+            daovoice('init', {
+                app_id: "f5a96f80"
+            });
+            daovoice('update');
+            </script>
+            <style>
+            #daodream-container .daodream-sheet-header
+            {
+                background-image: none;
+            }
+            </style>
+        </body>
+    
+</html>
