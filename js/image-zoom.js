@@ -53,8 +53,15 @@ var imgZoomTool = {
         // setup to target img children
         var postDiv = document.getElementById(divId);
         var imgs = postDiv.getElementsByTagName('img');
+        var style = null;
         for (var i = 0; i < imgs.length; i++) {
             imgs[i].onmousedown = imgZoomTool.zoomImageClick;
+            style = imgs[i].getAttribute('style');
+            if (style == null || style.search('cursor: pointer;') == -1) {
+                if (style == null) style = 'cursor: pointer;';
+                else style += 'cursor: pointer;';
+                imgs[i].setAttribute('style', style);
+            }
         }
     }
 }
