@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>DHCP 服务器编写 | Stefenson&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="DHCP 协议（Dynamic Host Configuration Protocol）是一个网络层协议，主要用于给接入设备分配 IP，是目前所有路由设备中重要的协议之一。 本文主要记录博主以前编写 DHCP 时查询的所有资料和记录编写中遇到的坑，还有编写之后对于 DHCP 整个流程的理解，希望对后来者有些帮助。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DHCP 服务器编写">
+<meta property="og:url" content="https://stefenson.com/2018/02/11/DHCP%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/index.html">
+<meta property="og:site_name" content="Stefenson&#39;s Blog">
+<meta property="og:description" content="DHCP 协议（Dynamic Host Configuration Protocol）是一个网络层协议，主要用于给接入设备分配 IP，是目前所有路由设备中重要的协议之一。 本文主要记录博主以前编写 DHCP 时查询的所有资料和记录编写中遇到的坑，还有编写之后对于 DHCP 整个流程的理解，希望对后来者有些帮助。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://stefenson.com/img/DHCP_BW.png">
+<meta property="article:published_time" content="2018-02-11T05:28:39.000Z">
+<meta property="article:modified_time" content="2026-05-16T12:05:24.582Z">
+<meta property="article:author" content="Stefenson Wang">
+<meta property="article:tag" content="DHCP">
+<meta property="article:tag" content="网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://stefenson.com/img/DHCP_BW.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Stefenson's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Stefenson&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一个渣渣程序员的笔记</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://stefenson.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-DHCP 服务器编写" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/02/11/DHCP%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/" class="article-date">
+  <time class="dt-published" datetime="2018-02-11T05:28:39.000Z" itemprop="datePublished">2018-02-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      DHCP 服务器编写
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>DHCP 协议（Dynamic Host Configuration Protocol）是一个网络层协议，主要用于给接入设备分配 IP，是目前所有路由设备中重要的协议之一。</p>
+<p>本文主要记录博主以前编写 DHCP 时查询的所有资料和记录编写中遇到的坑，还有编写之后对于 DHCP 整个流程的理解，希望对后来者有些帮助。</p>
+<span id="more"></span>
+
+<p>注意：本文不会写相关代码，只讲述编写思路和算法，代码不是重点。</p>
+<h3 id="DHCP-的工作流程"><a href="#DHCP-的工作流程" class="headerlink" title="DHCP 的工作流程"></a>DHCP 的工作流程</h3><blockquote>
+<p>1.客户端以广播的方式发出 DHCP Discover 报文。<br>2.所有服务器接受这一消息，返回 DHCP Offer 报文，报文中携带 DHCP 服务器标示和预分配给客户端的 IP 地址。<br>3.客户端根据需要处理这些报文，一般只能处理一个报文，然后发出一个<u> 广播 </u>DHCP Request 报文，报文中携带选中的 DHCP 服务器的服务器标示和需要申请的 IP 地址。<br>4.DHCP 服务器收到报文之后，判断 Option 中携带的标示是不是自己，如果不是，服务器不作处理，只清除相应的 IP 分配信息（IP 分配在 Offer 阶段发生）；如果是，服务器回应一个 DHCP ACK 消息，并且在字段中补全 IP、DNS、租期等信息。<br>5.客户端收到 ACK 之后，检查 IP 是否可用，如果可用则设置网络配置，启动续租流程，如果不可用向服务器发出 DHCP Decline 报文<u>（广播）</u>，通知所有 DHCP 服务器禁用该地址，然后重新开始新的地址申请。<br>6.客户端成功获取 IP 之后可以随时发送 DHCP Release 报文告诉服务器释放自己的 IP，Server 收到报文后会回收相应的 IP 地址，并等待重新分配。</p>
+</blockquote>
+<p>DHCP 服务器并不参与后续的数据传输工作，只是为接入网络的设备提供可用的 IP 这样一个服务，换句话说，DHCP 服务器只记录网络中设备的网络配置，在设备配置好相应的网络配置之后，DHCP 服务器与其交互基本没有（除了续租和释放）。现在的家用局域网环境中一般路由器既作为网络传输设备又作为 IP 分配设备，一定程度上会造成误导，其实在一个局域网中，通信设备和 IP 分配设备完全可以分开。</p>
+<p>客户端续租流程一般发生在租期的 50% 和 87.5%，某些设备也会自定义续租周期，并不一定完全按照规范来，第一次续租叫做 Renew，是以单播形式发送 DHCP Request 报文给服务器，如果成功收到服务器的 ACK 报文则更新租期时间，继续使用该 IP，如果没用，等到 87.5% 第二次续租的时候会广播发送给全网段的 DHCP 服务器，这次续租叫做 Rebind，如果收到 ACK 消息，更新服务器标示和租期继续使用该 IP，否则等到租期结束发送 DHCP Release 释放 IP 并且重新发起 IP 申请流程。</p>
+<p>客户端在 Rebind 过程中不携带 ServerID，接受所有服务器发过来的 NAK 和 ACK 信息，一般情况下 Rebind 不会成功，因为现阶段网络中大部分使用的是 DHCP 之间相互独立的设计，部分网络分配发生比较频繁的局域网中可能会同时存在多个设备进行压力分流接受 Rebind，一般来说 DHCP 服务器收到 Rebind 会因为找不到对应的 IP 记录直接回复 NAK 报文给客户端让客户端重新申请 IP，压力分流网络中会接受 Rebind 返回 ACK，并记录设备信息。</p>
+<p>在 DHCP 协商阶段任意时刻，如果 DHCP 客户端请求存在问题，DHCP 服务器就会发送 NAK 消息拒绝此次请求，客户端收到 NAK 之后会判断是否来自目标服务器，如果是重新发起申请流程，如果不是忽略该消息继续申请 IP。</p>
+<p>当客户端轮询寻找 DHCP 服务器时（反复发送 DHCP Discover 没有回应的情况），每次重试之后，时间间隔会在原先基础上 x2，当达到一个轮询周期时间之后重制间隔。比如第一次 DHCP Discover 没有回应，到第二次的时候间隔时间为 2s，如果第二次还没有回应到第三次的时候间隔为 4s，第三次到第四次间隔为 8s 依次类推。</p>
+<p>不过 DHCP 阶段所有有要求的间隔（轮询间隔、续租间隔）都不是十分准确的时间点，一般会有 ±1s 以内的随机时间叠加，这么做是为了防止服务器瞬时压力过大而给服务器带来不必要的麻烦而设计。正因为此，DHCP 在一个轮询周期内 DHCP Discover 报文数量不固定。</p>
+<p>DHCP 协商使用 UDP 协议，DHCP 服务预留的两个端口为 67、68，其中 68 为客户端发送的目标端口，67 为服务器的回应的目标端口。</p>
+<h3 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h3><p>广播是一种特殊的 UDP 报文，所有子网设备都可以收到 UDP 广播报文，不需要网络分发设备支持。</p>
+<p>发送广播与普通的 UDP 报文一样，都有一个明确的目标，不过目标的 IP 是一个特殊的值。</p>
+<p>一般来说，某个子网的广播地址可以用下面方法计算：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">       IP: <span class="number">10.85</span><span class="number">.172</span><span class="number">.36</span></span><br><span class="line">  NetMask: <span class="number">255.255</span><span class="number">.254</span><span class="number">.0</span></span><br><span class="line">Broadcast: <span class="number">10.85</span><span class="number">.172</span><span class="number">.36</span> &amp; (<span class="number">255.255</span><span class="number">.254</span><span class="number">.0</span>) | !(<span class="number">255.255</span><span class="number">.254</span><span class="number">.0</span>) = <span class="number">10.85</span><span class="number">.173</span><span class="number">.255</span> </span><br></pre></td></tr></table></figure>
+
+<p>PS: NetMask 为子网掩码，! 为按位取反（取补码），计算在字节层面进行</p>
+<p>换句话说，广播地址 &#x3D; 自己的 IP &amp; 子网掩码 | 子网掩码补码<br>也可以理解为网段中的最大 IP。</p>
+<p>广播有一个通用地址是 255.255.255.255 ，DHCP 服务器中一般使用该地址作为广播目标。</p>
+<p>如果使用 255.255.255.255 作为广播目标，该广播不会被路由器转发到其他设备，只在当前物理层面的局域网中传播。</p>
+<p>顺带一提，链路层的广播地址一般是：FF:FF:FF:FF:FF:FF，这个知识在编写 PPPoE 服务器中需要了解（下一次博客更新 PPPoE 服务器编写）</p>
+<h3 id="DHCP-报文结构"><a href="#DHCP-报文结构" class="headerlink" title="DHCP 报文结构"></a>DHCP 报文结构</h3><p>DHCP 报文衍生自 bootp 报文，是一个 UDP 协议的网络层报文，该报文在网络层结构如下：<br><img src="/img/DHCP_BW.png" alt="DHCP 报文"><br>图片中数字为该项目的大小，单位是字节 Bytes，最后一项表示可变。</p>
+<p>各个项目的意义：</p>
+<blockquote>
+<p>OP：客户端到服务器为1，服务器返回客户端为 2。<br>Htype：硬件类型，Ethernet 为 1，实际在当前网络模式下该值始终为 1，无论无线还是有线，可以自己抓报文查看结果。<br>Hlen：硬件地址长度，目前的 Mac 地址都是6字节，所以值一般都是 6。<br>Hops：路由数量，每经过一个路由该值加一，普通网络一般用不到该值。<br>Transation ID：事务 ID，客户端请求与服务器的答复相互对应。<br>Secodes：客户端请求开始之后流逝的时间长度，并非 IP 租期时间。<br>Flags：标志位，目前只用到最高的一位 bit，表示 DHCP 服务器使用广播形式传包，一般不设置。<br>Ciaddr：用户 IP，一般为空，续租和释放时会带上自己的 IP 地址。<br>Yiaddr：客户 IP，服务器分配给客户端的 IP 地址。<br>Siaddr：bootswap 中的 IP，一般是一个回环地址，回环给自己。<br>Giaddr：网管地址，非下发网关地址，是记录被路由过的 DHCP 报文上级路由的 IP，一般为空。<br>Chaddr：客户端的硬件地址，始终是客户端自己的 Mac 地址，Mac 从前往后依次填写，也就是说现阶段只用到最前面六位。<br>Sname：可选，服务器名称，以 0x00 结尾。<br>File：启动文件名，在分配完成之后要读取或执行的额外文件。<br>Magic Cookie：DHCP 固定为 {0x63, 0x82, 0x53, 0x63}，16 进制。</p>
+</blockquote>
+<p>一般情况下 File，Sname 都是空的，很少用到。<br>有关 Magic Cookie，因为 DHCP 魔改自 bootp，所以为了让设备快速确认这是一个 DHCP 报文设置了这个特殊值，方便识别。</p>
+<p>最后的 Option 报文的组织形式为：</p>
+<table>
+<thead>
+<tr>
+<th>OptionNum</th>
+<th>OptionLength</th>
+<th>OptionContains</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4 Bytes</td>
+<td>4 Bytes</td>
+<td>length Bytes</td>
+</tr>
+</tbody></table>
+<p>最后的 length 等于 OptionLength 定义的值。</p>
+<p>Option 有如下属性信息可定义：</p>
+<table>
+<thead>
+<tr>
+<th>必须</th>
+<th>Option编号</th>
+<th>长度</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>☆</td>
+<td>1</td>
+<td>4</td>
+<td>子网掩码</td>
+</tr>
+<tr>
+<td>☆</td>
+<td>3</td>
+<td>4</td>
+<td>网关地址</td>
+</tr>
+<tr>
+<td></td>
+<td>6</td>
+<td>4&#x2F;8</td>
+<td>DNS 地址</td>
+</tr>
+<tr>
+<td></td>
+<td>7</td>
+<td>4</td>
+<td>日志服务器</td>
+</tr>
+<tr>
+<td></td>
+<td>26</td>
+<td>2</td>
+<td>接口 MTU</td>
+</tr>
+<tr>
+<td></td>
+<td>33</td>
+<td>8</td>
+<td>静态路由（现阶段中多使用 Option 121）</td>
+</tr>
+<tr>
+<td></td>
+<td>35</td>
+<td>4</td>
+<td>ARP 缓存时间</td>
+</tr>
+<tr>
+<td></td>
+<td>42</td>
+<td>4</td>
+<td>NTP 服务器地址（时间同步服务器）</td>
+</tr>
+<tr>
+<td>☆</td>
+<td>51</td>
+<td>4</td>
+<td>IP 租期</td>
+</tr>
+<tr>
+<td>☆</td>
+<td>53</td>
+<td>1</td>
+<td>Message </br> 1 - Discover </br> 2 - Offer </br> 3 - Request </br> 4 - Decline </br> 5 - ACK </br> 6 - NAK </br> 7 - Release </br> 8 - INFO</td>
+</tr>
+<tr>
+<td>☆</td>
+<td>54</td>
+<td>4</td>
+<td>服务器标示，一般是服务器的 IP 地址。</td>
+</tr>
+</tbody></table>
+<p>所有 Option 信息添加完毕之后，以0xFF表示配置结束。<br>报文末尾需要使用 0x00 补足不够的部分，bootp 报文在网络层上长度为 300 字节（不包含链路层报文头 42 字节），如果不足 300 字节要用 0x00 补齐，超过则不需要补齐。</p>
+<p>其他的 Option<br>Option60: 有两种含义，一种是基本表征值，客户端用于报告自身硬件厂商和配置信息，一种是经过华为定制的携带有用户名密码信息的报文，这里由于商业机密原因不做过多说明，关键字 IPoE。</p>
+<p>Option61: 客户端标示信息，一般是网络类型 + MAC 地址，正常情况与 Htype 和 Chaddr 保持一致，有些服务器会强制要求客户单携带 Option61。</p>
+<p>Option121: 静态路由，该字段在一些特殊的网络环境下还是比较常见的。构造形式中，除去开头的 Num 和 Length，后面的形式为</p>
+<table>
+<thead>
+<tr>
+<th>Destination</th>
+<th>Router</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>n Bytes</td>
+<td>4 Bytes</td>
+</tr>
+</tbody></table>
+<p>其中 Destination 为掩码长+掩码固定字段的形式，这也就造成了长度不固定。举个例子：<br>{ 0x00, 0x0A, 0x0A, 0x0A, 0x0A }<br>这样表示一条静态路由，所有的要访问的 IP 报文无条件发送到目标 10.10.10.10，相当于 0&#x2F;0 -&gt; 10.10.10.10<br>再比如：<br>{ 0x18, 0x10, 0x10, 0x10, 0x0A, 0x0A, 0x0A, 0x0A }<br>这表示所有要访问 16.16.16.0&#x2F;24 网段的信息全部发送到 10.10.10.10，相当于 16.16.16.0&#x2F;24 -&gt; 10.10.10.10<br>Option121 可以含有多条静态路由，发送时需要一条一条组织，解析错误会造成设备联网异常。</p>
+<p>Option125: 该字段为服务器向客户端提供的认证信息，有些情况下，客户端只希望收到指定的 DHCP 服务器消息，所以会要求 DHCP 服务器携带 Option125，收到报文之后将信息与预先存储的信息进行比对，比对通过才接受服务器的答复。</p>
+<h3 id="其他一些注意事项和技巧"><a href="#其他一些注意事项和技巧" class="headerlink" title="其他一些注意事项和技巧"></a>其他一些注意事项和技巧</h3><ul>
+<li>NAK 报文一般只在下列情况下发送<blockquote>
+<p>1.续租请求非法（租约过期、无法找到租约、请求的 IP 分配给了其他设备、请求的地址不在地址池中、请求的地址与 Offer 不一致）<br>2.Chaddr 为空</p>
+</blockquote>
+</li>
+<li>DHCP 服务器分配并记录 IP 的过程不是在 Request 时发生，而是在 Offer 时就已经发生，Request 阶段只是确认客户端是否申请了该地址，申请了就开始对客户端的租期，否则清掉 Offer 阶段存储的信息。<br>换句话说，Mac-&gt;IP 的映射在 Offer 阶段就已经记录，但是 Offer 阶段不会定义租约。</li>
+<li>DHCP 服务器不会主动清理过期的 IP，也不会主动探测发现不可用的 IP，DHCP 服务器只是被动的分配 IP 给客户端，答复客户端消息，所以 DHCP 服务器其实不占用很多系统资源，通常一台普通 PC 就可以应付。<br>所以 DHCP 服务器分配出去的 IP 可能是冲突的 IP，判断 IP 是否可用的过程是交给客户端判断的。<br>但是 DHCP 服务器应当接受所有网络设备发出的 Decline 信息，如果自己没有记录 Decline 中携带的 IP 信息，那么就应该把该 IP 设置为不可用，以防止下次分配该 IP 给其他设备。</li>
+<li>编写 DHCP 服务器 IP 分配流程时，策略有很多种选择，这里我说一下我的设计方案，策略没有绝对的要求<blockquote>
+<p>设计一个游标和 IP 分配池，游标初始指向第一个位置。<br>每申请一次 IP，先查看游标位置的 IP 是否可用，如果可用，把该 IP 分配给设备，然后将游标移动到下一个位置，否则向后寻找可用的 IP。<br>寻找的过程中，首先优先寻找未分配的 IP，如果没有，寻找租期到期的 IP，如果还没有，寻找以前标记为 Decline 的 IP。<br>如果经过几次寻找都没有找到合适的 IP，这时候有两种策略，一种是不答复客户端的 Request 请求，另一种是发送 NAK 给客户端。<br>每当有 IP 清除（Release 或者 Request 非自己），这时候可以把游标移动到清理的位置上，提高 IP 分配效率。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h3><p>DHCP 说到底只是一个协议，协议有些固定的内容，比如报文中消息的组织形式，但是也没有那么死板，比如续租流程，比如答复流程中 Option 携带的信息，这些都是可以定制和发挥的地方。<br>根据 bootp 报文的性质，其实是完全有能力设计一套自己的 IP 分配报文类型的，只是能不能流通就只能看时势了……<br>客户端的请求和服务器的答复都有可能发生异常，解析过程中要考虑到这些异常的情况。<br>当然胡搞也是可以的，比如无条件接受所有 Request，无条件拒绝所有 Request，分配 IP 的时候故意分配毫无意义的 IP 或者根本没法用的 IP，故意写错网关的地址，故意分配一个虚假的 DNS 信息，Renew 中更新客户端 IP 等等，这些都是可以做到的，只是这样违背了 DHCP 服务器初衷而已（不过真的很有趣 www）。<br>几个关键的地方：DHCP 服务器最关键的是 IP 分配策略，其他的基本没有太大变化，按照报文要求事先组织好消息形式即可。</p>
+<p>可以拓展的地方：</p>
+<ul>
+<li>DHCP 服务器自我管理租期到期的 IP 和自行检查不可用的 IP，不过这样会给 DHCP 服务器造成一定负担。</li>
+<li>主动与已经开始租期的 IP 通信判读设备是否还在线，不在线主动清理，同样很耗资源。</li>
+<li>多个 DHCP 服务器协同工作，就是上文提到的 Rebind 问题，这个往往在大型局域网 IP 管理策略中会用到，可以尝试一下。</li>
+</ul>
+<p>第一篇博客就先这样吧，希望能够帮到你。</p>
+<p>后面会陆续把以前总结在本上的知识写上来，敬请期待咯。</p>
+<h3 id="相关资料"><a href="#相关资料" class="headerlink" title="相关资料"></a>相关资料</h3><p><a target="_blank" rel="noopener" href="https://www.ietf.org/rfc/rfc2131.txt">RFC 2131(DHCP)</a><br><a target="_blank" rel="noopener" href="https://www.ietf.org/rfc/rfc2132.txt">RFC 2132(Options in DHCP)</a><br><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc3442">RFC 3442(Option 121)</a><br><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc3925">RFC 3925(DHCPv4 Option 43&#x2F;60&#x2F;125)</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://stefenson.com/2018/02/11/DHCP%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/" data-id="cmp7wdczd0000dwx153gudenh" data-title="DHCP 服务器编写" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DHCP/" rel="tag">DHCP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/02/12/PPPoE%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          PPPoE 服务器编写
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AES/" rel="tag">AES</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AVL-%E6%A0%91/" rel="tag">AVL 树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DHCP/" rel="tag">DHCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LZ77/" rel="tag">LZ77</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MD5/" rel="tag">MD5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NAT/" rel="tag">NAT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PPPoE/" rel="tag">PPPoE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RSA/" rel="tag">RSA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SHA1/" rel="tag">SHA1</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hash-%E7%AE%97%E6%B3%95/" rel="tag">hash 算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/" rel="tag">中国剩余定理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91/" rel="tag">二叉查找树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="tag">二叉树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%BD%E7%BD%97%E5%8D%8E%E5%9F%9F/" rel="tag">伽罗华域</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8E%8B%E7%BC%A9/" rel="tag">压缩</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%93%88%E5%A4%AB%E6%9B%BC/" rel="tag">哈夫曼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/" rel="tag">欧拉函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/" rel="tag">欧拉定理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A9%E9%98%B5/" rel="tag">矩阵</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/" rel="tag">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AES/" style="font-size: 10px;">AES</a> <a href="/tags/AVL-%E6%A0%91/" style="font-size: 10px;">AVL 树</a> <a href="/tags/DHCP/" style="font-size: 10px;">DHCP</a> <a href="/tags/LZ77/" style="font-size: 10px;">LZ77</a> <a href="/tags/MD5/" style="font-size: 10px;">MD5</a> <a href="/tags/NAT/" style="font-size: 10px;">NAT</a> <a href="/tags/PPPoE/" style="font-size: 10px;">PPPoE</a> <a href="/tags/RSA/" style="font-size: 10px;">RSA</a> <a href="/tags/SHA1/" style="font-size: 10px;">SHA1</a> <a href="/tags/hash-%E7%AE%97%E6%B3%95/" style="font-size: 10px;">hash 算法</a> <a href="/tags/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/" style="font-size: 10px;">中国剩余定理</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91/" style="font-size: 10px;">二叉查找树</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 10px;">二叉树</a> <a href="/tags/%E4%BC%BD%E7%BD%97%E5%8D%8E%E5%9F%9F/" style="font-size: 10px;">伽罗华域</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 15px;">加密</a> <a href="/tags/%E5%8E%8B%E7%BC%A9/" style="font-size: 10px;">压缩</a> <a href="/tags/%E5%93%88%E5%A4%AB%E6%9B%BC/" style="font-size: 10px;">哈夫曼</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%95%B0%E8%AE%BA/" style="font-size: 15px;">数论</a> <a href="/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/" style="font-size: 10px;">欧拉函数</a> <a href="/tags/%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/" style="font-size: 10px;">欧拉定理</a> <a href="/tags/%E7%9F%A9%E9%98%B5/" style="font-size: 15px;">矩阵</a> <a href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/" style="font-size: 10px;">红黑树</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 20px;">网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/07/%E8%87%AA%E5%88%B6%20NAT%20%E7%BD%91%E5%85%B3/">自制 NAT 网关</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/09/%E6%97%A0%E6%8D%9F%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9/">无损文件压缩</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/03/%E6%9C%89%E9%99%90%E9%9B%86%E5%86%85%20MD5-SHA1%20%E5%8F%AF%E9%80%86%E5%90%97%E2%80%94%E2%80%94MD5%E3%80%81SHA1%E7%AE%97%E6%B3%95/">有限集内 MD5/SHA1 可逆吗—— MD5、SHA1 算法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/14/AVL%20%E6%A0%91%E4%B8%8E%E7%BA%A2%E9%BB%91%E6%A0%91/">AVL 树与红黑树</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/15/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">排序算法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Stefenson Wang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

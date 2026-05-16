@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>PPPoE 服务器编写 | Stefenson&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="PPPoE（Point-to-Point Protocol Over Ethernet）协议是一个以太网上的点对点协议，是将点对点协议（PPP）封装在以太网（Ethernet）框架中的一种网络隧道协议。它是一个链路层协议，如果要想自己实现一个 PPPoE 服务器需要了解链路层编程的相关知识。网络五层架构中：应用——传输——网络——链路——物理。链路层属于比较靠底层的一层，所以难度还是有的。编程的时">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PPPoE 服务器编写">
+<meta property="og:url" content="https://stefenson.com/2018/02/12/PPPoE%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/index.html">
+<meta property="og:site_name" content="Stefenson&#39;s Blog">
+<meta property="og:description" content="PPPoE（Point-to-Point Protocol Over Ethernet）协议是一个以太网上的点对点协议，是将点对点协议（PPP）封装在以太网（Ethernet）框架中的一种网络隧道协议。它是一个链路层协议，如果要想自己实现一个 PPPoE 服务器需要了解链路层编程的相关知识。网络五层架构中：应用——传输——网络——链路——物理。链路层属于比较靠底层的一层，所以难度还是有的。编程的时">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://stefenson.com/img/PPPoE_PROC.png">
+<meta property="og:image" content="https://stefenson.com/img/PPPoEPacket.png">
+<meta property="article:published_time" content="2018-02-12T01:52:25.000Z">
+<meta property="article:modified_time" content="2026-05-16T12:23:15.975Z">
+<meta property="article:author" content="Stefenson Wang">
+<meta property="article:tag" content="PPPoE">
+<meta property="article:tag" content="网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://stefenson.com/img/PPPoE_PROC.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Stefenson's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Stefenson&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一个渣渣程序员的笔记</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://stefenson.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-PPPoE 服务器编写" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/02/12/PPPoE%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/" class="article-date">
+  <time class="dt-published" datetime="2018-02-12T01:52:25.000Z" itemprop="datePublished">2018-02-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      PPPoE 服务器编写
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>PPPoE（Point-to-Point Protocol Over Ethernet）协议是一个以太网上的点对点协议，是将点对点协议（PPP）封装在以太网（Ethernet）框架中的一种网络隧道协议。<br>它是一个链路层协议，如果要想自己实现一个 PPPoE 服务器需要了解链路层编程的相关知识。<br>网络五层架构中：应用——传输——网络——链路——物理。链路层属于比较靠底层的一层，所以难度还是有的。编程的时候相当于是直接与网卡打交道，编写难度比较高。</p>
+<span id="more"></span>
+
+<p>这里在 Windows 中，我比较推荐 <a target="_blank" rel="noopener" href="https://www.winpcap.org/">WinPcap</a> 进行编程，虽然 Windows 中也有面向网卡的编程，但是一般只有 C 的接口，并且相关资料匮乏，往往还需要与各个型号的网卡打交道，所以推荐使用 WinPcap，接口统一并且易于掌握，只是有些时候速度不太理想。<br>使用 WinPcap，你甚至可以发送一个一字节的报文（虽然他毫无意义）！在 WinPcap 里，TCP&#x2F;IP 报文头将不再是限制！你甚至不会被链路层默认封装头限制！报文里的每一个字节全部由你自由定制！WinPcap！你值得拥有！</p>
+<p>咳咳，扯远了（感觉跟打了个广告一样……）下面说回 PPPoE 编程。</p>
+<h3 id="PPPoE-工作流程"><a href="#PPPoE-工作流程" class="headerlink" title="PPPoE 工作流程"></a>PPPoE 工作流程</h3><p><img src="/img/PPPoE_PROC.png" alt="PPPoE 流程"><br>上面的图是一个 PPPoE 完整的工作流程（点击可查看大图）。<br>双向箭头的地方表示顺序可以互换，任何一方都可以发起，没有严格要求谁先发起。</p>
+<p>从图中可以看出，PPPoE 流程分为五个阶段。<br>其实不细分，PPPoE 只有两个阶段，一个是 PPPoED 阶段，后面的 LCP&#x2F;Auth&#x2F;IPCP&#x2F;PPP 全部都可以纳入 PPP Session 阶段。</p>
+<p>PPPoE 服务器在后续数据交互的过程还要参与，它不仅仅是提供 IP 配置给客户端，后续通讯中全部建立在 PPP Session 之上，服务器需要处理这些 Session 包，一是与客户端通讯确认是否在线管理 Session，二是对数据进行重新封包，去掉 PPP 报文头，转换为一般的报文与外部目标设备通讯，并且把通讯结果使用 PPP 封包发送给客户端。所以说 PPPoE 服务器对服务器性能要求非常高。<br>从上面的描述中也可以看出 PPP Session 是一个很重要的概念，PPPoE 通讯中，链接保持、数据传输、链路通讯、链路状态汇报和修改全部都是在 PPP Session 通讯上进行的，Session 是一个 PPPoE 通讯中的关键通道。</p>
+<p>下面就每一个阶段讲解其流程和报文结构。</p>
+<h3 id="链路报文头"><a href="#链路报文头" class="headerlink" title="链路报文头"></a>链路报文头</h3><p>首先介绍一下链路报文头：</p>
+<table>
+<thead>
+<tr>
+<th>Destination</th>
+<th>Source</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>6 Bytes</td>
+<td>6 Bytes</td>
+<td>2 Bytes</td>
+</tr>
+</tbody></table>
+<p>由于我们做的是链路层编程，报文里面每一个字节都需要我们填进去，所以开头这一部分我们也需要了解。<br>Destination：目标的 MAC 地址，PADI 阶段客户端会使用 FF:FF:FF:FF:FF:FF 广播地址。<br>Source：来源 MAC，该值在组织报文时理论上可以随意设置，可以不与当前发送设备的 MAC 一致，链路层编程时 Source 不会被自动填入当前设备的 MAC 地址，所以这里可以随便写（是的，你写成其他设备 MAC 也可以）。<br>Type：报文类型，目前我所知道的取值有这些</p>
+<blockquote>
+<p>0x8863……………..PPPoE Discovery<br>0x8864……………..PPPoE Session<br>0x0800……………..IPv4</p>
+</blockquote>
+<p>PPPoE Discovery 对应的就是 PPPoED 阶段报文类型，在 PPPoED 阶段 Type 取该值。<br>PPPoE Session 对应的是 PPPoED 阶段之后链路通讯的报文类型，在 LCP&#x2F;Auth&#x2F;IPCP&#x2F;PPP 阶段 Type 都使用该值。<br>IPv4 为目前网络中使用的普通报文类型，现阶段 v6 没有普及，如果不使用 PPPoE 方式进行网络接入，报文类型一般都是 IPv4。</p>
+<h3 id="PPPoE-报文通用部分"><a href="#PPPoE-报文通用部分" class="headerlink" title="PPPoE 报文通用部分"></a>PPPoE 报文通用部分</h3><p>在链路报文头之后，PPPoE 报文有一段通用的部分：</p>
+<table>
+<thead>
+<tr>
+<th>Version&amp;Type</th>
+<th>Code</th>
+<th>Session ID</th>
+<th>Payload Length</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1 Bytes</td>
+<td>1 Bytes</td>
+<td>2 Bytes</td>
+<td>2 Bytes</td>
+</tr>
+</tbody></table>
+<p>Version&amp;Type：现阶段只有一个取值：0x11，表示PPPoE版本1，类型1。<br>Code：表示 PPPoE 报文细分类型，目前有如下取值</p>
+<table>
+<thead>
+<tr>
+<th>Code 值</th>
+<th>含义</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0x00</td>
+<td>Session Data</td>
+<td>PPP 流程通讯时的类型</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>PADI</td>
+<td>PADI</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>PADO</td>
+<td>PADO</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>PADR</td>
+<td>PADR</td>
+</tr>
+<tr>
+<td>0x65</td>
+<td>PADS</td>
+<td>PADS</td>
+</tr>
+<tr>
+<td>0xA7</td>
+<td>PADT</td>
+<td>PADT</td>
+</tr>
+</tbody></table>
+<p>PADI&#x2F;PADO&#x2F;PADR&#x2F;PADS&#x2F;PADT 是 PPPoED 阶段使用的 Code，Session Data 是 PPPoE Session 阶段使用的 Code。<br>其中 Session ID 在 PADI&#x2F;PADO&#x2F;PADR 阶段为 0x0000，在 PADS 中服务器会分配一个 Session ID 给客户，在 PADT 中需要携带 Session ID 告知接收方要断开的 Session。<br>Session Data 阶段，Session ID 表示客户端与服务器之间建立的 Session 编号。<br>Payload Length 为后面跟的数据总长，不包括 PPPoE 头和链路头。</p>
+<h3 id="PPPoED（PPPoE-Discovery）"><a href="#PPPoED（PPPoE-Discovery）" class="headerlink" title="PPPoED（PPPoE Discovery）"></a>PPPoED（PPPoE Discovery）</h3><p>PPPoED 阶段主要工作是客户端发现并确定要注册的 PPPoE 服务器，在相关的 PPPoE 服务器注册 Session。<br>它的流程简单描述如下：</p>
+<blockquote>
+<p>1.客户端通过 PADI 通知 PPPoE 服务器自己的接入请求。<br>2.PPPoE 服务器接到 PADI 请求之后判断是否要答复，需要答复回复 PADO。<br>3.客户端判断 PADO 内容是否是自己期望的服务器，如果是，回复 PADR 申请 Session。<br>4.PPPoE 服务器收到了 PADR，根据当前服务器状况判断是否要开启 Session，如果可以接受回复 PADS。</p>
+</blockquote>
+<p>去掉开头的链路报文头和 PPPoE 通用部分，PPPoED 阶段报文数据形式：</p>
+<table>
+<thead>
+<tr>
+<th>Tag Type</th>
+<th>Tag Length</th>
+<th>Tag Data</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2 Bytes</td>
+<td>2 Bytes</td>
+<td>x Bytes</td>
+</tr>
+</tbody></table>
+<p>PPPoED 中 Payload 就是 PPPoE Tag 的列表，上面这一段会重复多次，他的各个部分含义：<br>Tag Type 表示类型，可取值</p>
+<table>
+<thead>
+<tr>
+<th>Type 值</th>
+<th>含义</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0x0000</td>
+<td>End of list</td>
+<td>Tags 列表结束标志</td>
+</tr>
+<tr>
+<td>0x0101</td>
+<td>Service-Name</td>
+<td>服务名称，客户端携带，说明期望服务器具备的功能 <br> 长度可以为 0 表示接受所有类型 PPPoE 服务器 <br> 一般情况下长度是 0</td>
+</tr>
+<tr>
+<td>0x0102</td>
+<td>AC-Name</td>
+<td>服务器返回服务器自己的名字</td>
+</tr>
+<tr>
+<td>0x0103</td>
+<td>Host-Uniq</td>
+<td>Discovery 阶段特征值，作用类似于 Session ID <br> 每个客户端在一个流程中会保持该值唯一 <br> 服务器答复的时候最好对该值进行判断并维持该值返回</td>
+</tr>
+<tr>
+<td>0x0104</td>
+<td>AC-Cookie</td>
+<td>-</td>
+</tr>
+<tr>
+<td>0x0105</td>
+<td>Vendor-Specific</td>
+<td>-</td>
+</tr>
+<tr>
+<td>0x0110</td>
+<td>Reply-Session-ID</td>
+<td>-</td>
+</tr>
+<tr>
+<td>0x0201</td>
+<td>Service-Name-Error</td>
+<td>-</td>
+</tr>
+<tr>
+<td>0x0202</td>
+<td>AC-System-Error</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<p>以上有备注说明的是比较重要的字段，也是一个 PPPoE 服务器的基本能力所应具备的字段，其他字段解释请查阅 RFC 文档。<br>AC-Name 当然可以自己发挥了，比如我写的就是 stefenson-pppoe-server，起名字嘛，创意最重要。</p>
+<p>Tag Length 表示 Tag 的数据长，不包含 Type 和 Length 占用的长度。</p>
+<p>Tag Data 表示 Tag 携带的数据。</p>
+<h3 id="PPPoE-Session-阶段共用部分"><a href="#PPPoE-Session-阶段共用部分" class="headerlink" title="PPPoE Session 阶段共用部分"></a>PPPoE Session 阶段共用部分</h3><p>PPPoED 成功完成之后进入 PPPoE Session 阶段。<br>Session 阶段会先携带一个通用的两字节数据 Point to Point Protocol<br>该值表示接下来的 Session 数据是哪种类型，包括以下取值</p>
+<blockquote>
+<p>0x8021…………..IPCP<br>0xC021…………..LCP<br>0xC023…………..PAP<br>0xC223…………..CHAP<br>0x0021…………..IPv4</p>
+</blockquote>
+<p><u>当取值 0x0021 时，该报文携带的是要通讯的数据，后面的 Data 与链路报文类型 IPv4 内容一致，去掉 PPPoE 部分，修改链路头 Type 为 IPv4 这就是一个正常的 IPv4 报文。</u><br>** 注意这一点在后面数据链路通讯时十分重要，是 PPPoE 真正实现通讯的基本要点。 **</p>
+<p>紧接着的内容，如果不是 IPv4，数据组织形式一样：</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Identifier</th>
+<th>Length</th>
+<th>Data</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1 Bytes</td>
+<td>1 Bytes</td>
+<td>2 Bytes</td>
+<td>x Bytes</td>
+</tr>
+</tbody></table>
+<p>Code 根据不同类型的有不同的意义，后面分开进行说明。<br>Identifier 作为 PPP 阶段报文应答标识，用于区别报文应答关系。<br>Length 为全长，包括 Code、Identifier、Length 占用的长度，不仅仅是 Data 的长度，也就是说 Length &#x3D; Data.Length + 4。</p>
+<h3 id="LCP-Discussion"><a href="#LCP-Discussion" class="headerlink" title="LCP Discussion"></a>LCP Discussion</h3><p>LCP 全称 Link Control Protocol，链路控制协议，控制链路吞吐量，链路通断等链路基本信息。<br>它的 Code 有如下取值</p>
+<table>
+<thead>
+<tr>
+<th>Code 值</th>
+<th>含义</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0x01</td>
+<td>Configuration Request</td>
+<td>链路协商</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Configuration ACK</td>
+<td>协商通过</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Configuration NAK</td>
+<td>协商拒绝</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Configuration Reject</td>
+<td>协商回绝</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Terminate Request</td>
+<td>链路终止请求</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>Terminate ACK</td>
+<td>终止请求确认</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Echo Requeest</td>
+<td>心跳请求</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>Echo Reply</td>
+<td>心跳确认</td>
+</tr>
+</tbody></table>
+<p>NAK 和 Reject 的区别是，NAK 表示对方的所列出的链路配置项没有问题，但是值不符合预期，返回 NAK 同时会携带自己期望的配置值，而 Reject 则表示发过来的某项配置服务器不支持，无法接受，返回 Reject 时会列出不接受的配置项。</p>
+<p>Data 的组织形式为下面结构的多项叠加</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Length</th>
+<th>Data</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1 Bytes</td>
+<td>1 Bytes</td>
+<td>x Bytes</td>
+</tr>
+</tbody></table>
+<p>这里的 Length 表示全长，包括 Type 和 Length 占用的字节，所以 Length &#x3D; Data.Length + 2。</p>
+<p>Type 取值和含义</p>
+<blockquote>
+<p>0x01…………..MRU（Maximum Receive Unit）<br>0x02…………..Async-Control-Character-Map<br>0x03…………..Auth Type<br>0x05…………..Magic Number<br>0x06…………..Link Quality Compression&#x2F;Monitoring<br>0x07…………..Procotol Field Compression<br>0x08…………..Address and Control Field Compression</p>
+</blockquote>
+<p>当 Type 为 MRU 时，长度为 2 Bytes，表示报文发送方最大可接收的报文大小，一般不超过 1484。<br>当 Type 为 Auth Type 时，Data 可取值有这些：0xC023 表示采用 PAP 认证、0xC223 + 0x05 表示使用 MD5 挑战方式的 CHAP 认证。当然也存在其他取值，具体可参阅 RFC 文档。<br>当 Type 为 Magic Number 时，长度为 4 Bytes，值随机，答复的时候要带上用于辨识该报文是否存在问题，使用方法是如果收到的报文跟发出的报文 Magic Number 值相同，则认为报文存在问题。<br>其他的 Type 含义参阅 RFC 文档，这里所说的是几个比较重要的 Type 值，这几个是实现 PPPoE 服务器中必须处理和了解的几个值。</p>
+<p>LCP Discussion 阶段中双方互相发送 Configuration Request，相互确认对方的信息，同意回复 Configuration ACK 并携带对方的 Request 信息。<br>如果不同意对方的 Request，这时候回复 NAK，并且在 NAK 中携带自己期待的配置信息，收到 NAK 之后如果接受列出的配置，带上 NAK 中的配置重新 Configuration Request。<br>如果发现对方报文中列出的配置项不支持，这时候需要回复 Reject，并且携带对方报文中不支持的配置项。</p>
+<blockquote>
+<p>比如 Configuration Request: Auth Type 0x0000，这时候接收方会回复 Configuration Reject: Auth Type 0x0000，相当于告诉客户端我不支持 0x0000 这种认证，你需要更换一个认证方式。</p>
+</blockquote>
+<p>LCP Discussion 过程可能会来回多次，反复确认双方配置（Request–NAK–Request–Reject–Request–…)，如果在多次 Configuration 依旧无法协商完成只能 LCP Terminate Request 结束这个短暂的邂逅了。虽然这种情况一般很少见，但也不排除，相当于两个人谈一场交易，结果怎么也谈不拢，那交易肯定也没法进行，再死皮赖脸的协商怕不是要打一架了。</p>
+<p><em>其实这个过程看起来就跟两个人在进行一场协商一样的不是吗？</em><br><em>用自然语言表述这个过程可以编这么一个对话</em></p>
+<blockquote>
+<p>A：请求：我可接收最大重量为 1484 的包裹，请确认。<br>B：OK 我方收到，已知阁下可接收最大重量为 1484 的包裹。<br>B：另外我方最大可接受重量为 1400 的包裹，认证方式编码 C023，请确认。<br>A：哈？你现在还在用 C023 认证？你不怕泄密吗？回绝（Reject）认证方式编码 C023，你得换一个。<br>B：真是事多……重新请求：我方最大可接受重量为 1400 的包裹，认证方式编码 C223+05，请确认。<br>A：等等，1400 最大重量太小了吧，我这边接受不了，拒绝（NAK），你得把配置换成这样：最大可接受重量为 1450 的包裹，认证方式编码 C223+05。<br>B：(MMP……)行行行，再次请求：我方最大可接受重量为 1450 的包裹，认证方式编码 C223+05，这回可以了吧？<br>A：……<br>B：……喂？<br>A：……啊，不好意思，我这边刚刚有点事没听清，你再说一遍？<br>B：你大爷……时间到了，老子不伺候了！再见！<br>——用户 B 断开连接——<br>A：？？？？？？</p>
+</blockquote>
+<h3 id="Auth（认证）"><a href="#Auth（认证）" class="headerlink" title="Auth（认证）"></a>Auth（认证）</h3><p>LCP 协商之后接下来就是认证了。<br>由于认证的方式是在 LCP 阶段确认的，所以这里根据不同的认证方式有两种数据组织方式</p>
+<h4 id="PAP"><a href="#PAP" class="headerlink" title="PAP"></a>PAP</h4><p>PAP 阶段 Code 取值有</p>
+<blockquote>
+<p>0x01……….Auth Request<br>0x02……….Auth ACK<br>0x03……….Auth NAK</p>
+</blockquote>
+<p>当 Code 为 Auth Request 时 Data 组织形式如下</p>
+<table>
+<thead>
+<tr>
+<th>Peer-ID-Length</th>
+<th>Peer-ID</th>
+<th>Password-Length</th>
+<th>Password</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1 Bytes</td>
+<td>x Bytes</td>
+<td>1 Bytes</td>
+<td>x Bytes</td>
+</tr>
+</tbody></table>
+<p>其中 Peer-ID 就是用户名，Password 为密码。两个 Length 都是指后面数据长，不包括 Length 所占用的字节。<br>从这里不难看出，PAP 直接携带用户名密码，并且所支持的最大用户名长和密码长都是 255 字节。<br>使用 PAP 方式，客户端直接发送 PAP-Auth Request，服务器收到报文后解析用户名密码判断该用户是否合法，认证成功返回 Auth ACK，否则返回 Auth NAK。</p>
+<p>当 Code 为 Auth Ack 或者 Auth NAK 的时候，后面 Data 先跟一字节长度提示，然后填入长度控制的字符串作为认证提示，认证提示可以随便填写，就是一个字符串。</p>
+<p>_ 比如你可以在 Auth ACK 之后跟上信息：Authentication Failed! Rua!，没错就是可以这么傲娇。 _</p>
+<h4 id="CHAP"><a href="#CHAP" class="headerlink" title="CHAP"></a>CHAP</h4><p>CHAP 阶段 Code 取值有</p>
+<blockquote>
+<p>0x01……….Challenge<br>0x02……….Response<br>0x03……….Success<br>0x04……….Failure</p>
+</blockquote>
+<p>当 Code 为 Challenge 或者 Response 的时候 Data 组织形式如下：</p>
+<table>
+<thead>
+<tr>
+<th>Value Size</th>
+<th>Value</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1 Bytes</td>
+<td>x Bytes</td>
+<td>y Bytes</td>
+</tr>
+</tbody></table>
+<p>其中 Value Size 表示 Value 长度，一般是 16。Name 为用户名，以 0x00 结尾。<br>Value 一般是 16 字节的数据，各个阶段意义略微有区别。<br>当时用 CHAP 认证的时候，服务器首先发送 Challenge 消息，里面的用户名可以为空。<br>客户端收到 Challenge 之后，通过之前商讨的挑战方式，重新计算 Value，并携带用户名，发送 Response 给服务器。<br>服务器通过客户端答复的 Value 判断认证是否成功，成功返回 Success，否则返回 Failure。</p>
+<p>同样的当 Code 为 Failure 或者 Success 的时候，后面 Data 是一个返回给客户端的字符串，表示认证信息，以 0x00 结尾。</p>
+<p>MD5挑战模式下，Challenge 的期望值为：MD5(id + password + value)。<br>其中 id 为 PPPoE Session 阶段携带的 Identifier，value 为服务器 Challenge 发过来的值。计算完之后重新放入 Value 返回给服务器。<br>服务器收到之后也会用同样的方式处理，对比两者结果是否一致判断用户是否合法。</p>
+<p>认证失败一般紧接着就会发送 LCP Terminate Request 断开链接，释放当前 Session。</p>
+<h3 id="IPCP-Discussion"><a href="#IPCP-Discussion" class="headerlink" title="IPCP Discussion"></a>IPCP Discussion</h3><p>认证完成之后就是 IP 协商了。<br>IPCP 全称 IP Control Protocol，IP 控制协议，用于控制接入设备的 IP 配置信息。<br>IPCP 阶段 Code 可以取值：</p>
+<blockquote>
+<p>0x01……….Configuration Request<br>0x02……….Configuration ACK<br>0x03……….Configuration NAK</p>
+</blockquote>
+<p>Data 组织形式为：</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Length</th>
+<th>IP Address</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1 Bytes</td>
+<td>1 Bytes</td>
+<td>4 Bytes</td>
+</tr>
+</tbody></table>
+<p>Type 可取值</p>
+<blockquote>
+<p>0x03……….IP<br>0x81……….DNS1<br>0x83……….DNS2</p>
+</blockquote>
+<p>Length 为总长，Length &#x3D; 6。<br>从这里不难发现，PPP 接入下没有子网掩码，因为在 PPP 模式下不存在子网概念，所有设备相互独立，所以客户端一般在配置 PPP 网络的时候习惯性将子网掩码设置为 255.255.255.255。</p>
+<p><strong>IPCP 流程</strong><br>服务器首先发出一个 IPCP Request 报文，只带 0x03 字段，这个报文告知客户端服务器的 IP 地址信息。<br>客户端一般在收到服务器发来的 IPCP Request 报文之后才发送 IPCP Request 请求自己的 IP 地址。<br>一般情况下，客户端发过来的请求中携带的 IP 信息为0.0.0.0，也有可能是上次认证时分配到的 IP。<br>服务器收到客户端的 IPCP Request 之后判断配置信息是否正确，正确回复 ACK，否则回复 NAK 并附上正确的 IP 配置信息。</p>
+<p>这个过程其实跟 LCP Discussion 过程类似，只是起手动作需要服务器发起，客户端需要先确认服务器 IP 才会进行接下来的确认。<br>后续流程除了没有 Reject 消息，跟 LCP Discussion 流程是一样的，对了回复 ACK，不对回复 NAK 并携带上所需的信息。</p>
+<p>IPCP 协商完成之后，PPP 链接建立过程结束。</p>
+<h3 id="PPP-链接建立之后"><a href="#PPP-链接建立之后" class="headerlink" title="PPP 链接建立之后"></a>PPP 链接建立之后</h3><p>PPPoE 链路建立之后，上文也提到后续的数据依旧是以 PPPoE Session 方式发送，不过 P2P Protocol 的值变为 0x0021（IPv4）<br>这时候，一般的网卡是无法解析该消息的，需要把 PPP 消息中 PPPoE 部分剔除封装成普通的 IPv4 报文，再发送给相关设备，这样网卡才能处理该消息。<br>这个策略可以考虑使用假 MAC 的方式，PPPoE 服务器通过假 MAC 发送消息给相关设备，相关设备的信息发送回来之后 PPPoE 服务器截获该消息（其实 WinPcap 直接就能收到）然后重新用 PPP 封装在发送给客户端。<br>换句话说，PPPoE 链路建立之后，通讯过程依旧跟普通的 IPv4 通信相差很大。</p>
+<h3 id="PPPoE-报文总览"><a href="#PPPoE-报文总览" class="headerlink" title="PPPoE 报文总览"></a>PPPoE 报文总览</h3><p>一张图总结一下 PPPoE 报文<br><img src="/img/PPPoEPacket.png" alt="PPPoE 报文"></p>
+<h3 id="其他一些注意事项和技巧"><a href="#其他一些注意事项和技巧" class="headerlink" title="其他一些注意事项和技巧"></a>其他一些注意事项和技巧</h3><ul>
+<li><p>WinPcap 监听会监听到 Destination 非自己的报文，包括自己发的，如果不过滤 Source 会造成报文没有被过滤，自己的报文自己答复接着进入死循环浪费资源。这点需要注意</p>
+</li>
+<li><p>LCP 控制报文中如果收到 Echo Request 需要及时回复 Echo Reply，如果没有答复 Echo Request，超过一定次数之后会使对方认为链路断开，链接丢失。所写的 PPPoE 也应该具备这个机制，毕竟 Session 资源紧张。</p>
+</li>
+<li><p>Session 报文的 Identifier 变化一般有两种思路，当然这个策略也可以自己设计</p>
+<blockquote>
+<p>1.当没有回复的时候使 ID + 1 重新发送，直到得到答复之后 ID 重置为 0 发送下一个消息。<br>2.当 Package 的类型改变的时候重制 ID 为 0，否则 ID 递增。</p>
+</blockquote>
+</li>
+<li><p>LCP 的 Echo Request 心跳报文中，ID 应该只随心跳次数递增，双方各自记录心跳情况。</p>
+</li>
+<li><p>LCP&#x2F;IPCP 都需要双方各一个 Request 和 ACK 之后才可配置好链接相关信息。</p>
+</li>
+<li><p>Session 建立过程中，如果在某阶段耗时过长即可认为流程超时，断开并清理当前 Session。</p>
+</li>
+<li><p>为了保证报文质量，PPPoE 建立过程中，所有报文长度最短应为 60 字节，不够应当补齐。</p>
+</li>
+</ul>
+<h3 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h3><p>看完 PPPoE 协议的内容，是不是有种晕头转向的感觉？<br>确实 DHCP 协议与 PPPoE 协议比起来简直是小巫见大巫，毕竟链路层协议，复杂程度肯定是要上升的。<br>不过也不需要太敬畏它，PPPoE 依旧只是一个协议，一个准则而已，有死板的地方，也有可以搞事的地方（喂）。<br>总的来看其实 PPPoE 协议就是一层一层展开的，理解了 PPPoE 协议其实你也就理解了网络分这么多层到底有什么意义了。<br>网络报文其实就是约定好的一层一层数据组装到一起，按照一定模式一定能够将其解开，这样的设计还方便了各部分只关注自己所需要关注的部分，省去了很多解析上的麻烦，只能感叹当年这些网络工程师的智慧。<br>这里面的很多策略都是可以自己发挥的地方，可以尝试一下设计一套自己的高效的策略。<br>设计 PPPoE 服务器最关键的地方就是学会链路层编程，理解网络报文这种层级关系，理解 PPPoE 协议中各个部分所需要遵循的规则（比如 CHAP 认证时的 Challenge 规则）。<br>由于 PPPoE 服务器在后期通信中依旧担当一个举足轻重的角色，所以 PPPoE 服务器对服务器要求很高，普通电脑性能不好的话是无法承担这个任务的，这就是为什么很少在 PC 平台下有 PPPoE 服务器软件的原因。<br>目前商用的 PPPoE 服务器都是各厂商自己设计好的一套解决方案，而不简单是一个软件，里面设计好的各个单元不同分工，这样才有能力承接 PPPoE 的所有工作。<br>所以我们设计 PPPoE 服务器并不是说要在普通 PC 上实现能用的 PPPoE 服务器，而是通过写 PPPoE 服务器的过程，理解链路层编程，理解网络分层结构，这才是最终目的。</p>
+<p>可以拓展的地方：不使用 WinPcap，使用更底层的 C 完成 PPPoE 服务器编程，这样效率更高，说不定性能可以达到和一些 PPPoE 服务器持平。</p>
+<p>希望本文对你有所启发，Thanks for Reading！</p>
+<h3 id="相关文献"><a href="#相关文献" class="headerlink" title="相关文献"></a>相关文献</h3><p><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc2516">RFC2561(PPPoE)</a><br><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc1661">RFC1661(PPP)</a><br><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc1570">RFC1570(LCP Etensions)</a><br><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc2484">RFC2484(LCP Option)</a><br><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc1334">RFC1334(PAP)</a><br><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc1994">RFC1994(CHAP)</a><br><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc2865">RFC2865(RADIUS)</a><br><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc1332">RFC1332(IPCP)</a><br><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc1877">RFC1877(IPCP DNS)</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://stefenson.com/2018/02/12/PPPoE%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/" data-id="cmp7wdczh0004dwx1gu6ngomh" data-title="PPPoE 服务器编写" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PPPoE/" rel="tag">PPPoE</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/02/24/RSA%20%E5%8A%A0%E5%AF%86/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          RSA 加密
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/02/11/DHCP%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">DHCP 服务器编写</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AES/" rel="tag">AES</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AVL-%E6%A0%91/" rel="tag">AVL 树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DHCP/" rel="tag">DHCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LZ77/" rel="tag">LZ77</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MD5/" rel="tag">MD5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NAT/" rel="tag">NAT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PPPoE/" rel="tag">PPPoE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RSA/" rel="tag">RSA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SHA1/" rel="tag">SHA1</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hash-%E7%AE%97%E6%B3%95/" rel="tag">hash 算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/" rel="tag">中国剩余定理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91/" rel="tag">二叉查找树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="tag">二叉树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%BD%E7%BD%97%E5%8D%8E%E5%9F%9F/" rel="tag">伽罗华域</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8E%8B%E7%BC%A9/" rel="tag">压缩</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%93%88%E5%A4%AB%E6%9B%BC/" rel="tag">哈夫曼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/" rel="tag">欧拉函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/" rel="tag">欧拉定理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A9%E9%98%B5/" rel="tag">矩阵</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/" rel="tag">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AES/" style="font-size: 10px;">AES</a> <a href="/tags/AVL-%E6%A0%91/" style="font-size: 10px;">AVL 树</a> <a href="/tags/DHCP/" style="font-size: 10px;">DHCP</a> <a href="/tags/LZ77/" style="font-size: 10px;">LZ77</a> <a href="/tags/MD5/" style="font-size: 10px;">MD5</a> <a href="/tags/NAT/" style="font-size: 10px;">NAT</a> <a href="/tags/PPPoE/" style="font-size: 10px;">PPPoE</a> <a href="/tags/RSA/" style="font-size: 10px;">RSA</a> <a href="/tags/SHA1/" style="font-size: 10px;">SHA1</a> <a href="/tags/hash-%E7%AE%97%E6%B3%95/" style="font-size: 10px;">hash 算法</a> <a href="/tags/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/" style="font-size: 10px;">中国剩余定理</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91/" style="font-size: 10px;">二叉查找树</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 10px;">二叉树</a> <a href="/tags/%E4%BC%BD%E7%BD%97%E5%8D%8E%E5%9F%9F/" style="font-size: 10px;">伽罗华域</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 15px;">加密</a> <a href="/tags/%E5%8E%8B%E7%BC%A9/" style="font-size: 10px;">压缩</a> <a href="/tags/%E5%93%88%E5%A4%AB%E6%9B%BC/" style="font-size: 10px;">哈夫曼</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%95%B0%E8%AE%BA/" style="font-size: 15px;">数论</a> <a href="/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/" style="font-size: 10px;">欧拉函数</a> <a href="/tags/%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/" style="font-size: 10px;">欧拉定理</a> <a href="/tags/%E7%9F%A9%E9%98%B5/" style="font-size: 15px;">矩阵</a> <a href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/" style="font-size: 10px;">红黑树</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 20px;">网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/07/%E8%87%AA%E5%88%B6%20NAT%20%E7%BD%91%E5%85%B3/">自制 NAT 网关</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/09/%E6%97%A0%E6%8D%9F%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9/">无损文件压缩</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/03/%E6%9C%89%E9%99%90%E9%9B%86%E5%86%85%20MD5-SHA1%20%E5%8F%AF%E9%80%86%E5%90%97%E2%80%94%E2%80%94MD5%E3%80%81SHA1%E7%AE%97%E6%B3%95/">有限集内 MD5/SHA1 可逆吗—— MD5、SHA1 算法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/14/AVL%20%E6%A0%91%E4%B8%8E%E7%BA%A2%E9%BB%91%E6%A0%91/">AVL 树与红黑树</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/15/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">排序算法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Stefenson Wang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

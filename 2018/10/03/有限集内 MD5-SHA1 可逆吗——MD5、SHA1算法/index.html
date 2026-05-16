@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>有限集内 MD5/SHA1 可逆吗—— MD5、SHA1 算法 | Stefenson&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="今天讲一讲 hash 算法。 hash 算法不可逆，大家都知道，因为这是一个一对多的问题，一个 MD5&#x2F;SHA1 值理论上是可以对应多个原始数据的，所以 MD5&#x2F;SHA1 是无法还原出原始信息的。 但是，如果我指定范围，你能通过 MD5&#x2F;SHA1 倒推出原始数据吗？ 举个例子：定义一个 hash 算法，取值在 255 下的模，这样的 hash 值也是不能直接反推数据的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="有限集内 MD5&#x2F;SHA1 可逆吗—— MD5、SHA1 算法">
+<meta property="og:url" content="https://stefenson.com/2018/10/03/%E6%9C%89%E9%99%90%E9%9B%86%E5%86%85%20MD5-SHA1%20%E5%8F%AF%E9%80%86%E5%90%97%E2%80%94%E2%80%94MD5%E3%80%81SHA1%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="Stefenson&#39;s Blog">
+<meta property="og:description" content="今天讲一讲 hash 算法。 hash 算法不可逆，大家都知道，因为这是一个一对多的问题，一个 MD5&#x2F;SHA1 值理论上是可以对应多个原始数据的，所以 MD5&#x2F;SHA1 是无法还原出原始信息的。 但是，如果我指定范围，你能通过 MD5&#x2F;SHA1 倒推出原始数据吗？ 举个例子：定义一个 hash 算法，取值在 255 下的模，这样的 hash 值也是不能直接反推数据的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-10-03T00:36:05.000Z">
+<meta property="article:modified_time" content="2026-05-16T12:05:24.598Z">
+<meta property="article:author" content="Stefenson Wang">
+<meta property="article:tag" content="MD5">
+<meta property="article:tag" content="SHA1">
+<meta property="article:tag" content="hash 算法">
+<meta property="article:tag" content="矩阵">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Stefenson's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Stefenson&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一个渣渣程序员的笔记</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://stefenson.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-有限集内 MD5-SHA1 可逆吗——MD5、SHA1算法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/10/03/%E6%9C%89%E9%99%90%E9%9B%86%E5%86%85%20MD5-SHA1%20%E5%8F%AF%E9%80%86%E5%90%97%E2%80%94%E2%80%94MD5%E3%80%81SHA1%E7%AE%97%E6%B3%95/" class="article-date">
+  <time class="dt-published" datetime="2018-10-03T00:36:05.000Z" itemprop="datePublished">2018-10-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      有限集内 MD5/SHA1 可逆吗—— MD5、SHA1 算法
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>今天讲一讲 hash 算法。</p>
+<p>hash 算法不可逆，大家都知道，因为这是一个一对多的问题，一个 MD5&#x2F;SHA1 值理论上是可以对应多个原始数据的，所以 MD5&#x2F;SHA1 是无法还原出原始信息的。</p>
+<p>但是，如果我指定范围，你能通过 MD5&#x2F;SHA1 倒推出原始数据吗？</p>
+<p>举个例子：定义一个 hash 算法，取值在 255 下的模，这样的 hash 值也是不能直接反推数据的，但是如果我说我数据就是在 1 ～ 255 之间的值，那我给定一个 hash 值，无疑你是能得到原始数据的。</p>
+<p>但是 MD5&#x2F;SHA1 呢？</p>
+<p>这里容我先卖个关子，今天主要是先介绍 MD5&#x2F;SHA1 算法，最后我们会讨论这个问题。</p>
+<span id="more"></span>
+
+<h3 id="散列算法"><a href="#散列算法" class="headerlink" title="散列算法"></a>散列算法</h3><p>在了解 MD5、SHA1 之前，我们先了解一下什么是散列算法。</p>
+<p>散列算法，或者叫哈希函数，主要是一种通过计算得出数据特征值的算法，算法主要是在字典结构中使用，通过哈希算法算得数据的哈希值可以快速查找数据是否存在或者提取数据。</p>
+<p>后来人们发现，这些特征值其实也是数据的一种特有性质或者属性，而且当你的算法比较完备的时候，不同数据的特征值几乎不可能存在重复的，就跟人的指纹一样，指纹可能会有相似的，但是指纹到目前为止还可以作为重要的断案依据。所以，为什么不使用散列算法为这些数据建立特征值呢？于是便诞生了安全领域的散列算法，又叫做安全散列算法。</p>
+<p>安全领域的散列算法主要就是通过一些比较快的处理方式，可以快速计算出数据的哈希值，然后使用该值进行数据确认，安全传输确认等工作。</p>
+<p>举个简单的例子：一个用户在某个网站下载了一个软件的安装镜像文件，他为了确认这个软件的安装程序是否是真的安装镜像，防止是伪造的病毒或者特洛伊木马，他就可以去访问软件官网确认一下安装包的镜像 MD5 值是多少，然后跟下载回来的镜像 MD5 值做比对（大部分软件巨头的软件都提供他们的镜像 MD5 校验），如果 MD5 值不同就说明被动过手脚。如果还不放心他可以继续比对二者的 SHA1、SHA-256 之类的哈希值。</p>
+<p>安全的散列算法现在已经广泛应用于安全登录、安全认证、安全访问等领域，它与加密算法不同，只提供数据特征值，过程单向，大部分情况推出原始数据是不可能的……好像绕回来了。总之先不管这些，散列算法大部分都是不可逆的。</p>
+<p>但是它跟加密算法又有千丝万缕的联系，有些甚至是加密算法的一个子集，通过加密算法修改几个步骤、添加一些输出它就摇身一变变成了散列算法。</p>
+<p>所以我苦苦追查了好久 MD5&#x2F;SHA1 的历史由来，到底是怎么发展来的，换一种说法是当时是从什么加密算法变种设计而来的，很遗憾的是算法的真正发展历史已经不可考，只知道 MD5 经历过 MD2→MD3→MD4→MD5 几个阶段，SHA1 则是在 MD5 的基础上修改而来，其他的信息少的可怜，已经不知道发明这算法的人当初是怎么把它们设计出来的了……</p>
+<p>当下流行的安全领域散列算法主要是两个派系：MD2&#x2F;3&#x2F;4&#x2F;5 系列和 SHA 系列，接下来主要介绍两者的主要代表：MD5 和 SHA1。</p>
+<h3 id="MD5-算法"><a href="#MD5-算法" class="headerlink" title="MD5 算法"></a>MD5 算法</h3><p>如上面所说 MD5 算法经历了怎样的设计目前已经不可考，所以下面直接说明 MD5 的算法流程：</p>
+<p>MD5 首先定义了如下几个函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int32_t</span> <span class="title function_">F</span><span class="params">(a, b, c)</span> &#123; <span class="keyword">return</span> (a &amp; b) | ((~a) &amp; c); &#125;</span><br><span class="line"><span class="type">int32_t</span> <span class="title function_">G</span><span class="params">(a, b, c)</span> &#123; <span class="keyword">return</span> (a &amp; c) | (b &amp; (~c)); &#125;</span><br><span class="line"><span class="type">int32_t</span> <span class="title function_">H</span><span class="params">(a, b, c)</span> &#123; <span class="keyword">return</span> a ^ b ^ c; &#125;</span><br><span class="line"><span class="type">int32_t</span> <span class="title function_">I</span><span class="params">(a, b, c)</span> &#123; <span class="keyword">return</span> b ^ (a | (~c)); &#125;</span><br><span class="line"></span><br><span class="line">&amp; 按位与</span><br><span class="line">| 按位或</span><br><span class="line">^ 按位异或</span><br><span class="line">~ 取补码</span><br></pre></td></tr></table></figure>
+
+<p>由这四个函数延伸出如下几个函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">FF</span><span class="params">(a, b, c, d, M, s, t)</span> &#123; a = b + (a + F(b, c, d) + M + t) &lt;&lt; s; &#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">GG</span><span class="params">(a, b, c, d, M, s, t)</span> &#123; a = b + (a + G(b, c, d) + M + t) &lt;&lt; s; &#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">HH</span><span class="params">(a, b, c, d, M, s, t)</span> &#123; a = b + (a + H(b, c, d) + M + t) &lt;&lt; s; &#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">II</span><span class="params">(a, b, c, d, M, s, t)</span> &#123; a = b + (a + I(b, c, d) + M + t) &lt;&lt; s; &#125;</span><br><span class="line"></span><br><span class="line">&lt;&lt; 循环左移，举例：<span class="number">0x01001100</span> &lt;&lt; <span class="number">5</span> = <span class="number">0x10001001</span></span><br></pre></td></tr></table></figure>
+
+<p>MD5 在开始处理数据之前会先对数据进行补齐，使数据变成 N * 512 + 448 bits 的形式。如果数据原始长度在 512 上的模刚好是 448 也需要补齐，补齐方法是在原始数据后面跟上一位1和若干个 0，举例： </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">原始数据：<span class="number">0x7AD2</span> </span><br><span class="line">二进制：<span class="number">0x01111011</span> <span class="number">11010010</span></span><br><span class="line">原数据长度：<span class="number">16</span> bits</span><br><span class="line">需补齐长度：<span class="number">448</span> - <span class="number">16</span> = <span class="number">432</span></span><br><span class="line"></span><br><span class="line">补齐之后：<span class="number">0x7AD28000</span> <span class="number">0x00000000</span> ...省略<span class="number">12</span>个<span class="number">0x00000000</span></span><br><span class="line">二进制：<span class="number">0x01111011</span> <span class="number">11010010</span> <span class="number">10000000</span> <span class="number">00000000</span> ...省略<span class="number">416</span>个<span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>算法的初始状态 MD5 定义了四个幻数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A = <span class="number">0x01234567</span></span><br><span class="line">B = <span class="number">0x89ABCDEF</span></span><br><span class="line">C = <span class="number">0xFEDCBA98</span></span><br><span class="line">D = <span class="number">0x76543210</span></span><br></pre></td></tr></table></figure>
+
+<p>幻数以小端字节序存储（内存地址由低到高）<br>而编程中我们的变量存储方式是大端字节序（内存地址从高到低）<br>所以编程时我们定义的幻数应该是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A = <span class="number">0x67452301</span></span><br><span class="line">B = <span class="number">0xEFCDAB89</span></span><br><span class="line">C = <span class="number">0x98BADCFE</span></span><br><span class="line">D = <span class="number">0x10325476</span></span><br></pre></td></tr></table></figure>
+
+<p>数据处理按照块进行，每块大小为512 bits（64 bytes）。<br>这里你会发现如果按照刚刚的补齐，数据原始长度在 512 的模不是 0，缺少的 64 bits 怎么办？这里并不是 MD5 把这 64 bits 忘记了，而是定义了他们的特殊作用。MD5 最后 64 bits 的作用是存储原始数据长度，长度也是以小端字节序存储。<br>最后 64 bits 处理举例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">原始数据为字符串“abc”，长度为 <span class="number">24</span> bits（<span class="number">3</span> bytes）</span><br><span class="line">最后 <span class="number">64</span> bits 为：<span class="number">0x18000000</span> <span class="number">00000000</span></span><br><span class="line"></span><br><span class="line">原始数据为 <span class="number">264</span> bits（<span class="number">33</span> bytes）</span><br><span class="line">最后 <span class="number">64</span> bits 为：<span class="number">0x08010000</span> <span class="number">00000000</span></span><br><span class="line"></span><br><span class="line">原始数据长度超过 <span class="number">64</span> bits 可存储的大小，取其低 <span class="number">64</span> 位。</span><br><span class="line">换一种说法就是按照长度的小端字节序存储，存满为止。</span><br></pre></td></tr></table></figure>
+
+<p>数据和初始幻数定义完毕之后，下面就是对数据的处理。<br>MD5 对每块数据做 4 轮处理，每轮进行 16 次运算，每轮都将数据分为 16 个分组，每组 32 bits（4 bytes），每块数据处理开始时继承上一轮处理完毕之后的 A、B、C、D 作为初始值，最开始的一块数据使用的就是 4 个初始幻数。<br>假设 M[j] 表示第 i 个分组的数据，每轮的操作如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一轮</span></span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">16</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">switch</span> (i % <span class="number">4</span>) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">            FF(A, B, C, D, M[i], <span class="number">7</span>, t[i]);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">            FF(D, A, B, C, M[i], <span class="number">12</span>, t[i]);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">            FF(C, D, A, B, M[i], <span class="number">17</span>, t[i]);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">            FF(B, C, D, A, M[i], <span class="number">22</span>, t[i]);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 第二轮</span></span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">16</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">switch</span> (i % <span class="number">4</span>) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">            GG(A, B, C, D, M[i * <span class="number">5</span> + <span class="number">1</span>] % <span class="number">16</span>, <span class="number">5</span>, t[i + <span class="number">16</span>]);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">            GG(D, A, B, C, M[i * <span class="number">5</span> + <span class="number">1</span>] % <span class="number">16</span>, <span class="number">9</span>, t[i + <span class="number">16</span>]);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">            GG(C, D, A, B, M[i * <span class="number">5</span> + <span class="number">1</span>] % <span class="number">16</span>, <span class="number">14</span>, t[i + <span class="number">16</span>]);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">            GG(B, C, D, A, M[i * <span class="number">5</span> + <span class="number">1</span>] % <span class="number">16</span>, <span class="number">20</span>, t[i + <span class="number">16</span>]);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 第三轮</span></span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">16</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">switch</span> (i % <span class="number">4</span>) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">            HH(A, B, C, D, M[(i * <span class="number">3</span> + <span class="number">5</span>) % <span class="number">16</span>], <span class="number">4</span>, t[i + <span class="number">32</span>]);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">            HH(D, A, B, C, M[(i * <span class="number">3</span> + <span class="number">5</span>) % <span class="number">16</span>], <span class="number">11</span>, t[i + <span class="number">32</span>]);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">            HH(C, D, A, B, M[(i * <span class="number">3</span> + <span class="number">5</span>) % <span class="number">16</span>], <span class="number">16</span>, t[i + <span class="number">32</span>]);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">            HH(B, C, D, A, M[(i * <span class="number">3</span> + <span class="number">5</span>) % <span class="number">16</span>], <span class="number">23</span>, t[i + <span class="number">32</span>]);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 第四轮</span></span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">16</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">switch</span> (i % <span class="number">4</span>) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">            II(A, B, C, D, M[i * <span class="number">7</span> % <span class="number">16</span>], <span class="number">6</span>, t[i + <span class="number">48</span>]);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">            II(D, A, B, C, M[i * <span class="number">7</span> % <span class="number">16</span>], <span class="number">10</span>, t[i + <span class="number">48</span>]);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">            II(C, D, A, B, M[i * <span class="number">7</span> % <span class="number">16</span>], <span class="number">15</span>, t[i + <span class="number">48</span>]);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">            II(B, C, D, A, M[i * <span class="number">7</span> % <span class="number">16</span>], <span class="number">21</span>, t[i + <span class="number">48</span>]);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>别忙，我知道你肯定会问这个 t[i] 是个什么鬼东西。<br>MD5 中对 t[i] 的定义是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t[i] = (<span class="type">int32_t</span>)(<span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">32</span>) * <span class="built_in">abs</span>(<span class="built_in">sin</span>(i + <span class="number">1</span>)));</span><br></pre></td></tr></table></figure>
+
+<p>也就是说 t[i] 就是 2 的 32 次方乘以 sin(i + 1) 的绝对值取整数的部分。</p>
+<p>四轮全部完成之后，加上初始的 A、B、C、D 即得到本块数据的处理结果。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A = A + A0</span><br><span class="line">B = B + B0</span><br><span class="line">C = C + C0</span><br><span class="line">D = D + D0</span><br></pre></td></tr></table></figure>
+<p>如果还有其他数据块剩余，使用这块的结果作为初始值继续处理后续的数据块，直到没有数据块剩余。</p>
+<p>完全处理完所有数据块之后，A、B、C、D 按照小端字节序排列输出就是 MD5 的结果。顺序按照 A→B→C→D。<br>举例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">A = <span class="number">0x67452301</span></span><br><span class="line">B = <span class="number">0xEFCDAB89</span></span><br><span class="line">C = <span class="number">0x98BADCFE</span></span><br><span class="line">D = <span class="number">0x10325476</span></span><br><span class="line"></span><br><span class="line">Result = <span class="number">0x01234567</span> <span class="number">89</span>ABCDEF FEDCBA98 <span class="number">76543210</span></span><br></pre></td></tr></table></figure>
+
+<p>我估计你会被这个大小端字节序搞得很头晕，我也一样&#x3D;。&#x3D;，我当时实现 MD5 的时候关于大小端排列的问题也是经过好几次错误的尝试，最后才完全掌握了这个。</p>
+<p>简单总结 MD5 中的大小端问题：</p>
+<ul>
+<li>定义幻数时由于编译中数字按照大端字节序存储，而给的幻数则按照小端字节序定义，所以要将幻数的存储转化为大端存储。</li>
+<li>长度存储也是按照小端字节序存储的，也是跟编程时候相反，存长度应该从长度数据的最后一个字节开始一个一个填进去，填满 64 bits 为止。</li>
+<li>在处理的数据的时候我们一般是一个一个字节存储的，由于 MD5 将数据按小端存储看待，所以处理的时候为了保持一致，我们应该把脚标大的放在前面（因为存数据的时候也被当作小端存储扔进去的），脚标小的放在后面。</li>
+<li>t[i] 不需要变化。</li>
+<li>结果的输出中要按照 A→B→C→D 的顺序按照小端字节序输出，因为开始处理的时候我们就把他们反了过来，结果还要反回去。</li>
+</ul>
+<p>以上就是 MD5 算法。</p>
+<h3 id="SHA1-算法"><a href="#SHA1-算法" class="headerlink" title="SHA1 算法"></a>SHA1 算法</h3><p>SHA 家族是由 MDx 家族发展而来，可以理解为 MDx 的一个改进版本。</p>
+<p>SHA 定义了如下几个变换函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int32_t</span> <span class="title function_">f1</span><span class="params">(b, c, d)</span> &#123; <span class="keyword">return</span> (b &amp; c) | ((~b) &amp; d); &#125;</span><br><span class="line"><span class="type">int32_t</span> <span class="title function_">f2</span><span class="params">(b, c, d)</span> &#123; <span class="keyword">return</span> b ^ c ^ d; &#125;</span><br><span class="line"><span class="type">int32_t</span> <span class="title function_">f3</span><span class="params">(b, c, d)</span> &#123; <span class="keyword">return</span> (b &amp; c) | (b &amp; d) | (c &amp; d); &#125;</span><br><span class="line"><span class="type">int32_t</span> <span class="title function_">f4</span><span class="params">(b, c, d)</span> &#123; <span class="keyword">return</span> b ^ c ^ d; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>处理数据的时候第一步与 MD5 一样，先把数据补齐，补齐方法与 MD5 一致不再赘述。</p>
+<p>在最后 64 bits 上 SHA1 与 MD5 处理方式不同，但是也是填入数据的长度，不同的地方是不按照小端字节序填，而是按照原始形态填入。<br>依旧用 MD5 中的例子举例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">原始数据为字符串“abc”，长度为 <span class="number">24</span> bits（<span class="number">3</span> bytes）</span><br><span class="line">最后<span class="number">64</span> bits 为：<span class="number">0x00000000</span> <span class="number">00000018</span></span><br><span class="line"></span><br><span class="line">原始数据为 <span class="number">264</span> bits（<span class="number">33</span> bytes）</span><br><span class="line">最后<span class="number">64</span> bits 为：<span class="number">0x00000000</span> <span class="number">00000108</span></span><br><span class="line"></span><br><span class="line">原始数据长度超过 <span class="number">64</span> bits 可存储的大小，该数据无法处理。</span><br></pre></td></tr></table></figure>
+<p>从这里你会发现，SHA1 对数据长度是有限制的，当数据长度位数超过 2 的 64 次方减 1 时无法使用 SHA1 进行散列值运算。</p>
+<p>SHA1 在初始处理状态下定义了几个如下几个幻数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">A = <span class="number">0x67452301</span></span><br><span class="line">B = <span class="number">0xEFCDAB89</span></span><br><span class="line">C = <span class="number">0x98BADCFE</span></span><br><span class="line">D = <span class="number">0x10325476</span></span><br><span class="line">E = <span class="number">0xC3D2E1F0</span></span><br></pre></td></tr></table></figure>
+<p>处理过程中，数据也是按照 512 bits（64 bytes）分块，每块数据分成 16 个分组，每组 4 bytes。<br>处理开始前先申请 80 个长度为 4 bytes 的缓冲区，记每块缓冲区为 W[i]，第 0～15 分组使用当前块数据填充，后面 16～79 分组按照如下方式填充：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">W[i] = (W[i - <span class="number">3</span>] ^ W[i - <span class="number">8</span>] ^ W[i - <span class="number">14</span>] ^ W[i - <span class="number">16</span>]) &lt;&lt; <span class="number">1</span></span><br><span class="line"></span><br><span class="line">&lt;&lt; 表示循环左移</span><br></pre></td></tr></table></figure>
+<p>缓冲区建立完毕开始处理数据，申请五个初始值 H0~H5，H0～H5 继承上一块数据处理的结果，如果是最初的数据块使用初始的五个幻数。<br>令 A&#x3D;H0，B&#x3D;H1，C&#x3D;H2，D&#x3D;H3，E&#x3D;H4<br>然后执行下面的处理：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">80</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (i &gt;= <span class="number">0</span> &amp;&amp; i &lt;= <span class="number">19</span>) &#123;</span><br><span class="line">        TEMP = (A &lt;&lt; <span class="number">5</span>) + f1(B, C, D) + E + W[i] + K[i / <span class="number">20</span>];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (i &gt;= <span class="number">20</span> &amp;&amp; i &lt;= <span class="number">39</span>) &#123;</span><br><span class="line">        TEMP = (A &lt;&lt; <span class="number">5</span>) + f2(B, C, D) + E + W[i] + K[i / <span class="number">20</span>];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (i &gt;= <span class="number">40</span> &amp;&amp; i &lt;= <span class="number">59</span>) &#123;</span><br><span class="line">        TEMP = (A &lt;&lt; <span class="number">5</span>) + f3(B, C, D) + E + W[i] + K[i / <span class="number">20</span>];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (i &gt;= <span class="number">60</span> &amp;&amp; i &lt;= <span class="number">79</span>) &#123;</span><br><span class="line">        TEMP = (A &lt;&lt; <span class="number">5</span>) + f4(B, C, D) + E + W[i] + K[i / <span class="number">20</span>];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    E = D; D = C; C = B &lt;&lt; <span class="number">30</span>; B = A; A = TEMP;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">H0 = H0 + A;</span><br><span class="line">H1 = H1 + B;</span><br><span class="line">H2 = H2 + C;</span><br><span class="line">H3 = H3 + D;</span><br><span class="line">H4 = H4 + E;</span><br><span class="line"></span><br><span class="line">&lt;&lt; 表示循环左移</span><br></pre></td></tr></table></figure>
+<p>这里的 K[i] 计算如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">K[<span class="number">0</span>] = <span class="built_in">sqrt</span>(<span class="number">2</span>) * <span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">30</span>);</span><br><span class="line">K[<span class="number">1</span>] = <span class="built_in">sqrt</span>(<span class="number">3</span>) * <span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">30</span>);</span><br><span class="line">K[<span class="number">2</span>] = <span class="built_in">sqrt</span>(<span class="number">5</span>) * <span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">30</span>);</span><br><span class="line">K[<span class="number">3</span>] = <span class="built_in">sqrt</span>(<span class="number">10</span>) * <span class="built_in">pow</span>(<span class="number">2</span>, <span class="number">30</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">sqrt</span> 开根号</span><br><span class="line"><span class="built_in">pow</span> 乘方</span><br></pre></td></tr></table></figure>
+<p>处理完成之后本块处理结束，如果后续依旧有数据重复这个过程，直到所有数据块处理结束。</p>
+<p>全部数据块处理完成之后依照 H0→H1→H2→H3→H4 顺序输出结果，输出结果直接按照数据原始形态输出，不需要按照小端字节序输出。<br>举例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">H0 = <span class="number">0x67452301</span></span><br><span class="line">H1 = <span class="number">0xEFCDAB89</span></span><br><span class="line">H2 = <span class="number">0x98BADCFE</span></span><br><span class="line">H3 = <span class="number">0x10325476</span></span><br><span class="line">H4 = <span class="number">0xC3D2E1F0</span></span><br><span class="line"></span><br><span class="line">Result = <span class="number">0x67452301</span> EFCDAB89 <span class="number">98B</span>ADCFE <span class="number">10325476</span> C3D2E1F0</span><br></pre></td></tr></table></figure>
+<p>SHA1 依旧要注意字节存储的问题，与 MD5 不同，SHA1 只按照数据原始形态来，所以说存储的时候使用的脚标顺序就是数据的组织顺序，不需要颠倒。</p>
+<p>以上就是 SHA1，比 MD5 要简单很多。</p>
+<h3 id="有限集可逆？"><a href="#有限集可逆？" class="headerlink" title="有限集可逆？"></a>有限集可逆？</h3><p>好了重点来了，有限集中 MD5&#x2F;SHA1 是否可逆呢？</p>
+<p>假设我们知道了数据只有 1 字节（0～255），这样数据只会处理一轮，结果对应的数据，由于是跟初始幻数计算而来，所以由结果和初始幻数可以得到最后一轮的结果。</p>
+<p>我们观察一下 MD5 和 SHA1，后面的步骤大部分都是重复的，所以这里简化起见，我们以 MD5 的一个循环为例，分析一下如果要得到这个循环开始的结果能否通过最终的数据推出来。</p>
+<p>假设现在已经知道了 MD5 第一轮 FF 处理的结果 A、B、C、D，初始幻数也是知道的，现在要求的是 M[0 ~ 15]。</p>
+<p>最后一次计算的是 B 的值，这里用于计算的 B 我们是不知道的，C、D、A 已知，M[15] 也是待求变量，所以我们这里先把用于计算的 B 设为 B16，这样我们其实得到了一个二元一次方程，我们把他计作：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ℵ(B16, M[<span class="number">15</span>]) = B</span><br></pre></td></tr></table></figure>
+<p>同理我们继续向上推算，C 的计算中，D、A 已知，B16被我们设为了未知数，结果 C 我们也知道了，但是这里由于 M[14] 未知，我们依旧要设一个新的未知数 C15，这时其实我们得到了一个新的方程：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ℵ(B16, C15, M[<span class="number">14</span>]) = C</span><br></pre></td></tr></table></figure>
+<p>类似的继续向上推演，我们最终会得到一个方程组：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">ℵ(B16, M[<span class="number">15</span>]) = B</span><br><span class="line">ℵ(B16, C15, M[<span class="number">14</span>]) = C</span><br><span class="line">ℵ(B16, C15, D14, M[<span class="number">13</span>]) = D</span><br><span class="line">ℵ(B16, C15, D14, A13, M[<span class="number">12</span>]) = A</span><br><span class="line">ℵ(B12, C15, D14, A13, M[<span class="number">11</span>]) = B16</span><br><span class="line">ℵ(B12, C11, D14, A13, M[<span class="number">10</span>]) = C15</span><br><span class="line">ℵ(B12, C11, D10, A13, M[<span class="number">9</span>])  = D14</span><br><span class="line">ℵ(B12, C11, D10, A9,  M[<span class="number">8</span>])  = A13</span><br><span class="line">ℵ(B8,  C11, D10, A9,  M[<span class="number">7</span>])  = B12</span><br><span class="line">ℵ(B8,  C7,  D10, A9,  M[<span class="number">6</span>])  = C11</span><br><span class="line">ℵ(B8,  C7,  D6,  A9,  M[<span class="number">5</span>])  = D10</span><br><span class="line">ℵ(B8,  C7,  D6,  A5,  M[<span class="number">4</span>])  = A9</span><br><span class="line">ℵ(C7,  D6,  A5,  M[<span class="number">3</span>]) = B8</span><br><span class="line">ℵ(D6,  A5,  M[<span class="number">2</span>]) = C7</span><br><span class="line">ℵ(A5,  M[<span class="number">1</span>]) = D6</span><br><span class="line">ℵ(M[<span class="number">0</span>]) = A5</span><br></pre></td></tr></table></figure>
+<p>我们知道数据只有一字节，所以说，M[0 ~ 15] 中，还有一些是可以预测的，最简单的 M[15] 是 0x00000000，M[14] 是 0x08000000，M[1] ~ M[13] 则一定是 0x00000000，M[0] 是唯一不知道的一个。<br>这样下来方程简化为了：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">ℵ(B16) = B</span><br><span class="line">ℵ(B16, C15) = C</span><br><span class="line">ℵ(B16, C15, D14) = D</span><br><span class="line">ℵ(B16, C15, D14, A13) = A</span><br><span class="line">ℵ(B12, C15, D14, A13) = B16</span><br><span class="line">ℵ(B12, C11, D14, A13) = C15</span><br><span class="line">ℵ(B12, C11, D10, A13) = D14</span><br><span class="line">ℵ(B12, C11, D10, A9)  = A13</span><br><span class="line">ℵ(B8,  C11, D10, A9)  = B12</span><br><span class="line">ℵ(B8,  C7,  D10, A9)  = C11</span><br><span class="line">ℵ(B8,  C7,  D6,  A9)  = D10</span><br><span class="line">ℵ(B8,  C7,  D6,  A5)  = A9</span><br><span class="line">ℵ(C7,  D6,  A5) = B8</span><br><span class="line">ℵ(D6,  A5) = C7</span><br><span class="line">ℵ(A5) = D6</span><br><span class="line">ℵ(M[<span class="number">0</span>]) = A5</span><br></pre></td></tr></table></figure>
+<p>共有 16 个方程，但是未知数有 13 个，显然是能解出来的。</p>
+<!-- 但是别忘了，我们只是假设A、B、C、D已知，FF轮最终的A，B，C，D其实我们是不知道的，相当于是17个未知数，显然不可解。 -->
+<p>其实如果把 MD5 的整个过程全部使用多元方程组表示出来，我们最终会得到 64 个方程，61 个未知量，这个方程组是<strong>可解的</strong>……<br>是不是很神奇？（位运算原则上与普通运算没有严格不同，依旧可以使用数学方法推算）<br>如果扩大有限集的范围到 1 ~ 2 字节时，此时会将未知数增加到 62 个（数据长度我们无法确定了），方程还是可解的。<br>直到扩大有限集的范围到 1 ~ 12 字节时，未知数数量才增加到 65 个，方程组开始不可解。<br>也就是说在限定集字节大小变化小于 12 字节浮动的时候我们是可以通过结果反推的。<br><strong>※ 当然这里也只是数学理论证明，解题过程中应该跟这个结论有出入，但是可以肯定的是在某些情况下方程组是有固定解的。</strong></p>
+<p>那么 SHA1 呢？<br>这里我直接下结论了，不再过多赘述，有兴趣的可以思考一下这个问题。<br>很遗憾的是，就算限定数据为 1 个字节的数据，SHA1 依旧在原始数据中就会引入一堆未知量，W[0 ~ 79] 中，除了 W[1 ~ 15] 可知，其他的几乎全部未知，未知量不难推算，应该有 58 个。<br>整理出来的方程组中，主要是跟 E 的值有关，为了求数据，我们会引入 E80 ~ E6，也就是说我们一共有 75+58&#x3D;133 个未知数，而我们的方程组只有 80 个，这显然是不可解的（理论不可解）。</p>
+<p>所以说，MD5 不是当年被 Diss……确实现在来看是不安全的，SHA1 相对来说还算安全，但是目前来看 SHA1 貌似也有一种快速攻击方法，这里就不展开细说了，毕竟也没怎么了解过。</p>
+<h3 id="写到最后"><a href="#写到最后" class="headerlink" title="写到最后"></a>写到最后</h3><p>MD5 在实现中要确认大小端字节序，这个跟普通编程思路有点不太一样，需要时刻注意，SHA1 则没有这个要求。</p>
+<p>不同的哈希算法对数据长度要求是不一样的，MD5 不要求数据长度，SHA 家族中：SHA-0、SHA-1、SHA-224 和 SHA-256 限制长度 2^64-1，SHA-384、SHA-512 限制长度为 2^128-1，SHA-3 无限制。</p>
+<p>PS：其实我感觉 MD5 当年应该是一个失败的加密算法设计才对 www，设计出来发现哎呀有时候咋解不出来，索性变成了哈希算法 233。</p>
+<p>今天就到这里了。</p>
+<h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><p>如果你要尝试实现 MD5 和 SHA1 的话我这里给几个临界校验值供参考：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">MD5(<span class="string">&quot;&quot;</span>)  = <span class="number">0xD41D8CD9</span> <span class="number">8F</span>00B204 E9800998 ECF8427E</span><br><span class="line">MD5(<span class="string">&quot;a&quot;</span>) = <span class="number">0x0CC175B9</span> C0F1B6A8 <span class="number">31</span>C399E2 <span class="number">69772661</span></span><br><span class="line">MD5(<span class="string">&quot;01234567890123456789012345678901234567890123456789012345&quot;</span>)</span><br><span class="line">    = <span class="number">0x8AF270B2</span> <span class="number">847610E7</span> <span class="number">42B</span>0791B <span class="number">53648</span>C09</span><br><span class="line">MD5(<span class="string">&quot;012345678901234567890123456789012345678901234567890123456&quot;</span>)</span><br><span class="line">    = <span class="number">0xC620BACE</span> <span class="number">4</span>CDE41BC <span class="number">45</span>A14CFA <span class="number">62</span>EE3487</span><br><span class="line"></span><br><span class="line">SHA1(<span class="string">&quot;&quot;</span>)  = <span class="number">0xDA39A3EE</span> <span class="number">5E6</span>B4B0D <span class="number">3255B</span>FEF <span class="number">95601890</span> AFD80709</span><br><span class="line">SHA1(<span class="string">&quot;a&quot;</span>) = <span class="number">0x86F7E437</span> FAA5A7FC E15D1DDC B9EAEAEA <span class="number">377667B</span>8</span><br><span class="line">SHA1(<span class="string">&quot;01234567890123456789012345678901234567890123456789012345&quot;</span>)</span><br><span class="line">    = <span class="number">0x0A40B8FB</span> DAAFB7C2 <span class="number">9651618</span>A C15D27E7 <span class="number">72287130</span></span><br></pre></td></tr></table></figure>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>  
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://stefenson.com/2018/10/03/%E6%9C%89%E9%99%90%E9%9B%86%E5%86%85%20MD5-SHA1%20%E5%8F%AF%E9%80%86%E5%90%97%E2%80%94%E2%80%94MD5%E3%80%81SHA1%E7%AE%97%E6%B3%95/" data-id="cmp7wdczq000bdwx1qvygm87q" data-title="有限集内 MD5/SHA1 可逆吗—— MD5、SHA1 算法" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MD5/" rel="tag">MD5</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SHA1/" rel="tag">SHA1</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hash-%E7%AE%97%E6%B3%95/" rel="tag">hash 算法</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%9F%A9%E9%98%B5/" rel="tag">矩阵</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/10/09/%E6%97%A0%E6%8D%9F%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          无损文件压缩
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/05/14/AVL%20%E6%A0%91%E4%B8%8E%E7%BA%A2%E9%BB%91%E6%A0%91/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">AVL 树与红黑树</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AES/" rel="tag">AES</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AVL-%E6%A0%91/" rel="tag">AVL 树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DHCP/" rel="tag">DHCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LZ77/" rel="tag">LZ77</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MD5/" rel="tag">MD5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NAT/" rel="tag">NAT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PPPoE/" rel="tag">PPPoE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RSA/" rel="tag">RSA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SHA1/" rel="tag">SHA1</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hash-%E7%AE%97%E6%B3%95/" rel="tag">hash 算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/" rel="tag">中国剩余定理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91/" rel="tag">二叉查找树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="tag">二叉树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%BD%E7%BD%97%E5%8D%8E%E5%9F%9F/" rel="tag">伽罗华域</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8E%8B%E7%BC%A9/" rel="tag">压缩</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%93%88%E5%A4%AB%E6%9B%BC/" rel="tag">哈夫曼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/" rel="tag">欧拉函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/" rel="tag">欧拉定理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A9%E9%98%B5/" rel="tag">矩阵</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/" rel="tag">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AES/" style="font-size: 10px;">AES</a> <a href="/tags/AVL-%E6%A0%91/" style="font-size: 10px;">AVL 树</a> <a href="/tags/DHCP/" style="font-size: 10px;">DHCP</a> <a href="/tags/LZ77/" style="font-size: 10px;">LZ77</a> <a href="/tags/MD5/" style="font-size: 10px;">MD5</a> <a href="/tags/NAT/" style="font-size: 10px;">NAT</a> <a href="/tags/PPPoE/" style="font-size: 10px;">PPPoE</a> <a href="/tags/RSA/" style="font-size: 10px;">RSA</a> <a href="/tags/SHA1/" style="font-size: 10px;">SHA1</a> <a href="/tags/hash-%E7%AE%97%E6%B3%95/" style="font-size: 10px;">hash 算法</a> <a href="/tags/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/" style="font-size: 10px;">中国剩余定理</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91/" style="font-size: 10px;">二叉查找树</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 10px;">二叉树</a> <a href="/tags/%E4%BC%BD%E7%BD%97%E5%8D%8E%E5%9F%9F/" style="font-size: 10px;">伽罗华域</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 15px;">加密</a> <a href="/tags/%E5%8E%8B%E7%BC%A9/" style="font-size: 10px;">压缩</a> <a href="/tags/%E5%93%88%E5%A4%AB%E6%9B%BC/" style="font-size: 10px;">哈夫曼</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%95%B0%E8%AE%BA/" style="font-size: 15px;">数论</a> <a href="/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/" style="font-size: 10px;">欧拉函数</a> <a href="/tags/%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/" style="font-size: 10px;">欧拉定理</a> <a href="/tags/%E7%9F%A9%E9%98%B5/" style="font-size: 15px;">矩阵</a> <a href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/" style="font-size: 10px;">红黑树</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 20px;">网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/07/%E8%87%AA%E5%88%B6%20NAT%20%E7%BD%91%E5%85%B3/">自制 NAT 网关</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/09/%E6%97%A0%E6%8D%9F%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9/">无损文件压缩</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/03/%E6%9C%89%E9%99%90%E9%9B%86%E5%86%85%20MD5-SHA1%20%E5%8F%AF%E9%80%86%E5%90%97%E2%80%94%E2%80%94MD5%E3%80%81SHA1%E7%AE%97%E6%B3%95/">有限集内 MD5/SHA1 可逆吗—— MD5、SHA1 算法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/14/AVL%20%E6%A0%91%E4%B8%8E%E7%BA%A2%E9%BB%91%E6%A0%91/">AVL 树与红黑树</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/15/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">排序算法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Stefenson Wang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

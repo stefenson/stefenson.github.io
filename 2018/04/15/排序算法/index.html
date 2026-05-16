@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>排序算法 | Stefenson&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="今天来说点简单的东西，排序算法。 排序问题应该是目前业务场景中出现的比较多的问题，程序员们学习编程算法所接触到第一个比较复杂也比较有用的算法应该就是冒泡排序算法了，所以说排序算法对于程序员们来说是既陌生又熟悉的存在。 很多编程教程中或者算法书中都对排序算法进行过一番介绍，而且对这些算法的性能作出比较，然后使用时间复杂度或者空间复杂度来描述他们的优劣，但是恐怕很多人都没有一个直观感受，但是只通过时间">
+<meta property="og:type" content="article">
+<meta property="og:title" content="排序算法">
+<meta property="og:url" content="https://stefenson.com/2018/04/15/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="Stefenson&#39;s Blog">
+<meta property="og:description" content="今天来说点简单的东西，排序算法。 排序问题应该是目前业务场景中出现的比较多的问题，程序员们学习编程算法所接触到第一个比较复杂也比较有用的算法应该就是冒泡排序算法了，所以说排序算法对于程序员们来说是既陌生又熟悉的存在。 很多编程教程中或者算法书中都对排序算法进行过一番介绍，而且对这些算法的性能作出比较，然后使用时间复杂度或者空间复杂度来描述他们的优劣，但是恐怕很多人都没有一个直观感受，但是只通过时间">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/CS_DEMO.gif">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/CS_RESULT.png">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/IS_DEMO.gif">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/IS_RESULT.png">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/SS_DEMO.gif">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/SS_RESULT.png">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/BS_DEMO.gif">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/BS_RESULT.png">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/DBS_DEMO.gif">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/DBS_RESULT.png">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/GS_DEMO.gif">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/GS_RESULT.png">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/QS_DEMO.gif">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/QS_RESULT.png">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/HS_DEMO.gif">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/HS_RESULT.png">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/FS_DEMO.gif">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/FS_RESULT.png">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/RS_DEMO.gif">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/RS1_DEMO.gif">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/RS_RESULT.png">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/RS1_RESULT.png">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/BNS_DEMO.gif">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/BNS_RESULT.png">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/D8192.png">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/D65536.png">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/D131072.png">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/D16777216.png">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/D33554432.png">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/D67108864.png">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/BOGO_SUCC.png">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/BOGO_FAIL.png">
+<meta property="og:image" content="https://stefenson.com/img/SORT_IMG/BOGO_DEMO.gif">
+<meta property="article:published_time" content="2018-04-15T13:03:52.000Z">
+<meta property="article:modified_time" content="2026-05-16T12:05:24.582Z">
+<meta property="article:author" content="Stefenson Wang">
+<meta property="article:tag" content="排序">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://stefenson.com/img/SORT_IMG/CS_DEMO.gif">
+  
+    <link rel="alternate" href="/atom.xml" title="Stefenson's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Stefenson&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一个渣渣程序员的笔记</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://stefenson.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-排序算法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/04/15/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" class="article-date">
+  <time class="dt-published" datetime="2018-04-15T13:03:52.000Z" itemprop="datePublished">2018-04-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      排序算法
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>今天来说点简单的东西，排序算法。</p>
+<p>排序问题应该是目前业务场景中出现的比较多的问题，程序员们学习编程算法所接触到第一个比较复杂也比较有用的算法应该就是冒泡排序算法了，所以说排序算法对于程序员们来说是既陌生又熟悉的存在。</p>
+<p>很多编程教程中或者算法书中都对排序算法进行过一番介绍，而且对这些算法的性能作出比较，然后使用时间复杂度或者空间复杂度来描述他们的优劣，但是恐怕很多人都没有一个直观感受，但是只通过时间复杂度函数判断这些算法孰优孰劣的，这种做法有时候对一些算法是很不公平的。</p>
+<span id="more"></span>
+
+<p>这里，我主要通过我写的这些小程序，对现在流行的几大算法进行介绍并对他们的速度进行一下比较，有需要的话欢迎联系我~</p>
+<p style="color: red;"> 同样是 O(n*log(n)) 的算法表现上的差异说不定会让你大吃一惊。 </p>
+
+<p><em>介绍算法过程中后面的结果由于受到绘图函数的限制，不代表最终算法的表现，所以无参考价值。</em></p>
+<p><em>在最后文末会有这些算法公平竞争比赛，如果有需要可以直接拉至文末查看~</em></p>
+<p><em>为了方便起见，这里算法全部都为递增排序。</em></p>
+<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><p>这应该是最简单的算法了，算法就是遍历所有元素找到最小的一个放入第一个位置，然后在剩下的单位中重复刚刚的过程，直到剩余一个元素。</p>
+<p>这个没啥好说的，我们来看一下这种算法的实际展示和表现：</p>
+<p><img src="/img/SORT_IMG/CS_DEMO.gif" alt="CS_Demo"></p>
+<p>最终数据访问和耗时结果为：</p>
+<p><img src="/img/SORT_IMG/CS_RESULT.png" alt="CS_Result"></p>
+<h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><p>这个排序跟选择差不多，其实大家在整理扑克的时候用的差不多就是这种方法：从第一张向后遍历，与前面已经形成有序队列的元素进行比较，找到前面一个比自己小后面一个比自己大的位置把自己插入到这个位置，直到最后一个元素。</p>
+<p>这个算法在<strong>没有优化</strong>的时候是很慢的，下面是它的展示（时间关系，只能选择小数据量）：</p>
+<p><img src="/img/SORT_IMG/IS_DEMO.gif" alt="IS_Demo"></p>
+<p>最终数据访问和耗时结果为：</p>
+<p><img src="/img/SORT_IMG/IS_RESULT.png" alt="IS_Result"></p>
+<h3 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h3><p>这个简单一句话概括就是优化后的插入排序，插入的性能瓶颈主要就是交换次数过多，往往每插入一个数据都要交换好多次，希尔主要解决了交换次数过多的问题，先以大步长把数据进行插入排序，然后逐步缩小步长，直到步长变为 1。这样做可以先以较少的代价把数据进行整理，将较大数据向后移以有效降低后面可能发生的交换次数，最后再以最基本的插入排序排列数据，此时数据已经接近有序也就几乎不会发生几次交换。</p>
+<p>希尔排序的关键是步长变化的选择，不同的步长变化时间复杂度会有很大区别。希尔第一次提出它的时候建议初始步长为数据的一半，然后每次再取一半，直到变成 1，但是这个步长其实效率并不高，<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Shellsort">Wiki</a>上面有多个希尔排序的步长可供选择，这里我选择了一个速度较快的 5&#x2F;11。</p>
+<p>算法演示：</p>
+<p><img src="/img/SORT_IMG/SS_DEMO.gif" alt="SS_DEMO"></p>
+<p>最终数据访问和耗时结果为：</p>
+<p><img src="/img/SORT_IMG/SS_RESULT.png" alt="SS_RESULT"></p>
+<h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><p>这个估计大家都不陌生，算法也不复杂，就跟水中气泡，大的肯定先到顶，小的后到顶道理是一样的，算法就是先从头到最后，发现后面元素比前面元素小就交换二者位置，这样最大的就到最后了，然后从头到倒数第一个重复刚刚的过程，以此类推直到头部。</p>
+<p>这个算法确实很美妙，而且有一定的实现复杂度 233，所以被很多教材拿出来当入门教程，但是说实话，这个算法并不实用，因为电脑毕竟无法模拟出水泡那样的并行速度，所以他可以说是最慢的算法，没有之一。</p>
+<p>算法演示：</p>
+<p><img src="/img/SORT_IMG/BS_DEMO.gif" alt="BS_DEMO"></p>
+<p>最终数据访问和耗时结果为：</p>
+<p><img src="/img/SORT_IMG/BS_RESULT.png" alt="BS_RESULT"></p>
+<h3 id="鸡尾酒排序"><a href="#鸡尾酒排序" class="headerlink" title="鸡尾酒排序"></a>鸡尾酒排序</h3><p>听名字你可能不知道它是啥，其实简单点描述就是双向冒泡排序，同时筛选出最大和最小的元素然后向中间靠拢。</p>
+<p>但是跟冒泡排序一样，理想很美满，现实很骨感 233。</p>
+<p>算法演示：</p>
+<p><img src="/img/SORT_IMG/DBS_DEMO.gif" alt="DBS_DEMO"></p>
+<p>最终数据访问和耗时结果为：</p>
+<p><img src="/img/SORT_IMG/DBS_RESULT.png" alt="DBS_RESULT"></p>
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><p>归并也是比较常见的排序之一，归并有两种实现方式，一种是保持原数列归并，一种是另起一个数列归并，这里我实现的是后者。</p>
+<p>归并的思想也很简单，就是把两个有序队列合并成一个更大的队列，但是队列刚开始是无序的，所以最初是以一个到两个元素为开始，逐步合并，直到合并范围达到整个数组。</p>
+<p>归并往往以递归的方式进行实现，算法也比较简洁。</p>
+<p>算法演示：</p>
+<p><img src="/img/SORT_IMG/GS_DEMO.gif" alt="GS_Demo"></p>
+<p>最终数据访问和耗时结果为：</p>
+<p><img src="/img/SORT_IMG/GS_RESULT.png" alt="GS_Result"></p>
+<h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><p>明星排序之一（这货确实是明星！）。</p>
+<p>快速排序算法简单描述就是从队列中选择一个元素为基准，然后把小于它的放到它左边，大于它的放到它右边，这时候队列被一分为二，然后左边的和右边的队列重复这个过程，直到最终需要排序的元素剩余一个。</p>
+<p><strong>这个算法真的很厉害！这个算法真的很厉害！这个算法真的很厉害！</strong> 重要的事情要说三遍。</p>
+<p>算法演示：</p>
+<p><img src="/img/SORT_IMG/QS_DEMO.gif" alt="QS_DEMO"></p>
+<p>最终数据访问和耗时结果为：</p>
+<p><img src="/img/SORT_IMG/QS_RESULT.png" alt="QS_RESULT"></p>
+<h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><p>依旧是明星排序，这个排序应该是最漂亮的排序（个人观点）。</p>
+<p>这个排序大家应该都不陌生，由于队列和堆可以完美转换，所以就诞生了这么个排序算法（队列转换成堆请参阅完全二叉树的存储形式）。</p>
+<p>这个算法就是先建立大顶堆，然后把头元素与最后的元素交换并将其移除队列，然后重新调整堆为大顶堆，重复这个过程。</p>
+<p>堆排序主要是要实现建堆和调整堆的过程。</p>
+<p>算法演示：</p>
+<p><img src="/img/SORT_IMG/HS_DEMO.gif" alt="HS_DEMO"></p>
+<p>最终数据访问和耗时结果为：</p>
+<p><img src="/img/SORT_IMG/HS_RESULT.png" alt="HS_RESULT"></p>
+<h3 id="插旗排序"><a href="#插旗排序" class="headerlink" title="插旗排序"></a>插旗排序</h3><p>嗯……就跟他名字一样，这个排序就是往一堆格子里面插旗，很形象。</p>
+<p>算法简单描述：根据最小和最大的值，建立从最小到最大值的一系列格子，然后遍历队列，在访问到数据数值的位置上对数据进行进行计数（如数据为 3 就在格子 3 位置记录一次），最后读取所有格子，格子上对应的数字就是数据出现的次数，输出相应个数的数据即可。</p>
+<p>这个算法确实很快，但是缺点也很明显：首先要知道数据极值，其次很耗费空间。当你的数据差很大的时候，这个算法很可能吃光你的内存资源。</p>
+<p>算法最大的特点：<strong>数据无需进行相互比较。</strong></p>
+<p>算法演示：</p>
+<p><img src="/img/SORT_IMG/FS_DEMO.gif" alt="FS_DEMO"></p>
+<p>最终数据访问和耗时结果为：</p>
+<p><img src="/img/SORT_IMG/FS_RESULT.png" alt="FS_RESULT"></p>
+<h3 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h3><p>其实我感觉这个有点像优化过的插旗排序。</p>
+<p>基数排序有两种实现方式，一种是 MSD，一种是 LSD。</p>
+<p>LSD 中，数据从地位开始，先以最低位 hash 值将数据分类（一般就是这位上的数值），然后按照顺序取出，然后升高一位重复刚刚的过程，直到最高位，这时候数据就变成有序的了。</p>
+<p>MSD 则是从数据最高位开始，先以最高位 hash 值将数据分为若干块，然后降低一位，对每一块分别进行刚刚的过程，直到到最低位，最后取出数据即为有序的数据。</p>
+<p>他们的优缺点与插旗排序一样，不过只需要知道数据最大值，耗费空间上比插旗好一点。</p>
+<p>同样的，这个算法中<strong>数据无需进行相互比较。</strong></p>
+<p>算法演示：</p>
+<p>LSD:</p>
+<p><img src="/img/SORT_IMG/RS_DEMO.gif" alt="RS_DEMO"></p>
+<p>MSD:</p>
+<p><img src="/img/SORT_IMG/RS1_DEMO.gif" alt="RS1_DEMO"></p>
+<p>最终数据访问和耗时结果为：</p>
+<p>LSD:</p>
+<p><img src="/img/SORT_IMG/RS_RESULT.png" alt="RS_RESULT"></p>
+<p>MSD:</p>
+<p><img src="/img/SORT_IMG/RS1_RESULT.png" alt="RS1_RESULT"></p>
+<h3 id="双调排序"><a href="#双调排序" class="headerlink" title="双调排序"></a>双调排序</h3><p>这个排序在最近通用计算火热之后得到了很多人关注，因为这个算法很容易实现并行的通用计算。</p>
+<p>算法核心是双调归并。什么是双调呢？简单来说，一个队列中，如果先递减后递增或者先递增后递减，那么他就是一个双调队列。归并双调的过程也很简单，从递减序列和递增序列的第一个元素开始比较，将较小的放到前面较大的放到后面，直到递减&#x2F;递增序列的最后一个，然后把数据从中间拆成前后两个队列重复这个过程，直到最后剩余两个数据比较，这时候序列就变得有序。</p>
+<p>双调的实现比较苛刻，数据量必须以二的幂为基准，否则无法构成双调序列，所以这种方法的缺点就是使用条件苛刻，虽然可以通过补全来应用到所有情况，但是补全的过程还会占用一定资源。</p>
+<p>实现方式一般还是采用递归实现，跟归并类似，不过目标不是两边有序而是左右构成双调，然后对双调进行合并。</p>
+<p><em>PS:双调排序并没有要求先减后增或者先增后减，两种形式都可以实现，你甚至可以把他们穿插到一起。</em></p>
+<p>算法演示：</p>
+<p><img src="/img/SORT_IMG/BNS_DEMO.gif" alt="BNS_DEMO"></p>
+<p>最终数据访问和耗时结果为：</p>
+<p><img src="/img/SORT_IMG/BNS_RESULT.png" alt="BNS_RESULT"></p>
+<h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><p>这么多算法，肯定你也听说过他们的时间复杂度，比如堆排序是 O(n*log(n))，归并排序也是 O(n*log(n))，但是这一简单的量级描述真的就说明他俩速度相当？</p>
+<p>所以下面我们就来看看这些算法的速度对比吧，结果或许会令你感到意外。</p>
+<p>这里所有的算法都以线程为单位同时开始，阈值为 20s，超过者淘汰出去然后增大数据量继续比较。</p>
+<p>首先我们先来个少一点的数据：</p>
+<p><img src="/img/SORT_IMG/D8192.png" alt="D8192"></p>
+<p>emmmmm……看来不够大家塞牙缝的，那好我们就来个大一点的：</p>
+<p><img src="/img/SORT_IMG/D65536.png" alt="D65536"></p>
+<p>在数据量没上 10w 的时候，冒泡和鸡尾酒已经基本撑不住了，紧随其后的是选择排序和插入排序。</p>
+<p>那么我们进一步扩大数据：</p>
+<p><img src="/img/SORT_IMG/D131072.png" alt="D131072"></p>
+<p>两个花瓶算法：冒泡和鸡尾酒已经很拖大家后腿了，其他人早早完成了任务然后在这里等了他们俩半天，然而还有两个目前也已经被淘汰，那就是在上一轮紧随其后的插入和选择。剩下的算法依然难分伯仲。</p>
+<p>下面我就直接上他们差距最大的数据量了：</p>
+<p><img src="/img/SORT_IMG/D16777216.png" alt="D16777216"></p>
+<p>堆排和双调同时出局，但是同样是 O(n*log(n)) 的归并却依然坚挺，是不是有点意外？估计令你更意外的是遥遥领先的快速排序，真的神奇。而且本次结果也可以看出希尔已经力不从心了，它能坚持过下一轮吗？</p>
+<p>继续拉大数据量：</p>
+<p><img src="/img/SORT_IMG/D33554432.png" alt="D33554432"></p>
+<p>果然希尔被淘汰了，注意这里的希尔使用的是 5&#x2F;11 步长变化，不一定是最优步长但是时间复杂度已经很低，也可能有其他表现不错的希尔步长，这里不再一一对比。</p>
+<p>剩下的排序算法们还能坚持多久呢？</p>
+<p>继续：</p>
+<p><img src="/img/SORT_IMG/D67108864.png" alt="D67108864"></p>
+<p>快排、基数（MSD）和归并出局，你是不是有点意外，快拍竟然在最终淘汰时表现都要好过基数的 MSD 形式，真的无敌……</p>
+<p>剩下的这俩估计也不需要比较了，胜负已分，插旗无疑是最快的。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>这样的对比或许你会对这些排序算法有了新的认识，并不是说所有 O(n*log(n)) 性能就差不多，他们的差别其实很大，要根据使用场景合理选择这些排序算法。</p>
+<p>另外，快速排序并没有耗费很多空间，但是在排序速度上面竟然表现不俗（归并，你看看人家），这真的是很令人意外的，但是快排并不是无敌的，需要处理数据已经有序的特殊情况，可能会造成递归调用过深而溢出，同时也使得速度降为 O(n^2)。</p>
+<p>希望本文对你有帮助，多谢阅读~</p>
+<h3 id="花絮"><a href="#花絮" class="headerlink" title="花絮"></a>花絮</h3><p>猴子排序？人家也不是不能用哦！</p>
+<p><img src="/img/SORT_IMG/BOGO_SUCC.png" alt="BEGO_Success"></p>
+<p>然而你排 13 个数据就用了 3s，当你要排 14 个数据时……</p>
+<p><img src="/img/SORT_IMG/BOGO_FAIL.png" alt="BEGO_Fail"></p>
+<p>估计这辈子等不到了吧 233……</p>
+<p><img src="/img/SORT_IMG/BOGO_DEMO.gif" alt="BEGO_Demo"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://stefenson.com/2018/04/15/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" data-id="cmp7wdczg0003dwx1wqz7flch" data-title="排序算法" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/05/14/AVL%20%E6%A0%91%E4%B8%8E%E7%BA%A2%E9%BB%91%E6%A0%91/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          AVL 树与红黑树
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/02/26/AES%20%E5%8A%A0%E5%AF%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">AES 加密</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AES/" rel="tag">AES</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AVL-%E6%A0%91/" rel="tag">AVL 树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DHCP/" rel="tag">DHCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LZ77/" rel="tag">LZ77</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MD5/" rel="tag">MD5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NAT/" rel="tag">NAT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PPPoE/" rel="tag">PPPoE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RSA/" rel="tag">RSA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SHA1/" rel="tag">SHA1</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hash-%E7%AE%97%E6%B3%95/" rel="tag">hash 算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/" rel="tag">中国剩余定理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91/" rel="tag">二叉查找树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="tag">二叉树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%BD%E7%BD%97%E5%8D%8E%E5%9F%9F/" rel="tag">伽罗华域</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8E%8B%E7%BC%A9/" rel="tag">压缩</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%93%88%E5%A4%AB%E6%9B%BC/" rel="tag">哈夫曼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/" rel="tag">欧拉函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/" rel="tag">欧拉定理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A9%E9%98%B5/" rel="tag">矩阵</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/" rel="tag">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AES/" style="font-size: 10px;">AES</a> <a href="/tags/AVL-%E6%A0%91/" style="font-size: 10px;">AVL 树</a> <a href="/tags/DHCP/" style="font-size: 10px;">DHCP</a> <a href="/tags/LZ77/" style="font-size: 10px;">LZ77</a> <a href="/tags/MD5/" style="font-size: 10px;">MD5</a> <a href="/tags/NAT/" style="font-size: 10px;">NAT</a> <a href="/tags/PPPoE/" style="font-size: 10px;">PPPoE</a> <a href="/tags/RSA/" style="font-size: 10px;">RSA</a> <a href="/tags/SHA1/" style="font-size: 10px;">SHA1</a> <a href="/tags/hash-%E7%AE%97%E6%B3%95/" style="font-size: 10px;">hash 算法</a> <a href="/tags/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/" style="font-size: 10px;">中国剩余定理</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91/" style="font-size: 10px;">二叉查找树</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 10px;">二叉树</a> <a href="/tags/%E4%BC%BD%E7%BD%97%E5%8D%8E%E5%9F%9F/" style="font-size: 10px;">伽罗华域</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 15px;">加密</a> <a href="/tags/%E5%8E%8B%E7%BC%A9/" style="font-size: 10px;">压缩</a> <a href="/tags/%E5%93%88%E5%A4%AB%E6%9B%BC/" style="font-size: 10px;">哈夫曼</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%95%B0%E8%AE%BA/" style="font-size: 15px;">数论</a> <a href="/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/" style="font-size: 10px;">欧拉函数</a> <a href="/tags/%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/" style="font-size: 10px;">欧拉定理</a> <a href="/tags/%E7%9F%A9%E9%98%B5/" style="font-size: 15px;">矩阵</a> <a href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/" style="font-size: 10px;">红黑树</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 20px;">网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/07/%E8%87%AA%E5%88%B6%20NAT%20%E7%BD%91%E5%85%B3/">自制 NAT 网关</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/09/%E6%97%A0%E6%8D%9F%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9/">无损文件压缩</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/03/%E6%9C%89%E9%99%90%E9%9B%86%E5%86%85%20MD5-SHA1%20%E5%8F%AF%E9%80%86%E5%90%97%E2%80%94%E2%80%94MD5%E3%80%81SHA1%E7%AE%97%E6%B3%95/">有限集内 MD5/SHA1 可逆吗—— MD5、SHA1 算法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/14/AVL%20%E6%A0%91%E4%B8%8E%E7%BA%A2%E9%BB%91%E6%A0%91/">AVL 树与红黑树</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/15/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">排序算法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Stefenson Wang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

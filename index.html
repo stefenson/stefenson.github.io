@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Stefenson&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Stefenson&#39;s Blog">
+<meta property="og:url" content="https://stefenson.com/index.html">
+<meta property="og:site_name" content="Stefenson&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Stefenson Wang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Stefenson's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Stefenson&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一个渣渣程序员的笔记</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://stefenson.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-自制 NAT 网关" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/07/07/%E8%87%AA%E5%88%B6%20NAT%20%E7%BD%91%E5%85%B3/" class="article-date">
+  <time class="dt-published" datetime="2020-07-07T03:03:20.000Z" itemprop="datePublished">2020-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/07/07/%E8%87%AA%E5%88%B6%20NAT%20%E7%BD%91%E5%85%B3/">自制 NAT 网关</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>前面的 Blog 也提到了，DHCP 服务只负责分配 IP，路由器里面 DHCP 服务并不是入网服务，那么真正的入网是哪一部份负责呢？</p>
+<p>这里提一个大家都很熟悉的名字：网关。</p>
+<p><img src="/img/NAT_IMG/GATEWAY.png" alt="网关"></p>
+<p>网关的在 Wiki 定义是：转发其他服务器通信数据的服务器，接受客户端发送来的请求时，它就像自己拥有资源的服务器一样对请求进行处理。</p>
+        
+          <p class="article-more-link">
+            <a href="/2020/07/07/%E8%87%AA%E5%88%B6%20NAT%20%E7%BD%91%E5%85%B3/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://stefenson.com/2020/07/07/%E8%87%AA%E5%88%B6%20NAT%20%E7%BD%91%E5%85%B3/" data-id="cmp7wdczq0009dwx1y6lo4ikv" data-title="自制 NAT 网关" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NAT/" rel="tag">NAT</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-无损文件压缩" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/10/09/%E6%97%A0%E6%8D%9F%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9/" class="article-date">
+  <time class="dt-published" datetime="2018-10-09T12:09:35.000Z" itemprop="datePublished">2018-10-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/10/09/%E6%97%A0%E6%8D%9F%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9/">无损文件压缩</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>无损压缩（下简称”压缩”）是计算机存储方面很重要的一种课题（至少在过去是），这是一种典型的时间换空间的方案。</p>
+<p>过去由于存储介质普遍很贵，所以压缩方式存储文件可以更大化的利用存储介质的空间（就问你有没有见过只有 40G 的 PC 硬盘，想想都可怕）。</p>
+<p>压缩，顾名思义就是把大文件的体积变小，让他在存储的时候能够少用一点存储空间，而且压缩后的文件能保证可以反向解算出来并且内容不会变化，但是压缩后的文件不能直接被文件系统识别和读取，需要先对文件进行解压之后才能读取其中内容，解压的时候会消耗一定时间，所以说是时间换空间。</p>
+<p>压缩存储其实也就是对文件进行了特殊编码然后存储，今天主要介绍两种压缩编码：哈夫曼编码、LZ77 编码。</p>
+        
+          <p class="article-more-link">
+            <a href="/2018/10/09/%E6%97%A0%E6%8D%9F%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://stefenson.com/2018/10/09/%E6%97%A0%E6%8D%9F%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9/" data-id="cmp7wdczp0007dwx11kavz0rk" data-title="无损文件压缩" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LZ77/" rel="tag">LZ77</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8E%8B%E7%BC%A9/" rel="tag">压缩</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%93%88%E5%A4%AB%E6%9B%BC/" rel="tag">哈夫曼</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-有限集内 MD5-SHA1 可逆吗——MD5、SHA1算法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/10/03/%E6%9C%89%E9%99%90%E9%9B%86%E5%86%85%20MD5-SHA1%20%E5%8F%AF%E9%80%86%E5%90%97%E2%80%94%E2%80%94MD5%E3%80%81SHA1%E7%AE%97%E6%B3%95/" class="article-date">
+  <time class="dt-published" datetime="2018-10-03T00:36:05.000Z" itemprop="datePublished">2018-10-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/10/03/%E6%9C%89%E9%99%90%E9%9B%86%E5%86%85%20MD5-SHA1%20%E5%8F%AF%E9%80%86%E5%90%97%E2%80%94%E2%80%94MD5%E3%80%81SHA1%E7%AE%97%E6%B3%95/">有限集内 MD5/SHA1 可逆吗—— MD5、SHA1 算法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>今天讲一讲 hash 算法。</p>
+<p>hash 算法不可逆，大家都知道，因为这是一个一对多的问题，一个 MD5&#x2F;SHA1 值理论上是可以对应多个原始数据的，所以 MD5&#x2F;SHA1 是无法还原出原始信息的。</p>
+<p>但是，如果我指定范围，你能通过 MD5&#x2F;SHA1 倒推出原始数据吗？</p>
+<p>举个例子：定义一个 hash 算法，取值在 255 下的模，这样的 hash 值也是不能直接反推数据的，但是如果我说我数据就是在 1 ～ 255 之间的值，那我给定一个 hash 值，无疑你是能得到原始数据的。</p>
+<p>但是 MD5&#x2F;SHA1 呢？</p>
+<p>这里容我先卖个关子，今天主要是先介绍 MD5&#x2F;SHA1 算法，最后我们会讨论这个问题。</p>
+        
+          <p class="article-more-link">
+            <a href="/2018/10/03/%E6%9C%89%E9%99%90%E9%9B%86%E5%86%85%20MD5-SHA1%20%E5%8F%AF%E9%80%86%E5%90%97%E2%80%94%E2%80%94MD5%E3%80%81SHA1%E7%AE%97%E6%B3%95/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://stefenson.com/2018/10/03/%E6%9C%89%E9%99%90%E9%9B%86%E5%86%85%20MD5-SHA1%20%E5%8F%AF%E9%80%86%E5%90%97%E2%80%94%E2%80%94MD5%E3%80%81SHA1%E7%AE%97%E6%B3%95/" data-id="cmp7wdczq000bdwx1qvygm87q" data-title="有限集内 MD5/SHA1 可逆吗—— MD5、SHA1 算法" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MD5/" rel="tag">MD5</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SHA1/" rel="tag">SHA1</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hash-%E7%AE%97%E6%B3%95/" rel="tag">hash 算法</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%9F%A9%E9%98%B5/" rel="tag">矩阵</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-AVL 树与红黑树" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/05/14/AVL%20%E6%A0%91%E4%B8%8E%E7%BA%A2%E9%BB%91%E6%A0%91/" class="article-date">
+  <time class="dt-published" datetime="2018-05-14T03:17:28.000Z" itemprop="datePublished">2018-05-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/05/14/AVL%20%E6%A0%91%E4%B8%8E%E7%BA%A2%E9%BB%91%E6%A0%91/">AVL 树与红黑树</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>二叉树是一种很经典的数据结构，利用这种结构，我们可以构造出一个快速的数据查询结构，原理就是利用二叉树每个节点都有两个孩子这一性质，我们让每个树节点的左右孩子性质一样，比如左树都比父节点小，右树都比父节点大，这样的结构中我们从根查找一个数据的速度会加快很多，过程就是比当前值大就去右树找，比当前值小就去左树找。这种树我们叫做二叉排序树，它其实就是一个排序好的队列的二分查找过程的具像化结构。</p>
+<p>这是一种很理想的数据存储结构，然而当任由数据随意顺序存储和插入的时候，有时候会出现很尴尬的结果：</p>
+        
+          <p class="article-more-link">
+            <a href="/2018/05/14/AVL%20%E6%A0%91%E4%B8%8E%E7%BA%A2%E9%BB%91%E6%A0%91/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://stefenson.com/2018/05/14/AVL%20%E6%A0%91%E4%B8%8E%E7%BA%A2%E9%BB%91%E6%A0%91/" data-id="cmp7wdczf0001dwx174m0crvh" data-title="AVL 树与红黑树" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AVL-%E6%A0%91/" rel="tag">AVL 树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91/" rel="tag">二叉查找树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="tag">二叉树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/" rel="tag">红黑树</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-排序算法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/04/15/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" class="article-date">
+  <time class="dt-published" datetime="2018-04-15T13:03:52.000Z" itemprop="datePublished">2018-04-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/04/15/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">排序算法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>今天来说点简单的东西，排序算法。</p>
+<p>排序问题应该是目前业务场景中出现的比较多的问题，程序员们学习编程算法所接触到第一个比较复杂也比较有用的算法应该就是冒泡排序算法了，所以说排序算法对于程序员们来说是既陌生又熟悉的存在。</p>
+<p>很多编程教程中或者算法书中都对排序算法进行过一番介绍，而且对这些算法的性能作出比较，然后使用时间复杂度或者空间复杂度来描述他们的优劣，但是恐怕很多人都没有一个直观感受，但是只通过时间复杂度函数判断这些算法孰优孰劣的，这种做法有时候对一些算法是很不公平的。</p>
+        
+          <p class="article-more-link">
+            <a href="/2018/04/15/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://stefenson.com/2018/04/15/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" data-id="cmp7wdczg0003dwx1wqz7flch" data-title="排序算法" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-AES 加密" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/02/26/AES%20%E5%8A%A0%E5%AF%86/" class="article-date">
+  <time class="dt-published" datetime="2018-02-25T16:25:27.000Z" itemprop="datePublished">2018-02-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/02/26/AES%20%E5%8A%A0%E5%AF%86/">AES 加密</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>AES 加密是一种对称加密算法，全称为 Advanced Encryption Standard，高级加密标准，在密码学中又称 Rijndael 加密法。它是一种区块加密标准，目前是最流行的一种对称加密算法。该算法为比利时密码学家 Joan Daemen 和 Vincent Rijmen 所设计，结合两位作者的名字，以 Rijndael 为名投稿高级加密标准的甄选流程。</p>
+<p>AES 加密流程很简单，整体过程可以用下面这张图表示（点击可查看大图）：</p>
+<p><img src="/img/AES1.png" alt="AES1"></p>
+<p>其中，中间的 9&#x2F;11&#x2F;13 轮分别是在秘钥长度为 128 bits、192 bits 和 256 bits 时使用的轮数。</p>
+<p>图片上很多步骤如果不了解肯定是一脸懵逼，这些步骤都是在 AES 中定义好的一些操作，后面分开来讲一下每一步都要干嘛。</p>
+        
+          <p class="article-more-link">
+            <a href="/2018/02/26/AES%20%E5%8A%A0%E5%AF%86/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://stefenson.com/2018/02/26/AES%20%E5%8A%A0%E5%AF%86/" data-id="cmp7wdczg0002dwx1hd7w10xg" data-title="AES 加密" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AES/" rel="tag">AES</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BC%BD%E7%BD%97%E5%8D%8E%E5%9F%9F/" rel="tag">伽罗华域</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%9F%A9%E9%98%B5/" rel="tag">矩阵</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-RSA 加密" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/02/24/RSA%20%E5%8A%A0%E5%AF%86/" class="article-date">
+  <time class="dt-published" datetime="2018-02-23T16:16:46.000Z" itemprop="datePublished">2018-02-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/02/24/RSA%20%E5%8A%A0%E5%AF%86/">RSA 加密</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>今天主要介绍的是 RSA 加密。</p>
+<p>RSA 加密是目前世界上最流行的非对称加密，它名字的来源于它的三位父亲：罗纳德·李维斯特（Ron Rivest）、阿迪·萨莫尔（Adi Shamir）和伦纳德·阿德曼（Leonard Adleman），他们在1977年提出了 RSA 加密并且在1987年7月首次在美国公布，RSA 来源于他们的姓氏开头字母。</p>
+        
+          <p class="article-more-link">
+            <a href="/2018/02/24/RSA%20%E5%8A%A0%E5%AF%86/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://stefenson.com/2018/02/24/RSA%20%E5%8A%A0%E5%AF%86/" data-id="cmp7wdczh0005dwx14yvcktbz" data-title="RSA 加密" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RSA/" rel="tag">RSA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/" rel="tag">中国剩余定理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/" rel="tag">欧拉函数</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/" rel="tag">欧拉定理</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-PPPoE 服务器编写" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/02/12/PPPoE%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/" class="article-date">
+  <time class="dt-published" datetime="2018-02-12T01:52:25.000Z" itemprop="datePublished">2018-02-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/02/12/PPPoE%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/">PPPoE 服务器编写</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>PPPoE（Point-to-Point Protocol Over Ethernet）协议是一个以太网上的点对点协议，是将点对点协议（PPP）封装在以太网（Ethernet）框架中的一种网络隧道协议。<br>它是一个链路层协议，如果要想自己实现一个 PPPoE 服务器需要了解链路层编程的相关知识。<br>网络五层架构中：应用——传输——网络——链路——物理。链路层属于比较靠底层的一层，所以难度还是有的。编程的时候相当于是直接与网卡打交道，编写难度比较高。</p>
+        
+          <p class="article-more-link">
+            <a href="/2018/02/12/PPPoE%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://stefenson.com/2018/02/12/PPPoE%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/" data-id="cmp7wdczh0004dwx1gu6ngomh" data-title="PPPoE 服务器编写" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PPPoE/" rel="tag">PPPoE</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-DHCP 服务器编写" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/02/11/DHCP%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/" class="article-date">
+  <time class="dt-published" datetime="2018-02-11T05:28:39.000Z" itemprop="datePublished">2018-02-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/02/11/DHCP%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/">DHCP 服务器编写</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>DHCP 协议（Dynamic Host Configuration Protocol）是一个网络层协议，主要用于给接入设备分配 IP，是目前所有路由设备中重要的协议之一。</p>
+<p>本文主要记录博主以前编写 DHCP 时查询的所有资料和记录编写中遇到的坑，还有编写之后对于 DHCP 整个流程的理解，希望对后来者有些帮助。</p>
+        
+          <p class="article-more-link">
+            <a href="/2018/02/11/DHCP%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://stefenson.com/2018/02/11/DHCP%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/" data-id="cmp7wdczd0000dwx153gudenh" data-title="DHCP 服务器编写" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DHCP/" rel="tag">DHCP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AES/" rel="tag">AES</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AVL-%E6%A0%91/" rel="tag">AVL 树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DHCP/" rel="tag">DHCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LZ77/" rel="tag">LZ77</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MD5/" rel="tag">MD5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NAT/" rel="tag">NAT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PPPoE/" rel="tag">PPPoE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RSA/" rel="tag">RSA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SHA1/" rel="tag">SHA1</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hash-%E7%AE%97%E6%B3%95/" rel="tag">hash 算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/" rel="tag">中国剩余定理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91/" rel="tag">二叉查找树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="tag">二叉树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%BD%E7%BD%97%E5%8D%8E%E5%9F%9F/" rel="tag">伽罗华域</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8E%8B%E7%BC%A9/" rel="tag">压缩</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%93%88%E5%A4%AB%E6%9B%BC/" rel="tag">哈夫曼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/" rel="tag">欧拉函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/" rel="tag">欧拉定理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A9%E9%98%B5/" rel="tag">矩阵</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/" rel="tag">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AES/" style="font-size: 10px;">AES</a> <a href="/tags/AVL-%E6%A0%91/" style="font-size: 10px;">AVL 树</a> <a href="/tags/DHCP/" style="font-size: 10px;">DHCP</a> <a href="/tags/LZ77/" style="font-size: 10px;">LZ77</a> <a href="/tags/MD5/" style="font-size: 10px;">MD5</a> <a href="/tags/NAT/" style="font-size: 10px;">NAT</a> <a href="/tags/PPPoE/" style="font-size: 10px;">PPPoE</a> <a href="/tags/RSA/" style="font-size: 10px;">RSA</a> <a href="/tags/SHA1/" style="font-size: 10px;">SHA1</a> <a href="/tags/hash-%E7%AE%97%E6%B3%95/" style="font-size: 10px;">hash 算法</a> <a href="/tags/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/" style="font-size: 10px;">中国剩余定理</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91/" style="font-size: 10px;">二叉查找树</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 10px;">二叉树</a> <a href="/tags/%E4%BC%BD%E7%BD%97%E5%8D%8E%E5%9F%9F/" style="font-size: 10px;">伽罗华域</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 15px;">加密</a> <a href="/tags/%E5%8E%8B%E7%BC%A9/" style="font-size: 10px;">压缩</a> <a href="/tags/%E5%93%88%E5%A4%AB%E6%9B%BC/" style="font-size: 10px;">哈夫曼</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%95%B0%E8%AE%BA/" style="font-size: 15px;">数论</a> <a href="/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/" style="font-size: 10px;">欧拉函数</a> <a href="/tags/%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/" style="font-size: 10px;">欧拉定理</a> <a href="/tags/%E7%9F%A9%E9%98%B5/" style="font-size: 15px;">矩阵</a> <a href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/" style="font-size: 10px;">红黑树</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 20px;">网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/07/%E8%87%AA%E5%88%B6%20NAT%20%E7%BD%91%E5%85%B3/">自制 NAT 网关</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/09/%E6%97%A0%E6%8D%9F%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9/">无损文件压缩</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/03/%E6%9C%89%E9%99%90%E9%9B%86%E5%86%85%20MD5-SHA1%20%E5%8F%AF%E9%80%86%E5%90%97%E2%80%94%E2%80%94MD5%E3%80%81SHA1%E7%AE%97%E6%B3%95/">有限集内 MD5/SHA1 可逆吗—— MD5、SHA1 算法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/14/AVL%20%E6%A0%91%E4%B8%8E%E7%BA%A2%E9%BB%91%E6%A0%91/">AVL 树与红黑树</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/15/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">排序算法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 Stefenson Wang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
