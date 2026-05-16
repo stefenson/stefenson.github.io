@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://stefenson.com/img/AVL_RBTree/RB_TOTAL_TIME.png">
 <meta property="og:image" content="https://stefenson.com/img/AVL_RBTree/BAD_RBTREE.png">
 <meta property="article:published_time" content="2018-05-14T03:17:28.000Z">
-<meta property="article:modified_time" content="2026-05-16T07:17:15.965Z">
+<meta property="article:modified_time" content="2026-05-16T07:38:45.596Z">
 <meta property="article:author" content="Stefenson Wang">
 <meta property="article:tag" content="AVL 树">
 <meta property="article:tag" content="二叉查找树">
@@ -159,7 +159,7 @@
 <p>下面的 AVL 树和红黑树的插入删除也是采用这种方法处理，这样处理优势就是易于对插入和删除的情况做处理，因为都是对叶子节点的操作。</p>
 <h3 id="AVL-树"><a href="#AVL-树" class="headerlink" title="AVL 树"></a>AVL 树</h3><p>从难易度考虑，我们首先来说一下 AVL 树。<br>AVL 树得名于它的发明者 G. M. Adelson-Velsky 和 E. M. Landis，他们在1962年的论文《An algorithm for the organization of information》中发表了它。</p>
 <p>AVL 树是一种自平衡二叉树，它的平衡原则其实很简单，左右子树深度差不超过1。为了保证 AVL 树的基本性质不变，每次插入或删除节点之后，如果发现树的平衡原则被打破，就要通过树的左右旋转重新调整树回到正确的平衡状态上。</p>
-<p>所以 AVL 树在存储的时候，除了基本树节点存储所需要携带的数据和左右子树的节点外，另外需要存储的是左右子树的高度（或者他们的高度差，但是高度差的维护并不比高度的维护简单），一旦发现左右子树高度差超过1就需要进行平衡调整。</p>
+<p>所以 AVL 树在存储的时候，除了基本树节点存储所需要携带的数据和左右子树的节点外，另外需要存储的是左右子树的高度（或者他们的高度差，但是高度差的维护并不比高度的维护简单），一旦发现左右子树高度差超过 1 就需要进行平衡调整。</p>
 <p>所以 AVL 树的平衡调整分为如下几种情况：<br><img src="/img/AVL_RBTree/AVL_REMAKE.png" alt="AVL Remake"><br>简单来说，孩子和孙子方向一致（都是左或者都是右），那么就简单一次旋转就能整理好，如果方向不一致（一左一右），先在孩子节点上把孙子节点转到同一方向上，然后再在父节点上按照刚刚方向一致的情况处理。</p>
 <p>注意这么做之后，这棵子树的高度会发生变化，所以要在子树根（也就是刚刚的父节点）上回溯调用，在子树的父节点上重新分析，看刚刚的调整有没有在其他位置打破平衡原则，或者更新子树的父节点相关的数据。</p>
 <p>那么一次插入&#x2F;删除一共要平衡多少次呢？</p>
@@ -188,28 +188,28 @@
 <p>插入的整理操作定义为一个方法，整理过程递归调用该方法即可。</p>
 <p>介绍完插入操作，接下来说明删除操作。</p>
 <h4 id="红黑树删除"><a href="#红黑树删除" class="headerlink" title="红黑树删除"></a>红黑树删除</h4><p>红黑树的删除操作要比插入操作复杂的多，由于删除的节点颜色不确定，亲戚节点状态也不确定，所以情况相比起插入来说要分的更多。<br>这里我也把删除的所有情形和处理操作列出来，并在每个操作中详细讲解操作的具体原因说明和分析。</p>
-<p><strong>说明：下面节点名字做如下简化——N为要分析的节点、P为其父节点、S为其兄节点、X&#x2F;Y为其侄节点。</strong><br><span style="color: blue;"><em>PS：为了简化，图示中所有的删除默认是右侧，如果删除对象是左侧，镜像化操作即可。</em></span><br><span style="color: red;"><strong>注意：不要对N进行黑节点计数，N位置黑节点数目永远少1。</strong></span></p>
-<p>Case 1：要删除的节点（N）为红色，直接删除，黑节点数目没有改变，删除中也不会出现红-红相连的情况。<br>Case 2：要删除的节点为根，直接删，复位整棵树为空。<br>Case 3：N是黑的，S是红的，把S往P方向旋转，然后把P染红，S染黑，这样之后，过S不过P的路径黑节点数目没有变化，但是从P来看，N所在的区域还是没有回归性质，过N的路径黑节点数目依旧比其他路径少1，所以要继续以N分析。<br><img src="/img/AVL_RBTree/RBTREE_DEL_CASE3.png" alt="RBTree Delete Case3"><br>Case 4：N为黑，S为黑，与S相对位置一样（都为左或右孩子）的孩子颜色为红，这时候把S往P方向上旋转，并且把S的颜色改为P的颜色，然后把P涂黑，把与S相对位置相同的节点涂黑，此时新的右侧子树中P、N都是黑的，但是N不计数，所以与以前只有N在的时候黑节点数目相比没有变化，S另一侧黑节点被S的儿子代替，黑节点数目也没有变化，所以调整完成。<br><img src="/img/AVL_RBTree/RBTREE_DEL_CASE4.png" alt="RBTree Delete Case4"><br>Case 5：N为黑，S为黑，与S相对位置相反的孩子为红，这时候把与S相对位置相反的红色孩子往S方向旋转，并且把它染黑，S染红，这么做保证了S这边黑节点数目没有变化，但是树整体状态依旧存在问题，所以需要继续分析N（其实回到了情况4）。<br><img src="/img/AVL_RBTree/RBTREE_DEL_CASE5.png" alt="RBTree Delete Case5"><br><span style="color: blue;"><em>PS：如果4、5情况同时出现（两个孩子都是红的），优先以情况4处理，因为按照情况5处理会出现两个红节点相连的情况，这并不是我们想要的。</em></span></p>
-<p>Case 6：N为黑，S为黑，S的孩子都是黑的，P是红的，这时候只要把S改红，P改黑红黑树的性质就恢复了，原理就是过P的黑色节点数目都加了1，以前的N节点路径上的黑色节点计数挪到了P，而S那边路径上也刚好少了一个黑色节点，所以过P的黑色节点数目与原来保持一致，整理完成。<br><img src="/img/AVL_RBTree/RBTREE_DEL_CASE6.png" alt="RBTree Delete Case6"><br>Case 7：N为黑，S为黑，S的孩子都是黑，P是黑的，这时候把S改为红，这么做之后在P范围内来看已经平衡了，S侧和N侧都少了一个黑节点，但是过P的所有路径黑节点数目也全部减少了1，所以应该把P当作新的要分析的节点重新分析，除非P是根。<br><img src="/img/AVL_RBTree/RBTREE_DEL_CASE7.png" alt="RBTree Delete Case7"><br>以上就是所有删除的情况，注意保存要删除的节点，所有调整完成之后删除要删除的节点。<br>删除过程很复杂，当时刚接触这个东西的时候也是无从下手，不过后来捋清之后情况逐渐明朗了，它们按照情况1～7可以这么划分：</p>
+<p><strong>说明：下面节点名字做如下简化—— N 为要分析的节点、P 为其父节点、S 为其兄节点、X&#x2F;Y 为其侄节点。</strong><br><span style="color: blue;"><em>PS：为了简化，图示中所有的删除默认是右侧，如果删除对象是左侧，镜像化操作即可。</em></span><br><span style="color: red;"><strong>注意：不要对 N 进行黑节点计数，N 位置黑节点数目永远少 1。</strong></span></p>
+<p>Case 1：要删除的节点（N）为红色，直接删除，黑节点数目没有改变，删除中也不会出现红-红相连的情况。<br>Case 2：要删除的节点为根，直接删，复位整棵树为空。<br>Case 3：N 是黑的，S 是红的，把 S 往 P 方向旋转，然后把 P 染红，S 染黑，这样之后，过 S 不过 P 的路径黑节点数目没有变化，但是从 P 来看，N 所在的区域还是没有回归性质，过 N 的路径黑节点数目依旧比其他路径少 1，所以要继续以 N 分析。<br><img src="/img/AVL_RBTree/RBTREE_DEL_CASE3.png" alt="RBTree Delete Case3"><br>Case 4：N 为黑，S 为黑，与 S 相对位置一样（都为左或右孩子）的孩子颜色为红，这时候把 S 往 P 方向上旋转，并且把 S 的颜色改为 P 的颜色，然后把 P 涂黑，把与 S 相对位置相同的节点涂黑，此时新的右侧子树中 P、N 都是黑的，但是 N 不计数，所以与以前只有 N 在的时候黑节点数目相比没有变化，S 另一侧黑节点被 S 的儿子代替，黑节点数目也没有变化，所以调整完成。<br><img src="/img/AVL_RBTree/RBTREE_DEL_CASE4.png" alt="RBTree Delete Case4"><br>Case 5：N 为黑，S 为黑，与 S 相对位置相反的孩子为红，这时候把与 S 相对位置相反的红色孩子往 S 方向旋转，并且把它染黑，S 染红，这么做保证了 S 这边黑节点数目没有变化，但是树整体状态依旧存在问题，所以需要继续分析 N（其实回到了情况 4）。<br><img src="/img/AVL_RBTree/RBTREE_DEL_CASE5.png" alt="RBTree Delete Case5"><br><span style="color: blue;"><em>PS：如果 4、5 情况同时出现（两个孩子都是红的），优先以情况 4 处理，因为按照情况 5 处理会出现两个红节点相连的情况，这并不是我们想要的。</em></span></p>
+<p>Case 6：N 为黑，S 为黑，S 的孩子都是黑的，P 是红的，这时候只要把 S 改红，P 改黑红黑树的性质就恢复了，原理就是过 P 的黑色节点数目都加了 1，以前的 N 节点路径上的黑色节点计数挪到了 P，而 S 那边路径上也刚好少了一个黑色节点，所以过 P 的黑色节点数目与原来保持一致，整理完成。<br><img src="/img/AVL_RBTree/RBTREE_DEL_CASE6.png" alt="RBTree Delete Case6"><br>Case 7：N 为黑，S 为黑，S 的孩子都是黑，P 是黑的，这时候把 S 改为红，这么做之后在 P 范围内来看已经平衡了，S 侧和 N 侧都少了一个黑节点，但是过 P 的所有路径黑节点数目也全部减少了 1，所以应该把 P 当作新的要分析的节点重新分析，除非 P 是根。<br><img src="/img/AVL_RBTree/RBTREE_DEL_CASE7.png" alt="RBTree Delete Case7"><br>以上就是所有删除的情况，注意保存要删除的节点，所有调整完成之后删除要删除的节点。<br>删除过程很复杂，当时刚接触这个东西的时候也是无从下手，不过后来捋清之后情况逐渐明朗了，它们按照情况 1～7 可以这么划分：</p>
 <ol>
-<li>N是不是红的分为1&#x2F;2、3、4、5、6、7</li>
-<li>Case 2、3、4、5、6、7以N是不是根分为2&#x2F;3、4、5、6、7</li>
-<li>Case 3、4、5、6、7以S是不是红的分为3&#x2F;4、5、6、7</li>
-<li>Case 4、5、6、7以S子节点是否有红的分为4、5&#x2F;6、7</li>
-<li>Case 4、5以S子节点中红节点与S的相对位置是否一致区分为4&#x2F;5</li>
-<li>Case 6、7以P是否为红色区分为6&#x2F;7</li>
+<li>N 是不是红的分为 1&#x2F;2、3、4、5、6、7</li>
+<li>Case 2、3、4、5、6、7 以 N 是不是根分为 2&#x2F;3、4、5、6、7</li>
+<li>Case 3、4、5、6、7 以 S 是不是红的分为 3&#x2F;4、5、6、7</li>
+<li>Case 4、5、6、7 以 S 子节点是否有红的分为 4、5&#x2F;6、7</li>
+<li>Case 4、5 以 S 子节点中红节点与 S 的相对位置是否一致区分为 4&#x2F;5</li>
+<li>Case 6、7 以 P 是否为红色区分为 6&#x2F;7</li>
 </ol>
 <p>删除方法也整理为一个方法，整理过程中递归调用它。</p>
 <p>以上就是红黑树的全部内容。</p>
 <h3 id="二者对比"><a href="#二者对比" class="headerlink" title="二者对比"></a>二者对比</h3><p>这里我自写了一个程序，程序大致如下：<br><img src="/img/AVL_RBTree/AVLTREE.png" alt="AVLTree"></p>
-<p><img src="/img/AVL_RBTree/RBTREE.png" alt="RBTree"><br>不过我当时测试的时候只是测试了二者插入的速度，有兴趣的可以联系我要一下代码进行更多测试，这里简单放一个二者插入相同数量数据（100w个）的总时间对比截图：<br>AVL树耗时：<br><img src="/img/AVL_RBTree/AVL_TOTAL_TIME.png" alt="AVL Total Time"><br>红黑树耗时：<br><img src="/img/AVL_RBTree/RB_TOTAL_TIME.png" alt="RB Total Time"><br>我个人的理解：AVL树结构要优于红黑树，因为它左右子树相差永远不超过1，但是付出的代价就是每次调整的效率。而红黑树克服了AVL树整理时间过长的问题，但是红黑树的结构有时候也可能会比AVL树差很多，极端情况下有可能会出现树差超过10。简单举个例子：<br><img src="/img/AVL_RBTree/BAD_RBTREE.png" alt="Bad RBTree"><br>可以想象，如果一侧全为黑，另一侧黑红相间，如果数据到达一定量之后，左右高度差将会非常的大，其他文章所谓红黑树相差不超过2、3层的说法是完全靠不住的。<br>这样其实也给我们在设计红黑树的时候提了个醒，在设计红黑树的删除时，不能一直盯着一个方向删除，这样很容易造成一侧子树红节点数量迅速下降，进一步导致两侧高度差拉大。</p>
-<p>AVL树也是有优化空间的，具体优化思路文章中已经说明，有兴趣的可以自己研究一下。</p>
+<p><img src="/img/AVL_RBTree/RBTREE.png" alt="RBTree"><br>不过我当时测试的时候只是测试了二者插入的速度，有兴趣的可以联系我要一下代码进行更多测试，这里简单放一个二者插入相同数量数据（100w个）的总时间对比截图：<br>AVL 树耗时：<br><img src="/img/AVL_RBTree/AVL_TOTAL_TIME.png" alt="AVL Total Time"><br>红黑树耗时：<br><img src="/img/AVL_RBTree/RB_TOTAL_TIME.png" alt="RB Total Time"><br>我个人的理解：AVL 树结构要优于红黑树，因为它左右子树相差永远不超过 1，但是付出的代价就是每次调整的效率。而红黑树克服了 AVL 树整理时间过长的问题，但是红黑树的结构有时候也可能会比 AVL 树差很多，极端情况下有可能会出现树差超过 10。简单举个例子：<br><img src="/img/AVL_RBTree/BAD_RBTREE.png" alt="Bad RBTree"><br>可以想象，如果一侧全为黑，另一侧黑红相间，如果数据到达一定量之后，左右高度差将会非常的大，其他文章所谓红黑树相差不超过 2、3 层的说法是完全靠不住的。<br>这样其实也给我们在设计红黑树的时候提了个醒，在设计红黑树的删除时，不能一直盯着一个方向删除，这样很容易造成一侧子树红节点数量迅速下降，进一步导致两侧高度差拉大。</p>
+<p>AVL 树也是有优化空间的，具体优化思路文章中已经说明，有兴趣的可以自己研究一下。</p>
 <p>感谢阅读，下次见～</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://stefenson.com/2018/05/14/AVL%20%E6%A0%91%E4%B8%8E%E7%BA%A2%E9%BB%91%E6%A0%91/" data-id="cuidoH4JT8o4iYTyBtoeVw7Gh" data-title="AVL 树与红黑树" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://stefenson.com/2018/05/14/AVL%20%E6%A0%91%E4%B8%8E%E7%BA%A2%E9%BB%91%E6%A0%91/" data-id="cuidcxYKCJG0MroKspxHz6FJB" data-title="AVL 树与红黑树" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -285,7 +285,7 @@
       <ul>
         
           <li>
-            <a href="/2020/07/07/%E8%87%AA%E5%88%B6%20NAT%20%E7%BD%91%E5%85%B3/">自制NAT网关</a>
+            <a href="/2020/07/07/%E8%87%AA%E5%88%B6%20NAT%20%E7%BD%91%E5%85%B3/">自制 NAT 网关</a>
           </li>
         
           <li>
