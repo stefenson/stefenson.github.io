@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   
   
-  <title>AVL树与红黑树 | Stefenson&#39;s Blog</title>
+  <title>AVL 树与红黑树 | Stefenson&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="二叉树是一种很经典的数据结构，利用这种结构，我们可以构造出一个快速的数据查询结构，原理就是利用二叉树每个节点都有两个孩子这一性质，我们让每个树节点的左右孩子性质一样，比如左树都比父节点小，右树都比父节点大，这样的结构中我们从根查找一个数据的速度会加快很多，过程就是比当前值大就去右树找，比当前值小就去左树找。这种树我们叫做二叉排序树，它其实就是一个排序好的队列的二分查找过程的具像化结构。 这是一种很">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AVL树与红黑树">
+<meta property="og:title" content="AVL 树与红黑树">
 <meta property="og:url" content="https://stefenson.com/2018/05/14/AVL%20%E6%A0%91%E4%B8%8E%E7%BA%A2%E9%BB%91%E6%A0%91/index.html">
 <meta property="og:site_name" content="Stefenson&#39;s Blog">
 <meta property="og:description" content="二叉树是一种很经典的数据结构，利用这种结构，我们可以构造出一个快速的数据查询结构，原理就是利用二叉树每个节点都有两个孩子这一性质，我们让每个树节点的左右孩子性质一样，比如左树都比父节点小，右树都比父节点大，这样的结构中我们从根查找一个数据的速度会加快很多，过程就是比当前值大就去右树找，比当前值小就去左树找。这种树我们叫做二叉排序树，它其实就是一个排序好的队列的二分查找过程的具像化结构。 这是一种很">
@@ -36,9 +36,9 @@
 <meta property="og:image" content="https://stefenson.com/img/AVL_RBTree/RB_TOTAL_TIME.png">
 <meta property="og:image" content="https://stefenson.com/img/AVL_RBTree/BAD_RBTREE.png">
 <meta property="article:published_time" content="2018-05-14T03:17:28.000Z">
-<meta property="article:modified_time" content="2026-05-16T07:03:31.173Z">
+<meta property="article:modified_time" content="2026-05-16T07:17:15.965Z">
 <meta property="article:author" content="Stefenson Wang">
-<meta property="article:tag" content="AVL树">
+<meta property="article:tag" content="AVL 树">
 <meta property="article:tag" content="二叉查找树">
 <meta property="article:tag" content="二叉树">
 <meta property="article:tag" content="红黑树">
@@ -120,7 +120,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      AVL树与红黑树
+      AVL 树与红黑树
     </h1>
   
 
@@ -133,40 +133,40 @@
 <span id="more"></span>
 
 <p>举个例子：<br>数据插入顺序：1→2→3→4→5→6<br>如果对数据不进行刻意安排，那么数据最终呈现形式将是：<br><img src="/img/AVL_RBTree/FAIL_TREE.png" alt="Fail Tree"><br>是的，这是一个瘸了的二叉树，它其实就是一个简单链表，完全没有二叉树应有的样子。</p>
-<p>AVL树和红黑树就是为了防止数据插入或删除的时候树的性能下降而产生的一种算法，或者说一种带有限制条件的二叉树结构，它们正式分类的名字叫做“<strong>自平衡二叉树</strong>”，下面我们就来介绍一下它们。</p>
-<h3 id="树的旋转"><a href="#树的旋转" class="headerlink" title="树的旋转"></a>树的旋转</h3><p>讲AVL跟红黑树之前，我们先来复习一下大学时被我们遗忘的知识：<strong>树的旋转</strong>。</p>
+<p>AVL 树和红黑树就是为了防止数据插入或删除的时候树的性能下降而产生的一种算法，或者说一种带有限制条件的二叉树结构，它们正式分类的名字叫做“<strong>自平衡二叉树</strong>”，下面我们就来介绍一下它们。</p>
+<h3 id="树的旋转"><a href="#树的旋转" class="headerlink" title="树的旋转"></a>树的旋转</h3><p>讲 AVL 树跟红黑树之前，我们先来复习一下大学时被我们遗忘的知识：<strong>树的旋转</strong>。</p>
 <p>一图胜千言：<br><img src="/img/AVL_RBTree/TREE_ROTE.png" alt="Tree Rote"><br>其实这里只是写的形象一点而已，为什么把孩子拉高之后多出来的那个节点要接在以前的父节点上呢？</p>
-<p>这里我们要理解一下树旋转本来的设计理念，树旋转最终保证的是节点的相互位置不变，比如上图中第一棵树刚开始如果使用中序遍历，得到的是：BADCE，再经过旋转之后最终的结果中序遍历结果还是BADCE，而中序遍历又是二叉排序树的排序结果遍历方法，所以这么做可以保证树的中序遍历结果不变，也就保证了二叉排序树的性质不变。</p>
+<p>这里我们要理解一下树旋转本来的设计理念，树旋转最终保证的是节点的相互位置不变，比如上图中第一棵树刚开始如果使用中序遍历，得到的是：BADCE，再经过旋转之后最终的结果中序遍历结果还是 BADCE，而中序遍历又是二叉排序树的排序结果遍历方法，所以这么做可以保证树的中序遍历结果不变，也就保证了二叉排序树的性质不变。</p>
 <h3 id="二叉排序树的插入和删除"><a href="#二叉排序树的插入和删除" class="headerlink" title="二叉排序树的插入和删除"></a>二叉排序树的插入和删除</h3><p>在插入操作中，由于二叉排序树的性质，节点加入树中是必须遵守左小右大（或左大右小），所以二叉排序树的插入节点也需要安插在适合的位置。</p>
 <p>但是树这种结构，如果你在半山腰插入一个元素，整个过程将影响一票节点，效率会降低很多，并且不好处理，这时候我们往往选择把节点插入在最后一层一个原本为空的位置上。</p>
-<p>举个例子：<br>在下面树中插入一个新的节点4。<br><img src="/img/AVL_RBTree/INSERT_EXM.png" alt="Insert Example"><br>我们并不会在3和5之间插入节点4，具体插入过程是：</p>
+<p>举个例子：<br>在下面树中插入一个新的节点 4。<br><img src="/img/AVL_RBTree/INSERT_EXM.png" alt="Insert Example"><br>我们并不会在3和5之间插入节点 4，具体插入过程是：</p>
 <ol>
-<li>从根5开始寻找，4比5小所以去左子树。</li>
-<li>新子树的根为3，4比3大所以去右子树。</li>
-<li>新子树根是空的，找到了要插入的位置，插入4。</li>
+<li>从根 5 开始寻找，4 比 5 小所以去左子树。</li>
+<li>新子树的根为 3，4 比 3 大所以去右子树。</li>
+<li>新子树根是空的，找到了要插入的位置，插入 4。</li>
 </ol>
 <p>最终插入后的效果是：<br><img src="/img/AVL_RBTree/INSERT_EXM_RESULT.png" alt="Insert Example"></p>
 <p>删除操作跟插入一样，如果半山腰删除一个元素，第一是情况复杂不好处理，修改很多指针指向性能较差，所以删除我们也需要特殊处理，将结果往底层没有子孙的节点挪。</p>
 <p>挪的方法就是找到要删除节点左子树的最右节点，或者右子树的最左节点。</p>
-<p>举个例子：<br>在下面树中删除节点5。<br><img src="/img/AVL_RBTree/DELETE_EXM.png" alt="Delete Example"><br>我们用右子树的最左节点替换，过程是：</p>
+<p>举个例子：<br>在下面树中删除节点 5。<br><img src="/img/AVL_RBTree/DELETE_EXM.png" alt="Delete Example"><br>我们用右子树的最左节点替换，过程是：</p>
 <ol>
-<li>去到5的右子树。</li>
-<li>从子树根向左遍历至最深，找到节点6，交换5和6。</li>
-<li>当前节点右子树不是空的，继续去右子树找最左节点，找到7，交换5和7。</li>
-<li>该节点没有孩子，删除节点5。</li>
+<li>去到 5 的右子树。</li>
+<li>从子树根向左遍历至最深，找到节点 6，交换 5 和 6。</li>
+<li>当前节点右子树不是空的，继续去右子树找最左节点，找到 7，交换 5 和 7。</li>
+<li>该节点没有孩子，删除节点 5。</li>
 </ol>
 <p>过程图：<br><img src="/img/AVL_RBTree/DELETE_EXM_RESULT.png" alt="Delete Example"></p>
-<p>下面的AVL树和红黑树的插入删除也是采用这种方法处理，这样处理优势就是易于对插入和删除的情况做处理，因为都是对叶子节点的操作。</p>
-<h3 id="AVL树"><a href="#AVL树" class="headerlink" title="AVL树"></a>AVL树</h3><p>从难易度考虑，我们首先来说一下AVL树。<br>AVL树得名于它的发明者G. M. Adelson-Velsky和E. M. Landis，他们在1962年的论文《An algorithm for the organization of information》中发表了它。</p>
-<p>AVL树是一种自平衡二叉树，它的平衡原则其实很简单，左右子树深度差不超过1。为了保证AVL树的基本性质不变，每次插入或删除节点之后，如果发现树的平衡原则被打破，就要通过树的左右旋转重新调整树回到正确的平衡状态上。</p>
-<p>所以说AVL树在存储的时候，除了基本树节点存储所需要携带的数据和左右子树的节点外，另外需要存储的是左右子树的高度（或者他们的高度差，但是高度差的维护并不比高度的维护简单），一旦发现左右子树高度差超过1就需要进行平衡调整。</p>
-<p>所以AVL树的平衡调整分为如下几种情况：<br><img src="/img/AVL_RBTree/AVL_REMAKE.png" alt="AVL Remake"><br>简单来说，孩子和孙子方向一致（都是左或者都是右），那么就简单一次旋转就能整理好，如果方向不一致（一左一右），先在孩子节点上把孙子节点转到同一方向上，然后再在父节点上按照刚刚方向一致的情况处理。</p>
+<p>下面的 AVL 树和红黑树的插入删除也是采用这种方法处理，这样处理优势就是易于对插入和删除的情况做处理，因为都是对叶子节点的操作。</p>
+<h3 id="AVL-树"><a href="#AVL-树" class="headerlink" title="AVL 树"></a>AVL 树</h3><p>从难易度考虑，我们首先来说一下 AVL 树。<br>AVL 树得名于它的发明者 G. M. Adelson-Velsky 和 E. M. Landis，他们在1962年的论文《An algorithm for the organization of information》中发表了它。</p>
+<p>AVL 树是一种自平衡二叉树，它的平衡原则其实很简单，左右子树深度差不超过1。为了保证 AVL 树的基本性质不变，每次插入或删除节点之后，如果发现树的平衡原则被打破，就要通过树的左右旋转重新调整树回到正确的平衡状态上。</p>
+<p>所以 AVL 树在存储的时候，除了基本树节点存储所需要携带的数据和左右子树的节点外，另外需要存储的是左右子树的高度（或者他们的高度差，但是高度差的维护并不比高度的维护简单），一旦发现左右子树高度差超过1就需要进行平衡调整。</p>
+<p>所以 AVL 树的平衡调整分为如下几种情况：<br><img src="/img/AVL_RBTree/AVL_REMAKE.png" alt="AVL Remake"><br>简单来说，孩子和孙子方向一致（都是左或者都是右），那么就简单一次旋转就能整理好，如果方向不一致（一左一右），先在孩子节点上把孙子节点转到同一方向上，然后再在父节点上按照刚刚方向一致的情况处理。</p>
 <p>注意这么做之后，这棵子树的高度会发生变化，所以要在子树根（也就是刚刚的父节点）上回溯调用，在子树的父节点上重新分析，看刚刚的调整有没有在其他位置打破平衡原则，或者更新子树的父节点相关的数据。</p>
 <p>那么一次插入&#x2F;删除一共要平衡多少次呢？</p>
-<p>这里大部分教材里面写的AVL树性能瓶颈就是每次平衡几乎都要回溯到根结点，我也基本同意这种看法。但是AVL树其实并不是每次都要回溯到根的，比如下面这个过程，注意看左右子树高度值变化：<br><img src="/img/AVL_RBTree/AVL_DEMO1.png" alt="AVL Demo"></p>
-<p>可以发现这时候，H节点的插入，除了C、D、H三个节点存在子树高度或者位置的变化，其他的节点并没有发生任何变化。所以AVL树的数据插入或删除的时间是根据树当前形态来的，不是很稳定。</p>
-<h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3><p>红黑树是一种自平衡二叉查找树，它是在1972年由鲁道夫·贝尔发明的，当时称之为”对称二叉B树”，它现代的名字是在Leo J. Guibas和Robert Sedgewick于1978年写的一篇论文中获得的。</p>
-<p>红黑树可以理解为为了插入和删除效率而牺牲部分性能的AVL树，在AVL树中，插入删除的时间不稳定造成树插入删除的效率不稳定，红黑树则可以避免这种情况的发生。</p>
+<p>这里大部分教材里面写的 AVL 树性能瓶颈就是每次平衡几乎都要回溯到根结点，我也基本同意这种看法。但是 AVL 树其实并不是每次都要回溯到根的，比如下面这个过程，注意看左右子树高度值变化：<br><img src="/img/AVL_RBTree/AVL_DEMO1.png" alt="AVL Demo"></p>
+<p>可以发现这时候，H 节点的插入，除了 C、D、H 三个节点存在子树高度或者位置的变化，其他的节点并没有发生任何变化。所以 AVL 树的数据插入或删除的时间是根据树当前形态来的，不是很稳定。</p>
+<h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3><p>红黑树是一种自平衡二叉查找树，它是在 1972 年由鲁道夫·贝尔发明的，当时称之为”对称二叉 B 树”，它现代的名字是在 Leo J. Guibas 和 Robert Sedgewick 于1978年写的一篇论文中获得的。</p>
+<p>红黑树可以理解为为了插入和删除效率而牺牲部分性能的 AVL 树，在 AVL 树中，插入删除的时间不稳定造成树插入删除的效率不稳定，红黑树则可以避免这种情况的发生。</p>
 <p>红黑树的基本性质如下：</p>
 <ol>
 <li>根节点是黑的</li>
@@ -174,16 +174,16 @@
 <li>每个红节点的两个子节点是黑的（从根到叶子的每条路径不会出现连续两个红节点）</li>
 <li>从任意节点到其叶子节点的路径中，每个路径的黑节点数目相等。</li>
 </ol>
-<p>红黑树其实是2-3-4树的二叉树表现，可以理解为红黑树与2-3-4树是等价的，他们的等价关系如下图所示：<br><img src="/img/AVL_RBTree/2-3-4_RBTREE.png" alt="RBTree 2-3-4Tree"></p>
-<p>根据红黑树的性质，插入或删除节点之后都需要对树进行性质复原操作（树的旋转）。<br>与AVL树不同，红黑树的性质复原分为插入和删除两个大类，我们先来说插入操作。</p>
-<h4 id="红黑树插入"><a href="#红黑树插入" class="headerlink" title="红黑树插入"></a>红黑树插入</h4><p>红黑树默认插入一个新节点的颜色是红色，因为红节点不会影响路径中黑节点的数目，至少不会违反性质4，那么插入红节点之后会影响的就只剩下性质1和3了（出现两个红节点连在一起的情况）。<br>这里为了简化说明，我将所有红黑树插入后要调整的情形和处理操作列出来，并配上操作原因说明和分析方便大家加深理解。</p>
-<p><strong>说明：下面节点名字做如下简化——N为要分析的节点、F为其父节点、U为其叔节点、G为其祖父节点。</strong><br><span style="color: blue;"><em>PS：为了简化，图示中所有的插入默认是左侧，如果插入到右侧，镜像化操作即可。</em></span><br><span style="color: red;"><strong>注意：记好N一定是红的。</strong></span></p>
-<p>Case 1：N为根，该情况只要把N变为黑色就行，所有分支黑节点数量都增加1，无任何副作用。<br>Case 2：F为黑，这种情况下无需处理，因为黑节点数量没有增加，也没用红-红相邻的情况产生。<br>Case 3：F为红，U为红（G肯定是黑的）把F和U涂黑，G涂红，这样在G、F、U、N范围内已经恢复了红黑树的性质，但是重新上色之后，G的父节点可能是红的或者G有可能是根，所以需要把G作为新的要分析的节点重新分析。<br><img src="/img/AVL_RBTree/RBTREE_CASE3.png" alt="RBTree Case3"><br>Case 4：F为红，U为黑（G肯定是黑的）且F与N的相对位置一致（都是左&#x2F;右孩子），这种情况我们把F往G方向上旋转，然后把F涂黑G涂红，操作之后该部分已经恢复性质，并且通过F节点的所有分支的黑节点的数目相比之前G在该位置的时候所有分支的黑色节点数目保持不变，黑节点数目没有增减，整理完成。<br><img src="/img/AVL_RBTree/RBTREE_CASE4.png" alt="RBTree Case4"><br>Case 5：F为红，U为黑（G肯定是黑的）且F与N的相对位置相反（一左一右），这种情况我们把N往F方向旋转，旋转之后N和F还是相连的两个红节点，所以这时候要把F作为新的要分析的节点重新分析（其实就是回到了Case 4）。<br><img src="/img/AVL_RBTree/RBTREE_CASE5.png" alt="RBTree Case5"><br>以上就是所有插入的情况。<br>插入过程的调整主要思想就是把红节点往根移动，通过局部调整让红节点不断接近根节点，局部调整完之后查看对局外的影响，并在影响的位置继续调整。<br>插入操作的情况分类也比较简单：</p>
+<p>红黑树其实是 2-3-4 树的二叉树表现，可以理解为红黑树与 2-3-4 树是等价的，他们的等价关系如下图所示：<br><img src="/img/AVL_RBTree/2-3-4_RBTREE.png" alt="RBTree 2-3-4 Tree"></p>
+<p>根据红黑树的性质，插入或删除节点之后都需要对树进行性质复原操作（树的旋转）。<br>与 AVL 树不同，红黑树的性质复原分为插入和删除两个大类，我们先来说插入操作。</p>
+<h4 id="红黑树插入"><a href="#红黑树插入" class="headerlink" title="红黑树插入"></a>红黑树插入</h4><p>红黑树默认插入一个新节点的颜色是红色，因为红节点不会影响路径中黑节点的数目，至少不会违反性质 4，那么插入红节点之后会影响的就只剩下性质 1 和 3 了（出现两个红节点连在一起的情况）。<br>这里为了简化说明，我将所有红黑树插入后要调整的情形和处理操作列出来，并配上操作原因说明和分析方便大家加深理解。</p>
+<p><strong>说明：下面节点名字做如下简化—— N 为要分析的节点、F 为其父节点、U 为其叔节点、G 为其祖父节点。</strong><br><span style="color: blue;"><em>PS：为了简化，图示中所有的插入默认是左侧，如果插入到右侧，镜像化操作即可。</em></span><br><span style="color: red;"><strong>注意：记好 N 一定是红的。</strong></span></p>
+<p>Case 1：N 为根，该情况只要把N变为黑色就行，所有分支黑节点数量都增加1，无任何副作用。<br>Case 2：F 为黑，这种情况下无需处理，因为黑节点数量没有增加，也没用红-红相邻的情况产生。<br>Case 3：F 为红，U 为红（G 肯定是黑的）把 F 和 U 涂黑，G 涂红，这样在 G、F、U、N 范围内已经恢复了红黑树的性质，但是重新上色之后，G 的父节点可能是红的或者 G 有可能是根，所以需要把 G 作为新的要分析的节点重新分析。<br><img src="/img/AVL_RBTree/RBTREE_CASE3.png" alt="RBTree Case3"><br>Case 4：F 为红，U 为黑（G 肯定是黑的）且 F 与 N 的相对位置一致（都是左&#x2F;右孩子），这种情况我们把 F 往 G 方向上旋转，然后把 F 涂黑 G 涂红，操作之后该部分已经恢复性质，并且通过 F 节点的所有分支的黑节点的数目相比之前 G 在该位置的时候所有分支的黑色节点数目保持不变，黑节点数目没有增减，整理完成。<br><img src="/img/AVL_RBTree/RBTREE_CASE4.png" alt="RBTree Case4"><br>Case 5：F 为红，U 为黑（G 肯定是黑的）且 F 与 N 的相对位置相反（一左一右），这种情况我们把 N 往 F 方向旋转，旋转之后 N 和 F 还是相连的两个红节点，所以这时候要把 F 作为新的要分析的节点重新分析（其实就是回到了 Case 4）。<br><img src="/img/AVL_RBTree/RBTREE_CASE5.png" alt="RBTree Case5"><br>以上就是所有插入的情况。<br>插入过程的调整主要思想就是把红节点往根移动，通过局部调整让红节点不断接近根节点，局部调整完之后查看对局外的影响，并在影响的位置继续调整。<br>插入操作的情况分类也比较简单：</p>
 <ol>
-<li>是不是根分为了1&#x2F;2、3、4、5</li>
-<li>Case 2、3、4、5以F是不是红细分为2&#x2F;3、4、5</li>
-<li>Case 3、4、5以U是不是红继续细分为3&#x2F;4、5</li>
-<li>Case 4、5以F和N相对位置是否一致分为4&#x2F;5</li>
+<li>是不是根分为了 1&#x2F;2、3、4、5</li>
+<li>Case 2、3、4、5 以 F 是不是红细分为 2&#x2F;3、4、5</li>
+<li>Case 3、4、5 以 U 是不是红继续细分为 3&#x2F;4、5</li>
+<li>Case 4、5 以 F 和 N 相对位置是否一致分为 4&#x2F;5</li>
 </ol>
 <p>插入的整理操作定义为一个方法，整理过程递归调用该方法即可。</p>
 <p>介绍完插入操作，接下来说明删除操作。</p>
@@ -209,11 +209,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://stefenson.com/2018/05/14/AVL%20%E6%A0%91%E4%B8%8E%E7%BA%A2%E9%BB%91%E6%A0%91/" data-id="cuidHsT9AMVow2mpRjhS2QSz3" data-title="AVL树与红黑树" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://stefenson.com/2018/05/14/AVL%20%E6%A0%91%E4%B8%8E%E7%BA%A2%E9%BB%91%E6%A0%91/" data-id="cuidoH4JT8o4iYTyBtoeVw7Gh" data-title="AVL 树与红黑树" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AVL%E6%A0%91/" rel="tag">AVL树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91/" rel="tag">二叉查找树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="tag">二叉树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/" rel="tag">红黑树</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AVL-%E6%A0%91/" rel="tag">AVL 树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91/" rel="tag">二叉查找树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="tag">二叉树</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/" rel="tag">红黑树</a></li></ul>
 
     </footer>
   </div>
@@ -225,7 +225,7 @@
       <strong class="article-nav-caption">前一篇</strong>
       <div class="article-nav-title">
         
-          有限集内MD5/SHA1可逆吗——MD5、SHA1算法
+          有限集内 MD5/SHA1 可逆吗—— MD5、SHA1 算法
         
       </div>
     </a>
@@ -253,7 +253,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AES/" rel="tag">AES</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AVL%E6%A0%91/" rel="tag">AVL树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DHCP/" rel="tag">DHCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LZ77/" rel="tag">LZ77</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MD5/" rel="tag">MD5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NAT/" rel="tag">NAT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PPPoE/" rel="tag">PPPoE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RSA/" rel="tag">RSA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SHA1/" rel="tag">SHA1</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hash%E7%AE%97%E6%B3%95/" rel="tag">hash算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/" rel="tag">中国剩余定理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91/" rel="tag">二叉查找树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="tag">二叉树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%BD%E7%BD%97%E5%8D%8E%E5%9F%9F/" rel="tag">伽罗华域</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8E%8B%E7%BC%A9/" rel="tag">压缩</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%93%88%E5%A4%AB%E6%9B%BC/" rel="tag">哈夫曼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/" rel="tag">欧拉函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/" rel="tag">欧拉定理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A9%E9%98%B5/" rel="tag">矩阵</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/" rel="tag">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AES/" rel="tag">AES</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AVL-%E6%A0%91/" rel="tag">AVL 树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DHCP/" rel="tag">DHCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LZ77/" rel="tag">LZ77</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MD5/" rel="tag">MD5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NAT/" rel="tag">NAT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PPPoE/" rel="tag">PPPoE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RSA/" rel="tag">RSA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SHA1/" rel="tag">SHA1</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hash-%E7%AE%97%E6%B3%95/" rel="tag">hash 算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/" rel="tag">中国剩余定理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91/" rel="tag">二叉查找树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="tag">二叉树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%BD%E7%BD%97%E5%8D%8E%E5%9F%9F/" rel="tag">伽罗华域</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8E%8B%E7%BC%A9/" rel="tag">压缩</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%93%88%E5%A4%AB%E6%9B%BC/" rel="tag">哈夫曼</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">排序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/" rel="tag">欧拉函数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/" rel="tag">欧拉定理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A9%E9%98%B5/" rel="tag">矩阵</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/" rel="tag">红黑树</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
     </div>
   </div>
 
@@ -263,7 +263,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AES/" style="font-size: 10px;">AES</a> <a href="/tags/AVL%E6%A0%91/" style="font-size: 10px;">AVL树</a> <a href="/tags/DHCP/" style="font-size: 10px;">DHCP</a> <a href="/tags/LZ77/" style="font-size: 10px;">LZ77</a> <a href="/tags/MD5/" style="font-size: 10px;">MD5</a> <a href="/tags/NAT/" style="font-size: 10px;">NAT</a> <a href="/tags/PPPoE/" style="font-size: 10px;">PPPoE</a> <a href="/tags/RSA/" style="font-size: 10px;">RSA</a> <a href="/tags/SHA1/" style="font-size: 10px;">SHA1</a> <a href="/tags/hash%E7%AE%97%E6%B3%95/" style="font-size: 10px;">hash算法</a> <a href="/tags/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/" style="font-size: 10px;">中国剩余定理</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91/" style="font-size: 10px;">二叉查找树</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 10px;">二叉树</a> <a href="/tags/%E4%BC%BD%E7%BD%97%E5%8D%8E%E5%9F%9F/" style="font-size: 10px;">伽罗华域</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 15px;">加密</a> <a href="/tags/%E5%8E%8B%E7%BC%A9/" style="font-size: 10px;">压缩</a> <a href="/tags/%E5%93%88%E5%A4%AB%E6%9B%BC/" style="font-size: 10px;">哈夫曼</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%95%B0%E8%AE%BA/" style="font-size: 15px;">数论</a> <a href="/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/" style="font-size: 10px;">欧拉函数</a> <a href="/tags/%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/" style="font-size: 10px;">欧拉定理</a> <a href="/tags/%E7%9F%A9%E9%98%B5/" style="font-size: 15px;">矩阵</a> <a href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/" style="font-size: 10px;">红黑树</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 20px;">网络</a>
+      <a href="/tags/AES/" style="font-size: 10px;">AES</a> <a href="/tags/AVL-%E6%A0%91/" style="font-size: 10px;">AVL 树</a> <a href="/tags/DHCP/" style="font-size: 10px;">DHCP</a> <a href="/tags/LZ77/" style="font-size: 10px;">LZ77</a> <a href="/tags/MD5/" style="font-size: 10px;">MD5</a> <a href="/tags/NAT/" style="font-size: 10px;">NAT</a> <a href="/tags/PPPoE/" style="font-size: 10px;">PPPoE</a> <a href="/tags/RSA/" style="font-size: 10px;">RSA</a> <a href="/tags/SHA1/" style="font-size: 10px;">SHA1</a> <a href="/tags/hash-%E7%AE%97%E6%B3%95/" style="font-size: 10px;">hash 算法</a> <a href="/tags/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/" style="font-size: 10px;">中国剩余定理</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91/" style="font-size: 10px;">二叉查找树</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 10px;">二叉树</a> <a href="/tags/%E4%BC%BD%E7%BD%97%E5%8D%8E%E5%9F%9F/" style="font-size: 10px;">伽罗华域</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 15px;">加密</a> <a href="/tags/%E5%8E%8B%E7%BC%A9/" style="font-size: 10px;">压缩</a> <a href="/tags/%E5%93%88%E5%A4%AB%E6%9B%BC/" style="font-size: 10px;">哈夫曼</a> <a href="/tags/%E6%8E%92%E5%BA%8F/" style="font-size: 10px;">排序</a> <a href="/tags/%E6%95%B0%E8%AE%BA/" style="font-size: 15px;">数论</a> <a href="/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/" style="font-size: 10px;">欧拉函数</a> <a href="/tags/%E6%AC%A7%E6%8B%89%E5%AE%9A%E7%90%86/" style="font-size: 10px;">欧拉定理</a> <a href="/tags/%E7%9F%A9%E9%98%B5/" style="font-size: 15px;">矩阵</a> <a href="/tags/%E7%BA%A2%E9%BB%91%E6%A0%91/" style="font-size: 10px;">红黑树</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 20px;">网络</a>
     </div>
   </div>
 
@@ -293,11 +293,11 @@
           </li>
         
           <li>
-            <a href="/2018/10/03/%E6%9C%89%E9%99%90%E9%9B%86%E5%86%85%20MD5-SHA1%20%E5%8F%AF%E9%80%86%E5%90%97%E2%80%94%E2%80%94MD5%E3%80%81SHA1%E7%AE%97%E6%B3%95/">有限集内MD5/SHA1可逆吗——MD5、SHA1算法</a>
+            <a href="/2018/10/03/%E6%9C%89%E9%99%90%E9%9B%86%E5%86%85%20MD5-SHA1%20%E5%8F%AF%E9%80%86%E5%90%97%E2%80%94%E2%80%94MD5%E3%80%81SHA1%E7%AE%97%E6%B3%95/">有限集内 MD5/SHA1 可逆吗—— MD5、SHA1 算法</a>
           </li>
         
           <li>
-            <a href="/2018/05/14/AVL%20%E6%A0%91%E4%B8%8E%E7%BA%A2%E9%BB%91%E6%A0%91/">AVL树与红黑树</a>
+            <a href="/2018/05/14/AVL%20%E6%A0%91%E4%B8%8E%E7%BA%A2%E9%BB%91%E6%A0%91/">AVL 树与红黑树</a>
           </li>
         
           <li>
