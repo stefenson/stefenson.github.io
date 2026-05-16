@@ -16,7 +16,7 @@
 <meta property="og:image" content="https://stefenson.com/img/PPPoE_PROC.png">
 <meta property="og:image" content="https://stefenson.com/img/PPPoEPacket.png">
 <meta property="article:published_time" content="2018-02-12T01:52:25.000Z">
-<meta property="article:modified_time" content="2026-05-16T07:12:01.167Z">
+<meta property="article:modified_time" content="2026-05-16T09:39:05.980Z">
 <meta property="article:author" content="Stefenson Wang">
 <meta property="article:tag" content="PPPoE">
 <meta property="article:tag" content="网络">
@@ -418,7 +418,7 @@
 <td>y Bytes</td>
 </tr>
 </tbody></table>
-<p>其中 Value Size 表示 Value 长度，一般是 16。Name 为用户名，以0x00结尾。<br>Value 一般是 16 字节的数据，各个阶段意义略微有区别。<br>当时用 CHAP 认证的时候，服务器首先发送 Challenge 消息，里面的用户名可以为空。<br>客户端收到 Challenge 之后，通过之前商讨的挑战方式，重新计算 Value，并携带用户名，发送 Response 给服务器。<br>服务器通过客户端答复的 Value 判断认证是否成功，成功返回 Success，否则返回 Failure。</p>
+<p>其中 Value Size 表示 Value 长度，一般是 16。Name 为用户名，以 0x00 结尾。<br>Value 一般是 16 字节的数据，各个阶段意义略微有区别。<br>当时用 CHAP 认证的时候，服务器首先发送 Challenge 消息，里面的用户名可以为空。<br>客户端收到 Challenge 之后，通过之前商讨的挑战方式，重新计算 Value，并携带用户名，发送 Response 给服务器。<br>服务器通过客户端答复的 Value 判断认证是否成功，成功返回 Success，否则返回 Failure。</p>
 <p>同样的当 Code 为 Failure 或者 Success 的时候，后面 Data 是一个返回给客户端的字符串，表示认证信息，以 0x00 结尾。</p>
 <p>MD5挑战模式下，Challenge 的期望值为：MD5(id + password + value)。<br>其中 id 为 PPPoE Session 阶段携带的 Identifier，value 为服务器 Challenge 发过来的值。计算完之后重新放入 Value 返回给服务器。<br>服务器收到之后也会用同样的方式处理，对比两者结果是否一致判断用户是否合法。</p>
 <p>认证失败一般紧接着就会发送 LCP Terminate Request 断开链接，释放当前 Session。</p>
@@ -446,7 +446,7 @@
 <p>0x03……….IP<br>0x81……….DNS1<br>0x83……….DNS2</p>
 </blockquote>
 <p>Length 为总长，Length &#x3D; 6。<br>从这里不难发现，PPP 接入下没有子网掩码，因为在 PPP 模式下不存在子网概念，所有设备相互独立，所以客户端一般在配置 PPP 网络的时候习惯性将子网掩码设置为 255.255.255.255。</p>
-<p>IPCP 流程<br>服务器首先发出一个 IPCP Request 报文，只带 0x03 字段，这个报文告知客户端服务器的 IP 地址信息。<br>客户端一般在收到服务器发来的 IPCP Request 报文之后才发送 IPCP Request 请求自己的 IP 地址。<br>一般情况下，客户端发过来的请求中携带的 IP 信息为0.0.0.0，也有可能是上次认证时分配到的 IP。<br>服务器收到客户端的 IPCP Request 之后判断配置信息是否正确，正确回复 ACK，否则回复 NAK 并附上正确的 IP 配置信息。</p>
+<p><strong>IPCP 流程</strong><br>服务器首先发出一个 IPCP Request 报文，只带 0x03 字段，这个报文告知客户端服务器的 IP 地址信息。<br>客户端一般在收到服务器发来的 IPCP Request 报文之后才发送 IPCP Request 请求自己的 IP 地址。<br>一般情况下，客户端发过来的请求中携带的 IP 信息为0.0.0.0，也有可能是上次认证时分配到的 IP。<br>服务器收到客户端的 IPCP Request 之后判断配置信息是否正确，正确回复 ACK，否则回复 NAK 并附上正确的 IP 配置信息。</p>
 <p>这个过程其实跟 LCP Discussion 过程类似，只是起手动作需要服务器发起，客户端需要先确认服务器 IP 才会进行接下来的确认。<br>后续流程除了没有 Reject 消息，跟 LCP Discussion 流程是一样的，对了回复 ACK，不对回复 NAK 并携带上所需的信息。</p>
 <p>IPCP 协商完成之后，PPP 链接建立过程结束。</p>
 <h3 id="PPP-链接建立之后"><a href="#PPP-链接建立之后" class="headerlink" title="PPP 链接建立之后"></a>PPP 链接建立之后</h3><p>PPPoE 链路建立之后，上文也提到后续的数据依旧是以 PPPoE Session 方式发送，不过 P2P Protocol 的值变为 0x0021（IPv4）<br>这时候，一般的网卡是无法解析该消息的，需要把 PPP 消息中 PPPoE 部分剔除封装成普通的 IPv4 报文，再发送给相关设备，这样网卡才能处理该消息。<br>这个策略可以考虑使用假 MAC 的方式，PPPoE 服务器通过假 MAC 发送消息给相关设备，相关设备的信息发送回来之后 PPPoE 服务器截获该消息（其实 WinPcap 直接就能收到）然后重新用 PPP 封装在发送给客户端。<br>换句话说，PPPoE 链路建立之后，通讯过程依旧跟普通的 IPv4 通信相差很大。</p>
@@ -478,7 +478,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://stefenson.com/2018/02/12/PPPoE%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/" data-id="cuidEnVlTfMZjH8Rlo40Wc3-6" data-title="PPPoE 服务器编写" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://stefenson.com/2018/02/12/PPPoE%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/" data-id="cuidSSnV34pJ2shNxAeJN9Ouw" data-title="PPPoE 服务器编写" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -494,7 +494,7 @@
       <strong class="article-nav-caption">前一篇</strong>
       <div class="article-nav-title">
         
-          RSA加密
+          RSA 加密
         
       </div>
     </a>

@@ -99,10 +99,10 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>前面的Blog也提到了，DHCP服务只负责分配IP，路由器里面DHCP服务并不是入网服务，那么真正的入网是哪一部份负责呢？</p>
+        <p>前面的 Blog 也提到了，DHCP 服务只负责分配 IP，路由器里面 DHCP 服务并不是入网服务，那么真正的入网是哪一部份负责呢？</p>
 <p>这里提一个大家都很熟悉的名字：网关。</p>
 <p><img src="/img/NAT_IMG/GATEWAY.png" alt="网关"></p>
-<p>网关的在Wiki定义是：转发其他服务器通信数据的服务器，接受客户端发送来的请求时，它就像自己拥有资源的服务器一样对请求进行处理。</p>
+<p>网关的在 Wiki 定义是：转发其他服务器通信数据的服务器，接受客户端发送来的请求时，它就像自己拥有资源的服务器一样对请求进行处理。</p>
         
           <p class="article-more-link">
             <a href="/2020/07/07/%E8%87%AA%E5%88%B6%20NAT%20%E7%BD%91%E5%85%B3/#more">Read More</a>
@@ -111,7 +111,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://stefenson.com/2020/07/07/%E8%87%AA%E5%88%B6%20NAT%20%E7%BD%91%E5%85%B3/" data-id="cuidQnLtz9Hzw9JJXHziRGvm6" data-title="自制 NAT 网关" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://stefenson.com/2020/07/07/%E8%87%AA%E5%88%B6%20NAT%20%E7%BD%91%E5%85%B3/" data-id="cuidegp5ksrWlGBnWfr5hE_GL" data-title="自制 NAT 网关" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -148,9 +148,9 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>无损压缩（下简称”压缩”）是计算机存储方面很重要的一种课题（至少在过去是），这是一种典型的时间换空间的方案。</p>
-<p>过去由于存储介质普遍很贵，所以压缩方式存储文件可以更大化的利用存储介质的空间（就问你有没有见过只有40G的PC硬盘，想想都可怕）。</p>
+<p>过去由于存储介质普遍很贵，所以压缩方式存储文件可以更大化的利用存储介质的空间（就问你有没有见过只有 40G 的 PC 硬盘，想想都可怕）。</p>
 <p>压缩，顾名思义就是把大文件的体积变小，让他在存储的时候能够少用一点存储空间，而且压缩后的文件能保证可以反向解算出来并且内容不会变化，但是压缩后的文件不能直接被文件系统识别和读取，需要先对文件进行解压之后才能读取其中内容，解压的时候会消耗一定时间，所以说是时间换空间。</p>
-<p>压缩存储其实也就是对文件进行了特殊编码然后存储，今天主要介绍两种压缩编码：哈夫曼编码、LZ77编码。</p>
+<p>压缩存储其实也就是对文件进行了特殊编码然后存储，今天主要介绍两种压缩编码：哈夫曼编码、LZ77 编码。</p>
         
           <p class="article-more-link">
             <a href="/2018/10/09/%E6%97%A0%E6%8D%9F%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9/#more">Read More</a>
@@ -159,7 +159,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://stefenson.com/2018/10/09/%E6%97%A0%E6%8D%9F%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9/" data-id="cuidFHv1Yz9lDDFoSwIK9uFEA" data-title="无损文件压缩" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://stefenson.com/2018/10/09/%E6%97%A0%E6%8D%9F%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9/" data-id="cuidRqKNXvmsAwgRVrYO3PQdD" data-title="无损文件压缩" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -198,7 +198,7 @@
         <p>今天讲一讲 hash 算法。</p>
 <p>hash 算法不可逆，大家都知道，因为这是一个一对多的问题，一个 MD5&#x2F;SHA1 值理论上是可以对应多个原始数据的，所以 MD5&#x2F;SHA1 是无法还原出原始信息的。</p>
 <p>但是，如果我指定范围，你能通过 MD5&#x2F;SHA1 倒推出原始数据吗？</p>
-<p>举个例子：定义一个 hash 算法，取值在255下的模，这样的 hash 值也是不能直接反推数据的，但是如果我说我数据就是在1～255之间的值，那我给定一个 hash 值，无疑你是能得到原始数据的。</p>
+<p>举个例子：定义一个 hash 算法，取值在 255 下的模，这样的 hash 值也是不能直接反推数据的，但是如果我说我数据就是在 1 ～ 255 之间的值，那我给定一个 hash 值，无疑你是能得到原始数据的。</p>
 <p>但是 MD5&#x2F;SHA1 呢？</p>
 <p>这里容我先卖个关子，今天主要是先介绍 MD5&#x2F;SHA1 算法，最后我们会讨论这个问题。</p>
         
@@ -209,7 +209,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://stefenson.com/2018/10/03/%E6%9C%89%E9%99%90%E9%9B%86%E5%86%85%20MD5-SHA1%20%E5%8F%AF%E9%80%86%E5%90%97%E2%80%94%E2%80%94MD5%E3%80%81SHA1%E7%AE%97%E6%B3%95/" data-id="cuidZOwnfCqjs9lXOv8vkbt0v" data-title="有限集内 MD5/SHA1 可逆吗—— MD5、SHA1 算法" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://stefenson.com/2018/10/03/%E6%9C%89%E9%99%90%E9%9B%86%E5%86%85%20MD5-SHA1%20%E5%8F%AF%E9%80%86%E5%90%97%E2%80%94%E2%80%94MD5%E3%80%81SHA1%E7%AE%97%E6%B3%95/" data-id="cuidV32NebrEvxdXIiGBFMpOw" data-title="有限集内 MD5/SHA1 可逆吗—— MD5、SHA1 算法" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -255,7 +255,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://stefenson.com/2018/05/14/AVL%20%E6%A0%91%E4%B8%8E%E7%BA%A2%E9%BB%91%E6%A0%91/" data-id="cuidcxYKCJG0MroKspxHz6FJB" data-title="AVL 树与红黑树" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://stefenson.com/2018/05/14/AVL%20%E6%A0%91%E4%B8%8E%E7%BA%A2%E9%BB%91%E6%A0%91/" data-id="cuidjX28FHU03HchTxAhiHQER" data-title="AVL 树与红黑树" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -302,7 +302,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://stefenson.com/2018/04/15/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" data-id="cuidLp9okOpfTEffZz_YVmk_n" data-title="排序算法" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://stefenson.com/2018/04/15/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" data-id="cuidTaLNXmD5Bc-UB5mmnHqsD" data-title="排序算法" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -351,7 +351,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://stefenson.com/2018/02/26/AES%20%E5%8A%A0%E5%AF%86/" data-id="cuidy03pQFpJR3dHnxwyWEI_i" data-title="AES 加密" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://stefenson.com/2018/02/26/AES%20%E5%8A%A0%E5%AF%86/" data-id="cuidSu2rrTeFPkeXiTA-qEjQe" data-title="AES 加密" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -379,7 +379,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/02/24/RSA%20%E5%8A%A0%E5%AF%86/">RSA加密</a>
+      <a class="p-name article-title" href="/2018/02/24/RSA%20%E5%8A%A0%E5%AF%86/">RSA 加密</a>
     </h1>
   
 
@@ -387,8 +387,8 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>今天主要介绍的是RSA加密。</p>
-<p>RSA加密是目前世界上最流行的非对称加密，它名字的来源于它的三位父亲：罗纳德·李维斯特（Ron Rivest）、阿迪·萨莫尔（Adi Shamir）和伦纳德·阿德曼（Leonard Adleman），他们在1977年提出了RSA加密并且在1987年7月首次在美国公布，RSA来源于他们的姓氏开头字母。</p>
+        <p>今天主要介绍的是 RSA 加密。</p>
+<p>RSA 加密是目前世界上最流行的非对称加密，它名字的来源于它的三位父亲：罗纳德·李维斯特（Ron Rivest）、阿迪·萨莫尔（Adi Shamir）和伦纳德·阿德曼（Leonard Adleman），他们在1977年提出了 RSA 加密并且在1987年7月首次在美国公布，RSA 来源于他们的姓氏开头字母。</p>
         
           <p class="article-more-link">
             <a href="/2018/02/24/RSA%20%E5%8A%A0%E5%AF%86/#more">Read More</a>
@@ -397,7 +397,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://stefenson.com/2018/02/24/RSA%20%E5%8A%A0%E5%AF%86/" data-id="cuid9r7OSaZ_uU-rCrUZb2fNg" data-title="RSA加密" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://stefenson.com/2018/02/24/RSA%20%E5%8A%A0%E5%AF%86/" data-id="cuidp3J6lNnZvEUW59qPfBmpS" data-title="RSA 加密" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -442,7 +442,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://stefenson.com/2018/02/12/PPPoE%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/" data-id="cuidEnVlTfMZjH8Rlo40Wc3-6" data-title="PPPoE 服务器编写" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://stefenson.com/2018/02/12/PPPoE%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/" data-id="cuidSSnV34pJ2shNxAeJN9Ouw" data-title="PPPoE 服务器编写" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -488,7 +488,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://stefenson.com/2018/02/11/DHCP%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/" data-id="cuidoOR99RUTOlino9634PoaP" data-title="DHCP 服务器编写" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://stefenson.com/2018/02/11/DHCP%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/" data-id="cuidCcfxgqD47RFdpcWjArs-E" data-title="DHCP 服务器编写" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
