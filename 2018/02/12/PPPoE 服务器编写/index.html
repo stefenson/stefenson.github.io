@@ -16,14 +16,12 @@
 <meta property="og:image" content="https://stefenson.com/img/PPPoE_PROC.png">
 <meta property="og:image" content="https://stefenson.com/img/PPPoEPacket.png">
 <meta property="article:published_time" content="2018-02-12T01:52:25.000Z">
-<meta property="article:modified_time" content="2026-05-16T09:39:05.980Z">
+<meta property="article:modified_time" content="2026-05-16T12:37:22.101Z">
 <meta property="article:author" content="Stefenson Wang">
 <meta property="article:tag" content="PPPoE">
 <meta property="article:tag" content="网络">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://stefenson.com/img/PPPoE_PROC.png">
-  
-    <link rel="alternate" href="/atom.xml" title="Stefenson's Blog" type="application/atom+xml">
   
   
     <link rel="shortcut icon" href="/favicon.png">
@@ -71,8 +69,6 @@
       </nav>
       <nav id="sub-nav">
         
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
         
         <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
       </nav>
@@ -370,7 +366,7 @@
 <p>比如 Configuration Request: Auth Type 0x0000，这时候接收方会回复 Configuration Reject: Auth Type 0x0000，相当于告诉客户端我不支持 0x0000 这种认证，你需要更换一个认证方式。</p>
 </blockquote>
 <p>LCP Discussion 过程可能会来回多次，反复确认双方配置（Request–NAK–Request–Reject–Request–…)，如果在多次 Configuration 依旧无法协商完成只能 LCP Terminate Request 结束这个短暂的邂逅了。虽然这种情况一般很少见，但也不排除，相当于两个人谈一场交易，结果怎么也谈不拢，那交易肯定也没法进行，再死皮赖脸的协商怕不是要打一架了。</p>
-<p>_ 其实这个过程看起来就跟两个人在进行一场协商一样的不是吗？_<br>_ 用自然语言表述这个过程可以编这么一个对话 _</p>
+<p><em>其实这个过程看起来就跟两个人在进行一场协商一样的不是吗？</em><br><em>用自然语言表述这个过程可以编这么一个对话</em></p>
 <blockquote>
 <p>A：请求：我可接收最大重量为 1484 的包裹，请确认。<br>B：OK 我方收到，已知阁下可接收最大重量为 1484 的包裹。<br>B：另外我方最大可接受重量为 1400 的包裹，认证方式编码 C023，请确认。<br>A：哈？你现在还在用 C023 认证？你不怕泄密吗？回绝（Reject）认证方式编码 C023，你得换一个。<br>B：真是事多……重新请求：我方最大可接受重量为 1400 的包裹，认证方式编码 C223+05，请确认。<br>A：等等，1400 最大重量太小了吧，我这边接受不了，拒绝（NAK），你得把配置换成这样：最大可接受重量为 1450 的包裹，认证方式编码 C223+05。<br>B：(MMP……)行行行，再次请求：我方最大可接受重量为 1450 的包裹，认证方式编码 C223+05，这回可以了吧？<br>A：……<br>B：……喂？<br>A：……啊，不好意思，我这边刚刚有点事没听清，你再说一遍？<br>B：你大爷……时间到了，老子不伺候了！再见！<br>——用户 B 断开连接——<br>A：？？？？？？</p>
 </blockquote>
@@ -478,7 +474,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://stefenson.com/2018/02/12/PPPoE%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/" data-id="cuidSSnV34pJ2shNxAeJN9Ouw" data-title="PPPoE 服务器编写" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://stefenson.com/2018/02/12/PPPoE%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E5%86%99/" data-id="cuid6Q9WRTxXPR9tl0i3Y9vrA" data-title="PPPoE 服务器编写" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
